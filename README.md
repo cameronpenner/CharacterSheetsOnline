@@ -3,6 +3,7 @@
 ###Project Overview  
 [Project Vision](https://docs.google.com/document/d/1vjb-VSGzE597DyjM7nernY6ocQbtDChBV6MGlIx8y2M/edit)  
 [Technology](https://docs.google.com/document/d/1-QhJxHtYhCSyte3LNl1k16DtLTLiLlqqZ8P3DW_PkMM/edit)  
+[User Flow Map](https://docs.google.com/drawings/d/1xkV3fqgLv9Vz-iEGV-DE5ZwTQiR9ZMqnLL53eOsDK2o/edit?usp=sharing) 
 
 ###User Stories  
 [Big user stories](https://trello.com/b/IYE6wlS5/4350)  
