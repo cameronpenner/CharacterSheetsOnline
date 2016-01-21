@@ -13,4 +13,4 @@
 [Jan 19](https://docs.google.com/document/d/1ZGovj7EhYHYL_1-ajAStlpFo2aHsImKx0h_reDBY4LI/edit)  
 [Jan 20](https://docs.google.com/document/d/1Jid8EaGqJn4ecMS9kYzVpnGYwj5nZvomaj1T_VcrKL4/edit)  
 
-Please note that electornic discussion redarding the project is recorded in a Slack channel. Please contact a team member for an invite (we would need your email).
+Please note that electronic discussion regarding the project is recorded in a Slack channel. Please contact a team member for an invite (we would need your email).
