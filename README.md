@@ -12,4 +12,5 @@
 [Jan 14](https://docs.google.com/document/d/1X11vIRj44FN3wmF0niuFgafgIYXoCIiKMH8uOwOWd-s/edit)  
 [Jan 19](https://docs.google.com/document/d/1ZGovj7EhYHYL_1-ajAStlpFo2aHsImKx0h_reDBY4LI/edit)  
 [Jan 20](https://docs.google.com/document/d/1Jid8EaGqJn4ecMS9kYzVpnGYwj5nZvomaj1T_VcrKL4/edit)  
-[Jan 20](https://docs.google.com/document/d/1WjaRn1Tqku0RW3XcH0QZN40Zzz1hceNLGMLbuckCfLc/edit)
+
+Please note that electronic discussion regarding the project is recorded in a Slack channel. Please contact a team member for an invite (we would need your email).
