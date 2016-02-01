@@ -30,7 +30,6 @@ Character.list = React.createClass({
                 <ul>
                     {this.data.ready ? this.charNames() : 'loading'}
                 </ul>
-                <a href="/character/new">Create a New Character</a>
             </div>
         );
     }

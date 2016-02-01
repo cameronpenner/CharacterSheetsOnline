@@ -5,10 +5,11 @@ AppBody = React.createClass({
                 <header>
                     <h1>RPG Companion</h1>
                     <AccountsUIWrapper />
+                    <a href="/">Home</a>
+                    <a href="/character/list">List</a>
+                    <a href="/character/new">New</a>
                 </header>
-                <div id="content-container">
-                    {this.props.children}
-                </div>
+                {this.props.children ? this.props.children : ''}
             </div>
         );
     }
