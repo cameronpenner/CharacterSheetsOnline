@@ -22,3 +22,5 @@ accounts-password
 aldeed:collection2
 character
 reactrouter:react-router
+sanjo:jasmine
+velocity:html-reporter
