@@ -13,7 +13,6 @@ Meteor.methods({
     },
     upsertCharacter: function(character) {
         if (!character || !Meteor.user()) return null;
-        console.log(character);
         return Collections.Characters.upsert({
             _id: character._id
         }, {
