@@ -49,7 +49,6 @@ CharacterEdit = React.createClass({
                     </field>
                     <button type="submit">Save</button>
                 </form>
-
             </div>
         );
     }

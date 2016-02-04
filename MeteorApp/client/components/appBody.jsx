@@ -3,11 +3,13 @@ AppBody = React.createClass({
         return (
             <div className="container">
                 <header>
-                    <h1>KARCTURZ</h1>
-                    <AccountsUIWrapper />
-                    <a href="/">Home</a>
-                    <a href="/character/list">List</a>
-                    <a href="/character/new">New</a>
+                    <div><AccountsUIWrapper /></div>
+                    <h1>Slaughter the Elves</h1>
+                    <div className="nav">
+                        <a href="/">Home</a>
+                        <a href="/character/list">List</a>
+                        <a href="/character/new">New</a>
+                    </div>
                 </header>
                 {this.props.children ? this.props.children : ''}
             </div>
