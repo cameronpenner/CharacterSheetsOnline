@@ -20,34 +20,23 @@ CampaignEdit = React.createClass({
         return data;
     },
 
-    handleDataSubmit(event) {
+    handleSubmit(event) {
         event.preventDefault();
-        Campaign.upsert();
-    },
-
-    handlePlayerSubmit(event) {
-        event.preventDefaults();
-        Campaign.addPlayer();
+        console.log("hehehe it worked");
     },
 
     render() {
         return (
             <div>
                 <h3>Edit Campaign</h3>
-                <form className="new-campaign" onSubmit={this.handleDataSubmit}>
+                <form className="new-campaign" onSubmit={this.handleSubmit}>
                     <field>
                         <label>Name</label>
                         <input type="text" ref="name" name="name"/>
                     </field>
                     <button type="submit">Save</button>
                 </form>
-                <form className="add-player" onSubmit={this.handlePlayerSubmit}>
-                    <field>
-                        <label>Player email</label>
-                        <input type="text" ref="name" name="name"/>
-                    </field>
-                    <button type="submit">Add</button>
-                </form>
+
             </div>
         );
     }

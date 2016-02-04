@@ -8,13 +8,8 @@ Campaign = {
     insert: function(campaign) {
         return Meteor.call("insertCampaign", campaign);
     },
-
-    addPlayer: function(player) {
-        return Meteor.call("addPlayer", player);
-    },
-    
     upsert: function(campaign) {
-        return Meteor.call("updateCampaign", campaign);
+        return Meteor.call("upsertCampaign", campaign);
     },
     update: function(campaign) {
         return Meteor.call("updateCampaign", campaign);

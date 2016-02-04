@@ -5,12 +5,10 @@ AppBody = React.createClass({
                 <header>
                     <h1>KARCTURZ</h1>
                     <AccountsUIWrapper />
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/character/list">List</a></li>
-                        <li><a href="/character/new">New</a></li>
-                        <li><a href="/campaign/new">New Campaign</a></li>
-                    </ul>
+                    <a href="/">Home</a>
+                    <a href="/character/list">List</a>
+                    <a href="/character/new">New</a>
+                    <a href="/campaign/new">New Campaign</a>
                 </header>
                 {this.props.children ? this.props.children : ''}
             </div>
