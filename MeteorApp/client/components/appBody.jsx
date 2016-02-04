@@ -3,7 +3,7 @@ AppBody = React.createClass({
         return (
             <div className="container">
                 <header>
-                    <h1>RPG Companion</h1>
+                    <h1>KARCTURZ</h1>
                     <AccountsUIWrapper />
                     <a href="/">Home</a>
                     <a href="/character/list">List</a>

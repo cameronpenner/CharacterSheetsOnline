@@ -8,8 +8,9 @@ const createHistory = ReactRouter.history.createHistory;
 
 const routes = (
     <Route path="/" component={AppBody}>
-        <Route path="character/list" component={Character.list} />
-        <Route path="character/new" component={Character.edit} />
+        <Route path="character/list" component={CharacterList} />
+        <Route path="character/new" component={CharacterEdit} />
+        <Route path="character/:_id" component={CharacterEdit} />
     </Route>
 );
 

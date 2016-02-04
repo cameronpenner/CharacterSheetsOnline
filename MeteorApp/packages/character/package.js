@@ -5,7 +5,6 @@ Package.describe({
 });
 
 Package.onUse(function (api) {
-
 	api.use([
 		'react',
 		'aldeed:collection2',
@@ -13,14 +12,10 @@ Package.onUse(function (api) {
 	], ['client', 'server']);
 
 	api.addFiles([
-		'schema.js',
-		'collections.js',
+		'lib/schema.js',
+		'lib/collections.js',
+		'lib/character.js'
 	], ['client', 'server']);
-
-	api.addFiles([
-		'components/edit.jsx',
-		'components/list.jsx'
-	], 'client');
 
 	api.addFiles([
 		'server/publish.js',

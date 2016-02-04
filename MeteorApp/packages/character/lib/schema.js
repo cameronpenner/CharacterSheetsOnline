@@ -4,7 +4,15 @@ Schema.Character = new SimpleSchema({
         type: String
     },
     owner: {
-        type: String
+        type: String,
+        defaultValue: "public"
+    },
+    username: {
+        type: String,
+        defaultValue: "public"
+    },
+    createdAt: {
+        type: Date
     },
     campaign: {
         type: String,
