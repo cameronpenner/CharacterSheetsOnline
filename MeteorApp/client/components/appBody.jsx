@@ -8,6 +8,7 @@ AppBody = React.createClass({
                     <a href="/">Home</a>
                     <a href="/character/list">List</a>
                     <a href="/character/new">New</a>
+                    <a href="/campaign/new">New Campaign</a>
                 </header>
                 {this.props.children ? this.props.children : ''}
             </div>
