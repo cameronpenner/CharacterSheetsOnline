@@ -1,14 +1,24 @@
+var newCharValues = function() {
+    return {
+        game_master: Meteor.user()._id,
+        createdAt: new Date()
+    };
+}
+
 Meteor.methods({
     insertCampaign: function(campaign) {
-        console.log("insert");
+        if (!campaign || !Meteor.user()) return null;
+        return Collections.Characters.insert(_.extend(campaign, newCharValues()));
     },
+
+    addPlayer: function(player) {
+        if (!player) return null;
+    },
+
     upsertCampaign: function(campaign) {
-        console.log("upsert");
     },
     updateCampaign: function(campaign) {
-        console.log("update");
     },
     removeCampaign: function(campaign) {
-        console.log("remove");
     }
 });
