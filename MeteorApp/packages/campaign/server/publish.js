@@ -6,3 +6,7 @@ Meteor.publish('campaign-list', function () {
 Meteor.publish('campaign', function (_id) {
     return Collections.Campaigns.find({_id: _id});
 });
+
+Meteor.publish('campaign-player-list', function(_id) {
+	return Collections.Campaigns.find({_id: _id}, {players: 1});
+});
