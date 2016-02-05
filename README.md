@@ -19,3 +19,7 @@ Please note that electronic discussion regarding the project is recorded in a Sl
 
 ###Unit Tests
 To run the server side unit tests, set the environment variable JASMINE_SERVER_UNIT=1.
+
+###Note about branches:  
+"master" is the release branch  
+"develop" is the default baranch for developing that other bracnehs should be branched off
