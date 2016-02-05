@@ -29,6 +29,6 @@ Meteor.methods({
         return Collections.Campaigns.update(campaign);
     },
     removeCampaign: function(campaign) {
-        return Collections.Campaigns.remove({_id: character._id});
+        return Collections.Campaigns.remove({_id: campaign._id});
     }
 });
