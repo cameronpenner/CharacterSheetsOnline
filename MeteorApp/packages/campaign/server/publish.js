@@ -1,5 +1,7 @@
-Meteor.publish('campaign-list', function (_id, playerName) {
-    return Collections.Campaigns.find({$or: [{game_master: this.userId}, {players: playerName}]});
+Meteor.publish('campaign-list', function () {
+	var self = this;
+	var user = Meteor.users.findOne(this.userId);
+    return Collections.Campaigns.find({$or: [{game_master: self.userId}, {players: user.emails[0].address}]});
 });
 
 Meteor.publish('campaign', function (_id) {
