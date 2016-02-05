@@ -35,13 +35,16 @@ CampaignEdit = React.createClass({
         var campaign = {name : this.refs.campaignName.value.trim()}
         var shouldRedirect = !this.data.campaign;
         if (this.data.campaign) {
-            campaign.players = this.data.campaign.players;
-            campaign.characters = this.data.campaign.characters;
+            campaign = this.data.campaign;
         } else {
+            campaign = {};
             campaign.players = [];
             campaign.characters = [];
             campaign.game_master = this.data.currentUser;
         }
+       
+        campaign.name = this.refs.campaignName.value.trim();
+ 
         var self = this;
         (Campaign.upsert(campaign, function(id) {
             if (shouldRedirect) {
@@ -51,7 +54,7 @@ CampaignEdit = React.createClass({
             }
         }));
     },
-
+    
     getOperationName() {
         if (this.state.edit) {
             return "Edit Campaign";
