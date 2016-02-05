@@ -1,6 +1,7 @@
 var newCampaignValues = function() {
     return {
         game_master: Meteor.user()._id,
+        username: Meteor.user().emails[0].address,
         createdAt: new Date()
     };
 }
@@ -8,7 +9,7 @@ var newCampaignValues = function() {
 Meteor.methods({
     insertCampaign: function(campaign) {
         if (!campaign || !Meteor.user()) return null;
-        return Collections.Characters.insert(_.extend(campaign, newCharValues()));
+        return Collections.Campaigns.insert(_.extend(campaign, newCharValues()));
     },
 
     addPlayer: function(player) {
