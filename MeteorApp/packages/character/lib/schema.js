@@ -24,15 +24,9 @@ Schema.Character = new SimpleSchema({
         optional: true
     },
     inventory: {
-        type: [Schema.Inventory],
+        type: [Schema.Item],
         optional: true,
     }
-});
-
-Schema.Inventory = new SimpleSchema({
-    items: {
-        type: [Schema.Item]
-    }    
 });
 
 Schema.Item = new SimpleSchema({
