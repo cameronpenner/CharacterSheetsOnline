@@ -24,5 +24,8 @@ Character = {
     removeItem: function(character, item) {
         //console.log ("in addItem", character, item);
         return Meteor.call("removeInventoryItem", character._id, item);
+    },
+    addAttribute: function(character, attribute) {
+        return Meteor.call("addAttribute", character._id, attribute)
     }
 };

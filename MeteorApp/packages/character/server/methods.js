@@ -52,5 +52,15 @@ Meteor.methods({
                 inventory: item
             }
         });
+    },
+    addAttribute: function(_id, attribute) {
+        if (!_id || !attribute || !Meteor.user()) return null;
+        return Collections.Characters.update({
+            _id: _id
+        },{
+            $push: {
+                    attributeList: attribute
+            }
+        });
     }
 });
