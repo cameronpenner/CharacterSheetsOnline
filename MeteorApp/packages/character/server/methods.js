@@ -22,15 +22,12 @@ Meteor.methods({
         });
     },
     updateCharacter: function(character) {
+        console.log(character);
         if (!character || !Meteor.user()) return null;
-        return Collections.Characters.update(character);
+        return Collections.Characters.update({_id: character._id}, character);        
     },
     removeCharacter: function(character) {
         if (!character || !Meteor.user()) return null;
         return Collections.Characters.remove({_id: character._id});
-    },
-    getInventory: function(inventory) {
-        if (!character || !Meteor.user()) return null;
-        return Collections.Characters.find({_id: character._id}).inventory;
     }
 });

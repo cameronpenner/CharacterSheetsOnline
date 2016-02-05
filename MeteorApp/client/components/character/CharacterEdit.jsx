@@ -8,7 +8,8 @@ CharacterEdit = React.createClass({
     setCharacter(character) {
         this.data.character = character;
         this.refs.name.value = character.name;
-        this.refs.item.value = "itemName {parameterName, parameterValue}";
+        this.refs.item.value = "itemName {parameterName, parameterValue}"; // sample format
+    	//console.log(this.data.character);
     },
 
     getMeteorData() {
@@ -17,28 +18,32 @@ CharacterEdit = React.createClass({
         var data = {currentUser: Meteor.userId()};
 
         if (_id) {
-            Meteor.subscribe("character", _id, {
+            const sub = Meteor.subscribe("character", _id, {
                 onReady: function() {
                     setCharacter(Character.find(_id));
                 }
             });
+            return _.extend(data, {ready: sub.ready(),
+                    characters: Character.find()}) 
         }
         return data;
     },
 
     formInventoryItemsList() {
-    	var inventory = this.data.character && this.data.character.inventory;
-    	//console.log(this.data.character);
+    	console.log(this.data.character);
+    	var inventory = this.data.character && this.data.character.inventory;    	
     	if (!inventory) return null;
 
-    	var itemStings = new Array();    
-		for (item in inventory.items) {
+    	var itemStings = new Array();  
+    	for (item in inventory) {
         	var itemString = item.name + "\t";
         	for (parameter in item.parameters) {
         		itemString += "{" + parameter.name + ", " + parameter.value + "} "; 
-        	}
+        		}
         	itemStings.push(itemString);
         }
+    	
+    	console.log(itemStings);
         return itemStings;
     },
 
@@ -53,26 +58,24 @@ CharacterEdit = React.createClass({
             character.owner = this.data.currentUser;
         }
         Character.upsert(character);
+        this.data.character = character;
     },
 
     handleAddItem(event) {
         event.preventDefault();
 
         var itemString = this.refs.item.value.trim();
-        var regex = /[a-zA-Z]+ {[a-zA-Z]+, [a-zA-Z]+}/ig;
+        var regex = /([a-zA-Z]+) {([a-zA-Z]+), ([a-zA-Z]+)}/ig;
         var match = regex.exec(itemString);
 
-        console.log(match[0]);
-        console.log(match[1]);
-        console.log(match[2]);
+        var itemName = match[1];
+        var paramName = match[2];
+        var paramValue = match[3];
 
-        // if (this.data.character) {
-        //     character = _.extend(this.data.character, character);
-        // }
-        // else if (this.data.currentUser) {
-        //     character.owner = this.data.currentUser;
-        // }
-        // Character.upsert(character);
+        var param = {name: match[2], value: match[3]}
+        var item = {name: match[1], parameters: param}
+
+        Character.addItem(this.data.character, item);
     },
 
     render() {
@@ -88,7 +91,7 @@ CharacterEdit = React.createClass({
                 </form>
                 <h5>Inventory</h5>
                 <ul>
-                    {this.formInventoryItemsList()}
+                    <li>{this.data.ready? this.formInventoryItemsList() : "loading"} </li>
                 </ul>
                 <form className="new-item" onSubmit={this.handleAddItem}>
                     <field>
