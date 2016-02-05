@@ -13,8 +13,10 @@ Campaign = {
         return Meteor.call("addPlayer", player);
     },
     
-    upsert: function(campaign) {
-        return Meteor.call("updateCampaign", campaign);
+    upsert: function(campaign, callback) {
+        return Meteor.call("upsertCampaign", campaign, function(error, result) {
+            callback(result.insertedId)
+        });
     },
     update: function(campaign) {
         return Meteor.call("updateCampaign", campaign);

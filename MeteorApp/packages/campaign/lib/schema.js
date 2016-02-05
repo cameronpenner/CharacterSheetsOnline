@@ -1,5 +1,5 @@
 Schema = {};
-Schema.Campaign = new SimpleSchema({
+Schema.Campaigns = new SimpleSchema({
     name: {
         type: String
     },
