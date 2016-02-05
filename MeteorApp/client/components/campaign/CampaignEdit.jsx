@@ -47,7 +47,7 @@ CampaignEdit = React.createClass({
         var history = this.history;
         (Campaign.upsert(campaign, function(id) {
             if (shouldRedirect) {
-                this.history.pushState(null, "/campaign/" + id);
+                this.history.pushState(null, null, "/campaign/" + id);
             }
         }));
     },
