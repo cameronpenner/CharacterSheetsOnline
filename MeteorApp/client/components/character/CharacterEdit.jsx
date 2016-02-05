@@ -8,6 +8,7 @@ CharacterEdit = React.createClass({
     setCharacter(character) {
         this.data.character = character;
         this.refs.name.value = character.name;
+        this.refs.item.value = "itemName {parameterName, parameterValue}"; // sample format
     },
 
     getMeteorData() {
@@ -16,13 +17,34 @@ CharacterEdit = React.createClass({
         var data = {currentUser: Meteor.userId()};
 
         if (_id) {
-            Meteor.subscribe("character", _id, {
+            const sub = Meteor.subscribe("character", _id, {
                 onReady: function() {
                     setCharacter(Character.find(_id));
                 }
             });
+            return _.extend(data, {ready: sub.ready(),
+                    characters: Character.find()}) 
         }
         return data;
+    },
+
+    formInventoryItemsList() {
+    	var inventory = this.data.character && this.data.character.inventory;    	
+    	if (!inventory) return null;
+    	var itemStrings = [];
+    	for (var i in inventory) {
+        	var itemString =inventory[i].name + "\t";
+        	for (var j in inventory[i].parameters) {
+        		itemString += "{" + inventory[i].parameters[j].name + ", " + inventory[i].parameters[j].value + "} ";
+        		}
+        	//itemString = <dir><li>{itemString}<button onClick={this.removeItem()}>Remove</button></li></dir>;
+        	itemString = <dir><li>{itemString}</li></dir>;
+
+        	itemStrings.push(itemString);
+        }
+    	
+    	console.log(itemStrings);
+        return itemStrings;
     },
 
     handleSubmit(event) {
@@ -36,18 +58,47 @@ CharacterEdit = React.createClass({
             character.owner = this.data.currentUser;
         }
         Character.upsert(character);
+        this.data.character = character;
+    },
+
+    handleAddItem(event) {
+        event.preventDefault();
+
+        var itemString = this.refs.item.value.trim();
+        var regex = /([a-zA-Z]+) {([a-zA-Z]+), ([0-9a-zA-Z]+)}/ig;
+        var match = regex.exec(itemString);
+
+        var itemName = match[1];
+        var paramName = match[2];
+        var paramValue = match[3];
+
+        var param = {name: match[2], value: match[3]}
+        var item = {name: match[1], parameters: [param]}
+
+        Character.addItem(this.data.character, item);
+
+        window.location.reload();
     },
 
     render() {
         return (
             <div>
                 <h3>Edit Character</h3>
-                <form className="new-character" onSubmit={this.handleSubmit}>
+                <form className="new-character-name" onSubmit={this.handleSubmit}>
                     <field>
                         <label>Name</label>
                         <input type="text" ref="name" name="name"/>
                     </field>
                     <button type="submit">Save</button>
+                </form>
+                <h5>Inventory</h5>
+                <ul> {this.data.ready? this.formInventoryItemsList() : "loading"} </ul>
+                <form className="new-item" onSubmit={this.handleAddItem}>
+                    <field>
+                        <label>New item</label>
+                        <input type="text" ref="item" name="item"/>
+                    </field>
+                    <button type="add">Add</button>
                 </form>
             </div>
         );
