@@ -1,4 +1,5 @@
 Schema = {};
+
 Schema.Character = new SimpleSchema({
     name: {
         type: String
@@ -20,6 +21,35 @@ Schema.Character = new SimpleSchema({
     },
     attributes: {
         type: [Object],
+        optional: true
+    },
+    inventory: {
+        type: [Schema.Inventory],
         optional: true,
+    }
+});
+
+Schema.Inventory = new SimpleSchema({
+    items: {
+        type: [Schema.Item]
+    }    
+});
+
+Schema.Item = new SimpleSchema({
+    name: {
+        type: String
+    },
+    parameters: {
+        type: [Schema.ItemParameter],
+        defaultValue: "public"
+    },  
+});
+
+Schema.ItemParameter = new SimpleSchema({
+    name: {
+        type: String
+    },
+    value: {
+        type: String
     }
 });
