@@ -11,7 +11,7 @@ CharacterEdit = React.createClass({
     },
 
     getMeteorData() {
-        var _id = this.props.routeParams._id;
+        var _id = this.props.routeParams && this.props.routeParams._id;
         var setCharacter = this.setCharacter;
         var data = {currentUser: Meteor.userId()};
 
