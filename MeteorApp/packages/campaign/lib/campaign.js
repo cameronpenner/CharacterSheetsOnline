@@ -1,6 +1,6 @@
 Campaign = {
     findAll: function() {
-        return Collections.Campaigns.find().fetch();
+        var result = Collections.Campaigns.find().fetch();
     },
     find: function(_id) {
         return Collections.Campaigns.findOne({_id: _id});
@@ -9,8 +9,10 @@ Campaign = {
         return Meteor.call("insertCampaign", campaign);
     },
 
-    addPlayer: function(player) {
-        return Meteor.call("addPlayer", player);
+    addPlayer: function(campaign, playerName) {
+        console.log(campaign._id);
+        console.log(playerName);
+        return Meteor.call("addPlayer", campaign, playerName);
     },
     
     upsert: function(campaign, callback) {

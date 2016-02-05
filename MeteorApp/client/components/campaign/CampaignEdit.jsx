@@ -1,8 +1,8 @@
 CampaignEdit = React.createClass({
-    mixins:[ReactMeteorData, ReactRouter.Router.Navigation],
+    mixins:[ReactMeteorData],
 
     getInitialState() {
-        return {};
+        return {edit: false};
     },
 
     setCampaign(campaign) {
@@ -44,27 +44,34 @@ CampaignEdit = React.createClass({
             campaign.characters = [];
             campaign.game_master = this.data.currentUser;
         }
-        var history = this.history;
+        var self = this;
         (Campaign.upsert(campaign, function(id) {
             if (shouldRedirect) {
-                this.history.pushState(null, null, "/campaign/" + id);
+                self.data.campaign = campaign;
+                self.data.campaign._id = id;
+                self.setState({edit: true});
             }
         }));
-    },
-
-    handlePlayerSubmit(event) {
-        event.preventDefault();
-        Campaign.addPlayer();
     },
 
     renderPlayers() {
     },
 
     getOperationName() {
-        if (this.data.campaign == null) {
-            return "Create Campaign";
+        if (this.state.edit) {
+            return "Edit Campaign";
         }
-        return "Edit Campaign";
+        return "Create Campaign";
+    },
+
+    getAddPlayerComponent() {
+        console.log("add player component called");
+        console.log(this.data.campaign);
+        if (this.data.campaign) {
+            return(
+                <AddPlayers campaign={this.data.campaign}/>
+            );
+        }
     },
 
     render() {
@@ -80,20 +87,8 @@ CampaignEdit = React.createClass({
                     <button type="submit">Save</button>
                 </form>
                 </div>
-                {this.data.campaign ?
-                <div>
-                <h3>Add Players</h3>
-                <form className="add-player" onSubmit={this.handlePlayerSubmit}>
-                    <field>
-                        <label>Player email</label>
-                        <input type="text" ref="playerName" name="playerName"/>
-                    </field>
-                    <button type="submit">Add</button>
-                    <ul>
-                        {this.renderPlayers()}
-                    </ul>
-                </form>
-                </div>
+                {this.state.edit ?
+                    <AddPlayers campaign={this.data.campaign}/>
                 : ''
                 }
             </div>
