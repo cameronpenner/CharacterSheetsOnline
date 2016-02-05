@@ -1,6 +1,6 @@
 Campaign = {
     findAll: function() {
-        var result = Collections.Campaigns.find().fetch();
+        return result = Collections.Campaigns.find().fetch();
     },
     find: function(_id) {
         return Collections.Campaigns.findOne({_id: _id});

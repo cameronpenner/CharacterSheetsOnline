@@ -7,24 +7,24 @@ var CampaignListItem = React.createClass({
         Campaign.remove(this.props.campaign);
     },
     getPlayers() {
-        return this.data.campaigns.map((player) => {
-            return <PlayerListItem
-                key={player._id}/>;
+        return this.props.campaign.players.map((player) => {
+            console.log(player);
+            return <CampaignPlayer
+                key={player}
+                player={player}/>;
         });
     },
     render() {
         return <div>
             <li>
                 <a href={this.getPath()}>{this.props.campaign.name}</a>
-                <span> moderated by <strong>{this.props.campaign.username}</strong></span>
+                <span> moderated by <strong>{this.props.campaign.game_master_name}</strong></span>
              <button onClick={this.removeCampaign}>Remove</button>
             </li>
             <ul>
-                Proof of Concept
+                {this.getPlayers()}
             </ul>
-        </div>
-
-        {this.getPlayers()};
+        </div>;
 
     }
 });
@@ -45,6 +45,7 @@ CampaignList = React.createClass({
             return <CampaignListItem
                 key={campaign._id}
                 campaign={campaign}/>;
+
         });
     },
 
@@ -64,13 +65,9 @@ CampaignPlayer = React.createClass({
 
     render() {
         return (
-            <div>
-                <h4>Players in This Campaign</h4>
-                <ul>
-                    /*{this.data.ready ? this.players : 'loading'}*/
-                    Temporary Data!
-                </ul>
-            </div>
+            <li>
+                {this.props.player}
+            </li>
         );
     }
 })
