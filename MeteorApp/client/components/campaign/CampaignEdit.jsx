@@ -54,24 +54,11 @@ CampaignEdit = React.createClass({
         }));
     },
 
-    renderPlayers() {
-    },
-
     getOperationName() {
         if (this.state.edit) {
             return "Edit Campaign";
         }
         return "Create Campaign";
-    },
-
-    getAddPlayerComponent() {
-        console.log("add player component called");
-        console.log(this.data.campaign);
-        if (this.data.campaign) {
-            return(
-                <AddPlayers campaign={this.data.campaign}/>
-            );
-        }
     },
 
     render() {
@@ -88,7 +75,9 @@ CampaignEdit = React.createClass({
                 </form>
                 </div>
                 {this.state.edit ?
-                    <AddPlayers campaign={this.data.campaign}/>
+                    <div>
+                        <AddPlayers campaign={this.data.campaign}/>
+                    </div>
                 : ''
                 }
             </div>
