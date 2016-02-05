@@ -80,6 +80,33 @@ CharacterEdit = React.createClass({
         window.location.reload();
     },
 
+    addAttribute(event){
+    	event.preventDefault();
+
+    	if (this.data.character) {
+    		var attributeValue = this.refs.addAttr.value.trim();
+			Character.addAttribute(this.data.character, attributeValue);
+    	} else {
+    		console.log("Error adding a new attribute!");
+    		console.log(this.data.character);
+    		console.log(this.data.character.attributeList);
+    		return null;
+    	}
+
+    },
+
+    displayAttributes(){
+    	if (this.data.character) {
+    		//load up all the attributes this character has... somehow
+    		return this.data.character.attributeList.map((character) => {
+    			return <li>{character}</li>
+    		});
+    	} else {
+    		console.log("Error during display of character attributes!");
+    		return null;
+    	}
+    },
+
     render() {
         return (
             <div>
@@ -99,6 +126,19 @@ CharacterEdit = React.createClass({
                         <input type="text" ref="item" name="item"/>
                     </field>
                     <button type="add">Add</button>
+                </form>
+
+                <h3>Attributes:</h3>
+                <ul>
+                	{this.data.ready ? this.displayAttributes() : "waiting for data..."}
+                </ul>
+
+                <form className="addAttr" onSubmit={this.addAttribute}>
+                    <field>
+                        <label>Add Attribute</label>
+                        <input type="text" ref="addAttr" name="addAttr"/>
+                    </field>
+                    <button type="submit">Add Attribute</button>
                 </form>
             </div>
         );

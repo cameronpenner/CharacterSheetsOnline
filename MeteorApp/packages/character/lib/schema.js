@@ -1,5 +1,5 @@
 Schema = {};
-SimpleSchema.debug = true; // debug schema in browser console or server console
+SimpleSchema.debug = true;
 Schema.Character = new SimpleSchema({
     name: {
         type: String
@@ -39,5 +39,9 @@ Schema.Character = new SimpleSchema({
     },
     'inventory.$.parameters.$.value': {
         type: String
+    },
+    attributeList: {
+        type: [String],
+        optional: true,
     }
 });
