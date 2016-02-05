@@ -33,18 +33,18 @@ CharacterEdit = React.createClass({
     	console.log(this.data.character);
     	var inventory = this.data.character && this.data.character.inventory;    	
     	if (!inventory) return null;
-
-    	var itemStings = new Array();  
-    	for (item in inventory) {
-        	var itemString = item.name + "\t";
-        	for (parameter in item.parameters) {
-        		itemString += "{" + parameter.name + ", " + parameter.value + "} "; 
+    	var itemStrings = [];
+    	for (var i in inventory) {
+            console.log(inventory[i]);
+        	var itemString = inventory[i].name + "\t";
+        	for (var j in inventory[i].parameters) {
+        		itemString += "{" + inventory[i].parameters[j].name + ", " + inventory[i].parameters[j].value + "} ";
         		}
-        	itemStings.push(itemString);
+        	itemStrings.push(itemString);
         }
     	
-    	console.log(itemStings);
-        return itemStings;
+    	console.log(itemStrings);
+        return itemStrings;
     },
 
     handleSubmit(event) {
@@ -73,7 +73,7 @@ CharacterEdit = React.createClass({
         var paramValue = match[3];
 
         var param = {name: match[2], value: match[3]}
-        var item = {name: match[1], parameters: param}
+        var item = {name: match[1], parameters: [param]}
 
         Character.addItem(this.data.character, item);
     },

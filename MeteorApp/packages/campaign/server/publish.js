@@ -1,5 +1,4 @@
 Meteor.publish('campaign-list', function () {
-	console.log("Publishing campaign-list");
     return Collections.Campaigns.find({$or: [{game_master: this.userId}, {owner: "public"}]});
 });
 

@@ -1,5 +1,5 @@
 Schema = {};
-
+SimpleSchema.debug = true; // debug schema in browser console or server console
 Schema.Character = new SimpleSchema({
     name: {
         type: String
@@ -24,26 +24,20 @@ Schema.Character = new SimpleSchema({
         optional: true
     },
     inventory: {
-        type: [Schema.Item],
-        optional: true,
-    }
-});
-
-Schema.Item = new SimpleSchema({
-    name: {
+        type: [Object],
+        optional: true
+    },
+    'inventory.$.name': {
         type: String
     },
-    parameters: {
-        type: [Schema.ItemParameter],
-        defaultValue: "public"
-    },  
-});
-
-Schema.ItemParameter = new SimpleSchema({
-    name: {
+    'inventory.$.parameters': {
+        type: [Object],
+        optional: true
+    },
+    'inventory.$.parameters.$.name': {
         type: String
     },
-    value: {
+    'inventory.$.parameters.$.value': {
         type: String
     }
 });
