@@ -7,6 +7,7 @@ var newCampaignValues = function() {
 }
 
 Meteor.methods({
+
     addPlayer: function(campaign, playerName) {
         if (!campaign || !Meteor.user() || !playerName) return null;
         return Collections.Campaigns.update({

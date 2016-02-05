@@ -6,6 +6,9 @@ Schema.Campaigns = new SimpleSchema({
     game_master: {
         type: String
     }, 
+    username: {
+        type: String
+    },
     players: {
         type: [String]
     },
