@@ -8,7 +8,6 @@ var CampaignListItem = React.createClass({
     },
     getPlayers() {
         return this.props.campaign.players.map((player) => {
-            console.log(player);
             return <CampaignPlayer
                 key={player}
                 player={player}/>;
@@ -33,7 +32,7 @@ CampaignList = React.createClass({
     mixins:[ReactMeteorData],
 
     getMeteorData() {
-        const sub = Meteor.subscribe('campaign-list');
+        const sub = Meteor.subscribe('campaign-list', Meteor.userId(), "dennantest@test.com");
         return {
             ready: sub.ready(),
             campaigns: Campaign.findAll()

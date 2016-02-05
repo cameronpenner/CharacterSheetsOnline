@@ -1,18 +1,8 @@
 AddPlayers = React.createClass({
-	mixins:[ReactMeteorData],
-
-	getInitialState() {
-		return {};
-	},
-
-	getMeteorData() {
-		return {};
-	},
 
     handlePlayerSubmit(event) {
         event.preventDefault();
         var playerName = this.refs.playerName.value.trim();
-        console.log(this.props.campaign);
         Campaign.addPlayer(this.props.campaign, playerName);
     },
 

@@ -9,10 +9,6 @@ CampaignEdit = React.createClass({
         this.data.campaign = campaign;
     },
 
-    setCampaignList(list) {
-        console.log(list);
-    },
-
     getMeteorData() {
         var _id = this.props.routeParams._id;
         var data = {currentUser: Meteor.userId()};
