@@ -9,7 +9,6 @@ CharacterEdit = React.createClass({
         this.data.character = character;
         this.refs.name.value = character.name;
         this.refs.item.value = "itemName {parameterName, parameterValue}"; // sample format
-    	//console.log(this.data.character);
     },
 
     getMeteorData() {
@@ -30,16 +29,17 @@ CharacterEdit = React.createClass({
     },
 
     formInventoryItemsList() {
-    	console.log(this.data.character);
+    	//console.log(this.data.character);
     	var inventory = this.data.character && this.data.character.inventory;    	
     	if (!inventory) return null;
     	var itemStrings = [];
     	for (var i in inventory) {
-            console.log(inventory[i]);
-        	var itemString = inventory[i].name + "\t";
+            //console.log(inventory[i]);
+        	var itemString =inventory[i].name + "\t";
         	for (var j in inventory[i].parameters) {
         		itemString += "{" + inventory[i].parameters[j].name + ", " + inventory[i].parameters[j].value + "} ";
         		}
+        	itemString = <li> {itemString} </li>;
         	itemStrings.push(itemString);
         }
     	
@@ -90,9 +90,7 @@ CharacterEdit = React.createClass({
                     <button type="submit">Save</button>
                 </form>
                 <h5>Inventory</h5>
-                <ul>
-                    <li>{this.data.ready? this.formInventoryItemsList() : "loading"} </li>
-                </ul>
+                <ul> {this.data.ready? this.formInventoryItemsList() : "loading"} </ul>
                 <form className="new-item" onSubmit={this.handleAddItem}>
                     <field>
                         <label>New item</label>
