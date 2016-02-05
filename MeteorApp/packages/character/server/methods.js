@@ -42,5 +42,15 @@ Meteor.methods({
                 inventory: item
             }
         });
+    },
+    removeInventoryItem: function(_id, item) {
+        if (!character || !Meteor.user()) return null;
+        return Collections.Characters.update({
+            _id: _id
+        }, {
+            $pull: {
+                inventory: item
+            }
+        });
     }
 });

@@ -29,17 +29,17 @@ CharacterEdit = React.createClass({
     },
 
     formInventoryItemsList() {
-    	//console.log(this.data.character);
     	var inventory = this.data.character && this.data.character.inventory;    	
     	if (!inventory) return null;
     	var itemStrings = [];
     	for (var i in inventory) {
-            //console.log(inventory[i]);
         	var itemString =inventory[i].name + "\t";
         	for (var j in inventory[i].parameters) {
         		itemString += "{" + inventory[i].parameters[j].name + ", " + inventory[i].parameters[j].value + "} ";
         		}
-        	itemString = <li> {itemString} </li>;
+        	//itemString = <dir><li>{itemString}<button onClick={this.removeItem()}>Remove</button></li></dir>;
+        	itemString = <dir><li>{itemString}</li></dir>;
+
         	itemStrings.push(itemString);
         }
     	
@@ -65,7 +65,7 @@ CharacterEdit = React.createClass({
         event.preventDefault();
 
         var itemString = this.refs.item.value.trim();
-        var regex = /([a-zA-Z]+) {([a-zA-Z]+), ([a-zA-Z]+)}/ig;
+        var regex = /([a-zA-Z]+) {([a-zA-Z]+), ([0-9a-zA-Z]+)}/ig;
         var match = regex.exec(itemString);
 
         var itemName = match[1];
@@ -76,6 +76,8 @@ CharacterEdit = React.createClass({
         var item = {name: match[1], parameters: [param]}
 
         Character.addItem(this.data.character, item);
+
+        window.location.reload();
     },
 
     render() {
