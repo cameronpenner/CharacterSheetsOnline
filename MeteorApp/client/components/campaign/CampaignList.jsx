@@ -32,7 +32,7 @@ CampaignList = React.createClass({
     mixins:[ReactMeteorData],
 
     getMeteorData() {
-        const sub = Meteor.subscribe('campaign-list', Meteor.userId(), "dennantest@test.com");
+        const sub = Meteor.subscribe('campaign-list', Meteor.userId(), Meteor.user().emails[0].address);
         return {
             ready: sub.ready(),
             campaigns: Campaign.findAll()
