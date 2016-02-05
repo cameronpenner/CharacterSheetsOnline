@@ -11,6 +11,7 @@ const routes = (
         <Route path="character/list" component={CharacterList} />
         <Route path="character/new" component={CharacterEdit} />
         <Route path="character/:_id" component={CharacterEdit} />
+        <Route path="campaign/list" component={CampaignList} />
         <Route path="campaign/new" component={CampaignEdit} />
         <Route path="campaign/:_id" component={CampaignEdit} />
     </Route>

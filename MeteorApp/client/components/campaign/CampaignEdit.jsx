@@ -18,11 +18,13 @@ CampaignEdit = React.createClass({
         var data = {currentUser: Meteor.userId()};
         var setCampaign = this.setCampaign;
         var setCampaignList = this.setCampaignList;
+        var self = this;
 
         if (_id) {
             Meteor.subscribe("campaign", _id, {
                 onReady: function() {
                     setCampaign(Campaign.find(_id));
+                    self.setState({edit: true});
                 }
             });
         }
