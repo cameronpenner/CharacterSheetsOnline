@@ -17,6 +17,10 @@ Character = {
     remove: function(character) {
         return Meteor.call("removeCharacter", character);
     },
+    changeName: function(character, newName) {
+        character.name = newName;
+        return Meteor.call("upsertCharacter", character);
+    },
     addItem: function(character, item) {
         //console.log ("in addItem", character, item);
         return Meteor.call("addInventoryItem", character._id, item);

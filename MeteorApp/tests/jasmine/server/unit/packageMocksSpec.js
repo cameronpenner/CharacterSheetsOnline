@@ -7780,7 +7780,11 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
+<<<<<<< 5fd7793ed405486f3186073a88bc9c398cbc8ccc
                   "value": "55360714729230c5346a711c969ad8dc18abeb20"
+=======
+                  "value": "0d269b2b78008c894b820389e2d3cf25fcac6840"
+>>>>>>> created app form for generic editing ui and implemented it in CharacterList componnt
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "object"
@@ -12645,6 +12649,12 @@ var packageMetadata = {
         "remove": {
           "type": "function"
         },
+<<<<<<< 5fd7793ed405486f3186073a88bc9c398cbc8ccc
+=======
+        "changeName": {
+          "type": "function"
+        },
+>>>>>>> created app form for generic editing ui and implemented it in CharacterList componnt
         "addItem": {
           "type": "function"
         },
@@ -13333,6 +13343,11 @@ var packageMetadata = {
       }
     }
   },
+<<<<<<< 5fd7793ed405486f3186073a88bc9c398cbc8ccc
+=======
+  "less": {},
+  "accounts-ui-unstyled": {},
+>>>>>>> created app form for generic editing ui and implemented it in CharacterList componnt
   "velocity:html-reporter": {},
   "reload": {},
   "coffeescript": {},
@@ -14259,9 +14274,15 @@ var packageMetadata = {
             "cache": {
               "type": "object",
               "members": {
+<<<<<<< 5fd7793ed405486f3186073a88bc9c398cbc8ccc
                 "1455924302161undefined": {
                   "type": "constant",
                   "value": "/Users/jeff/4350/bugfix/SoftwareEngineering2/MeteorApp"
+=======
+                "1455133699448undefined": {
+                  "type": "constant",
+                  "value": "/Users/jeff/4350/SoftwareEngineering2/MeteorApp"
+>>>>>>> created app form for generic editing ui and implemented it in CharacterList componnt
                 }
               }
             }
@@ -14646,11 +14667,19 @@ var packageMetadata = {
                 },
                 "appPath": {
                   "type": "constant",
+<<<<<<< 5fd7793ed405486f3186073a88bc9c398cbc8ccc
                   "value": "/Users/jeff/4350/bugfix/SoftwareEngineering2/MeteorApp"
                 },
                 "pid": {
                   "type": "constant",
                   "value": 18765
+=======
+                  "value": "/Users/jeff/4350/SoftwareEngineering2/MeteorApp"
+                },
+                "pid": {
+                  "type": "constant",
+                  "value": 8367
+>>>>>>> created app form for generic editing ui and implemented it in CharacterList componnt
                 },
                 "getTaskName": {
                   "type": "function"
@@ -14723,7 +14752,10 @@ var packageMetadata = {
       }
     }
   },
+<<<<<<< 5fd7793ed405486f3186073a88bc9c398cbc8ccc
   "twbs:bootstrap": {},
+=======
+>>>>>>> created app form for generic editing ui and implemented it in CharacterList componnt
   "livedata": {
     "DDP": {
       "type": "object",
@@ -14806,11 +14838,19 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
+<<<<<<< 5fd7793ed405486f3186073a88bc9c398cbc8ccc
           "value": "cd7ea3f73b556fb877c6ebd83a273b383bc44e49"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
           "value": "b1c4b7dcfedc9ab28665ea762ea181c2423679bd"
+=======
+          "value": "c31d701fb3dae200e4f12c50af96b229c22a7bce"
+        },
+        "autoupdateVersionRefreshable": {
+          "type": "constant",
+          "value": "e3cbfb421c59657c8b7f105fe845ce096987f117"
+>>>>>>> created app form for generic editing ui and implemented it in CharacterList componnt
         },
         "autoupdateVersionCordova": {
           "type": "constant",
