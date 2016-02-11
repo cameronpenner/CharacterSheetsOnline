@@ -7,11 +7,15 @@ AppBody = React.createClass({
         };
     },
 
+    logout() {
+        Meteor.logout();
+    },
+
     render() {
         return (
             <div className="container">
                 <header>
-                    <div><AccountsUIWrapper /></div>
+                    <div>{this.data.user ? "Logged in: " + this.data.user.username : ''}</div>
                     <h1>RPG Companion</h1>
                     {this.data.user ?
                         <div className="nav">
@@ -21,12 +25,13 @@ AppBody = React.createClass({
                                 <li><a href="/character/new">New Character</a></li>
                                 <li><a href="/campaign/list">Campaign List</a></li>
                                 <li><a href="/campaign/new">New Campaign</a></li>
+                                <li><a href="#" onClick={this.logout}>Logout</a></li>
                             </ul>
                         </div>
-                        : "Please Sign In"
+                        : ''
                     }
                 </header>
-                {this.data.user ? this.props.children : ''}
+                {this.data.user ? this.props.children : <SignIn/>}
             </div>
         );
     }
