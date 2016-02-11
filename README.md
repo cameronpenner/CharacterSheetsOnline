@@ -22,4 +22,4 @@ To run the server side unit tests, set the environment variable JASMINE_SERVER_U
 
 ###Note about branches:  
 "master" is the release branch  
-"develop" is the default baranch for developing that other branches should be branched off from
+"develop" is the default branch for developing that other branches should be branched off from
