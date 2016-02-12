@@ -24,3 +24,4 @@ campaign
 reactrouter:react-router
 velocity:html-reporter
 sanjo:jasmine
+twbs:bootstrap
