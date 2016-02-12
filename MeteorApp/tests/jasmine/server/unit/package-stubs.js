@@ -267,7 +267,7 @@ var packageMetadata = {
             },
             "fibersCreated": {
               "type": "constant",
-              "value": 11
+              "value": 9
             },
             "prototype": {
               "type": "object",
@@ -7779,7 +7779,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "52d8a278e59a969923bf49231f25b3e94e6f7587"
+                  "value": "7f3b3fbda1860778b6533c008d2794f9966c64e7"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "object"
@@ -14252,7 +14252,7 @@ var packageMetadata = {
             "cache": {
               "type": "object",
               "members": {
-                "1455166360200undefined": {
+                "1455168340293undefined": {
                   "type": "constant",
                   "value": "D:\\4350\\SoftwareEngineering2\\MeteorApp"
                 }
@@ -14643,7 +14643,7 @@ var packageMetadata = {
                 },
                 "pid": {
                   "type": "constant",
-                  "value": 9952
+                  "value": 13604
                 },
                 "fout": {
                   "type": "constant",
@@ -14666,7 +14666,7 @@ var packageMetadata = {
                     },
                     "pid": {
                       "type": "constant",
-                      "value": 9952
+                      "value": 13604
                     },
                     "stdin": {
                       "type": "null",
@@ -14875,7 +14875,7 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "038ea2616bad3231ccccba41cb14c39691f4b833"
+          "value": "76ca8e77b2c7d955a584332d34f41488c4f2455c"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
