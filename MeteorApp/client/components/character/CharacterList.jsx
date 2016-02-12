@@ -1,20 +1,3 @@
-var CharListItem = React.createClass({
-    getPath() {
-        return "/character/" + this.props.character._id
-    },
-    removeCharacter(event) {
-        event.preventDefault();
-        Character.remove(this.props.character);
-    },
-    render() {
-        return <li>
-            <a href={this.getPath()}>{this.props.character.name}</a>
-            <span> owned by <strong>{this.props.character.username || "public"}</strong></span>
-            <button onClick={this.removeCharacter}>Remove</button>
-        </li>;
-    }
-});
-
 CharacterList = React.createClass({
     mixins:[ReactMeteorData],
 
@@ -28,9 +11,25 @@ CharacterList = React.createClass({
 
     getListItems() {
         return this.data.characters.map((character) => {
-            return <CharListItem
-                key={character._id}
-                character={character}/>;
+            return (
+                <AppForm
+                    startOnEdit={false}
+                    key={character._id}
+                    object={character}
+                    upsertMethod={Character.changeName}
+                    removeMethod={Character.remove}
+                    values={[{
+                        label: "name",
+                        value: character.name
+                    }]}
+                >
+                    <li>
+                        <strong>{character.name}</strong>
+                        <small> owned by </small>
+                        {character.username}
+                    </li>
+                </AppForm>
+            );
         });
     },
 

@@ -1,5 +1,4 @@
 Schema = {};
-SimpleSchema.debug = true;
 Schema.Character = new SimpleSchema({
     name: {
         type: String
