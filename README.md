@@ -18,7 +18,7 @@
 Please note that electronic discussion regarding the project is recorded in a Slack channel. Please contact a team member for an invite (we would need your email).
 
 ###Installation
-Follow the [Meteor Installation Guide](https://www.meteor.com/install). Once meteor is installed, `cd` into the MeteorApp/ directory and run `meteor`. The app will be available in any web browser at `localhost:3000`.
+Follow the [Meteor Installation Guide](https://www.meteor.com/install). Once meteor is installed, `cd` into the MeteorApp/ directory and run `meteor`. The app will be available in your web browser at `localhost:3000`.
 
 ###Unit Tests
 To run the server side unit tests, set the environment variable JASMINE_SERVER_UNIT=1.
