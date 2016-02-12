@@ -47,18 +47,20 @@ SignIn = React.createClass({
         return (
             <div className="signin">
                 <h3>{this.state.creatingAccount ? "Create Account" : "Sign In"}</h3>
-                <form onSubmit={this.state.creatingAccount ? this.handleCreate : this.handleSignIn}>
-                    <field>
-                        <label>Username</label>
-                        <input type="text" ref="username" />
-                    </field>
-                    <field>
-                        <label>Password</label>
-                        <input type="password" ref="password" />
-                    </field>
-                    <button action="submit">{this.state.creatingAccount ? "Create Account" : "Sign In"}</button>
+                <form role="form" className="span-4" onSubmit={this.state.creatingAccount ? this.handleCreate : this.handleSignIn}>
+                    <div className="form-group">
+                        <label htmlFor="username">Username</label>
+                        <input type="text" className="form-control" id="username" ref="username" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input type="password" className="form-control" id="password" ref="password" />
+                    </div>
+                    <div>
+                        <button className="btn btn-default" action="submit">{this.state.creatingAccount ? "Create Account" : "Sign In"}</button>
+                        &emsp;or <a href="#" onClick={this.toggleCreateAccount}>{this.state.creatingAccount ? "sign in" : "create an account"}</a>
+                    </div>
                 </form>
-                <p>or <a href="#" onClick={this.toggleCreateAccount}>{this.state.creatingAccount ? "sign in" : "create an account"}</a></p>
             </div>
         )
     }
