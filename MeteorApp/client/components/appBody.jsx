@@ -3,10 +3,8 @@ AppBody = React.createClass({
         return (
             <div className="container">
                 <header>
-                    <div><AccountsUIWrapper /></div>
-                    <h1>RPG Companion</h1>
                     <div className="nav">
-                        <ul>
+                        <ul className="nav navbar-nav">
                             <li><a href="/">Home</a></li>
                             <li><a href="/character/list">Character List</a></li>
                             <li><a href="/character/new">New Character</a></li>
@@ -15,6 +13,8 @@ AppBody = React.createClass({
                         </ul>
                     </div>
                 </header>
+                <div><AccountsUIWrapper /></div>
+                <h1>RPG Companion</h1>
                 {this.props.children ? this.props.children : ''}
             </div>
         );

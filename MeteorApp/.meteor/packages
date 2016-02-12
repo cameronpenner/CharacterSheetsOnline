@@ -25,3 +25,4 @@ reactrouter:react-router
 accounts-ui-unstyled
 velocity:html-reporter
 sanjo:jasmine
+twbs:bootstrap
