@@ -9,7 +9,7 @@ var CharListItem = React.createClass({
     render() {
         return <li>
             <a href={this.getPath()}>{this.props.character.name}</a>
-            <span> owned by <strong>{this.props.character.username || "public"}</strong></span>
+            <span> owned by <strong>{this.props.character.owner_name || "public"}</strong></span>
             <button onClick={this.removeCharacter}>Remove</button>
         </li>;
     }

@@ -1,10 +1,10 @@
 var newCharValues = function() {
     return {
-        owner: Meteor.user()._id,
-        username: Meteor.user().emails[0].address,
+        owner: Meteor.userId(),
+        owner_name: Meteor.user().username,
         createdAt: new Date()
     };
-}
+};
 
 Meteor.methods({
     insertCharacter: function(character) {
