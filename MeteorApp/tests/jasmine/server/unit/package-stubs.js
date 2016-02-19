@@ -267,7 +267,7 @@ var packageMetadata = {
             },
             "fibersCreated": {
               "type": "constant",
-              "value": 12
+              "value": 13
             },
             "prototype": {
               "type": "object",
@@ -7779,7 +7779,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "0d269b2b78008c894b820389e2d3cf25fcac6840"
+                  "value": "44d8cd87564a165d932a9f05a1226f0e0dcf39c4"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "object"
@@ -12644,6 +12644,9 @@ var packageMetadata = {
         "remove": {
           "type": "function"
         },
+        "removeById": {
+          "type": "function"
+        },
         "changeName": {
           "type": "function"
         },
@@ -14263,7 +14266,7 @@ var packageMetadata = {
             "cache": {
               "type": "object",
               "members": {
-                "1455133699448undefined": {
+                "1455919259714undefined": {
                   "type": "constant",
                   "value": "/Users/jeff/4350/SoftwareEngineering2/MeteorApp"
                 }
@@ -14654,7 +14657,7 @@ var packageMetadata = {
                 },
                 "pid": {
                   "type": "constant",
-                  "value": 8367
+                  "value": 16392
                 },
                 "getTaskName": {
                   "type": "function"
@@ -14809,7 +14812,7 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "c31d701fb3dae200e4f12c50af96b229c22a7bce"
+          "value": "fd92273fbc7cd9e30f14fef99bad4b80aa011017"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",

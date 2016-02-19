@@ -92,7 +92,6 @@ CharacterEdit = React.createClass({
     		console.log(this.data.character.attributeList);
     		return null;
     	}
-
     },
 
     displayAttributes(){

@@ -9,26 +9,30 @@ CharacterList = React.createClass({
         }
     },
 
-    getListItems() {
+    appFormData(_id) {
+        const sub = Meteor.subscribe('character');
+        var data = {
+            ready: sub.ready(),
+            object: Character.find(_id),
+            fields: []
+        };
+
+        if (data.object) {
+            data.fields = [{
+                label: "name",
+                value: data.object.name
+            }];
+        }
+        return data;
+    },
+
+    renderChildren() {
         return this.data.characters.map((character) => {
             return (
-                <AppForm
-                    startOnEdit={false}
-                    key={character._id}
-                    object={character}
-                    upsertMethod={Character.changeName}
-                    removeMethod={Character.remove}
-                    values={[{
-                        label: "name",
-                        value: character.name
-                    }]}
-                >
-                    <li>
-                        <strong>{character.name}</strong>
-                        <small> owned by </small>
-                        {character.username}
-                    </li>
-                </AppForm>
+                <CharacterPreview
+                    _id={character._id}
+                    path={"/character/"+character._id}
+                />
             );
         });
     },
@@ -38,7 +42,7 @@ CharacterList = React.createClass({
             <div>
                 <h3>Characters List</h3>
                 <ul>
-                    {this.data.ready ? this.getListItems() : 'loading'}
+                    {this.data.ready ? this.renderChildren() : 'loading'}
                 </ul>
             </div>
         );
