@@ -51,13 +51,21 @@ CharacterList = React.createClass({
                 <div className="list-group">
                     {this.data.ready ? this.renderCharacters() : 'loading'}
                 </div>
-                {this.state.showNewCharForm
-                    ? <form onSubmit={this.saveNewCharacter}>
-                        <input type="text" ref="name" />
-                        <button action="submit">Save</button>
-                        <button onClick={this.toggleNewCharacterForm}>Cancel</button>
-                    </form>
-                    : <button onClick={this.toggleNewCharacterForm}>New Character</button>
+                {this.state.showNewCharForm ?
+                    <div className="input-group">
+                        <input type="text"
+                               className="form-control"
+                               ref="name" />
+                        <button type="button"
+                                className="btn btn-default"
+                                onClick={this.saveNewCharacter}>Save</button>
+                        <button type="button"
+                                className="btn btn-default"
+                                onClick={this.toggleNewCharacterForm}>Cancel</button>
+                    </div> :
+                    <button type="button"
+                            className="btn btn-default"
+                            onClick={this.toggleNewCharacterForm}>New Character</button>
                 }
 
             </div>

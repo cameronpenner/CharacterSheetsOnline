@@ -30,21 +30,17 @@ Form = React.createClass({
                            ref={this.props.name}
                            placeholder={this.props.name}
                            value={this.state.value}
-                           onChange={this.handleChange}
-                    />
+                           onChange={this.handleChange} />
                     <div className="input-group-btn">
                         <button type="button"
                                 className="btn btn-default"
-                                onClick={this.props.save}
-                        >Save</button>
+                                onClick={this.props.save}>Save</button>
                         <button type="button"
                                 className="btn btn-default"
-                                onClick={this.props.delete}
-                        >Delete (not implemented yet)</button>
+                                onClick={this.props.delete}>Delete (not implemented yet)</button>
                         <button type="button"
                                 className="btn btn-default"
-                                onClick={this.props.cancel}
-                        >Cancel</button>
+                                onClick={this.props.cancel}>Cancel</button>
                     </div>
                 </div>
             </div>

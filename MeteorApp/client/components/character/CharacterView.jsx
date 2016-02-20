@@ -105,8 +105,7 @@ CharacterView = React.createClass({
                           value={value}
                           save={this.save}
                           delete={this.delete}
-                          cancel={this.cancelEdit}
-                    />
+                          cancel={this.cancelEdit}/>
                 </li>
             );
         }
@@ -119,11 +118,9 @@ CharacterView = React.createClass({
         if (this.data.ready) {
             return (
                 <div className="container">
-
                     {this.checkEditingState("Name: ") || this.checkEditingState(this.data.character.name) ?
                         this.renderForm("Name", this.data.character.name) :
-                        <h2 onClick={this.setEditingState}
-                        >Name: {this.data.character.name}</h2>
+                        <h2 onClick={this.setEditingState}>Name: {this.data.character.name}</h2>
                     }
 
 
@@ -141,15 +138,16 @@ CharacterView = React.createClass({
                                 return (
                                     <li className="list-group-item"
                                         key={item}
-                                        onClick={this.setEditingState}
-                                    >{item}</li>
+                                        onClick={this.setEditingState}>{item}</li>
                                 );
                             }
                         }, this)}
                     </div>
                     {this.checkEditingState("New Attribute") ?
                         this.renderForm("New Attribute", "") :
-                        <button onClick={this.setEditingState}>New Attribute</button>
+                        <button type="button"
+                                className="btn btn-default"
+                                onClick={this.setEditingState}>New Attribute</button>
                     }
 
 
@@ -163,15 +161,16 @@ CharacterView = React.createClass({
                                 return (
                                     <li className="list-group-item"
                                         key={item.name}
-                                        onClick={this.setEditingState}
-                                    >{item.name}</li>
+                                        onClick={this.setEditingState}>{item.name}</li>
                                 );
                             }
                         }, this)}
                     </div>
                     {this.checkEditingState("New Inventory") ?
                         this.renderForm("New Inventory", "") :
-                        <button onClick={this.setEditingState}>New Inventory</button>
+                        <button type="button"
+                                className="btn btn-default"
+                                onClick={this.setEditingState}>New Inventory</button>
                     }
                 </div>
             );
