@@ -267,7 +267,7 @@ var packageMetadata = {
             },
             "fibersCreated": {
               "type": "constant",
-              "value": 9
+              "value": 12
             },
             "prototype": {
               "type": "object",
@@ -7779,7 +7779,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "7f3b3fbda1860778b6533c008d2794f9966c64e7"
+                  "value": "55360714729230c5346a711c969ad8dc18abeb20"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "object"
@@ -7903,7 +7903,7 @@ var packageMetadata = {
             },
             "connections": {
               "type": "constant",
-              "value": 0
+              "value": 1
             },
             "timeout": {
               "type": "constant",
@@ -13520,7 +13520,13 @@ var packageMetadata = {
               }
             },
             "rename": {
-              "type": "function"
+              "type": "function",
+              "members": {
+                "displayName": {
+                  "type": "constant",
+                  "value": "rename"
+                }
+              }
             },
             "realpath": {
               "type": "function",
@@ -13673,7 +13679,7 @@ var packageMetadata = {
             },
             "pathOsDelimiter": {
               "type": "constant",
-              "value": ";"
+              "value": ":"
             },
             "convertToStandardPath": {
               "type": "function"
@@ -14252,9 +14258,9 @@ var packageMetadata = {
             "cache": {
               "type": "object",
               "members": {
-                "1455168340293undefined": {
+                "1455924302161undefined": {
                   "type": "constant",
-                  "value": "D:\\4350\\SoftwareEngineering2\\MeteorApp"
+                  "value": "/Users/jeff/4350/bugfix/SoftwareEngineering2/MeteorApp"
                 }
               }
             }
@@ -14639,88 +14645,11 @@ var packageMetadata = {
                 },
                 "appPath": {
                   "type": "constant",
-                  "value": "D:\\4350\\SoftwareEngineering2\\MeteorApp"
+                  "value": "/Users/jeff/4350/bugfix/SoftwareEngineering2/MeteorApp"
                 },
                 "pid": {
                   "type": "constant",
-                  "value": 13604
-                },
-                "fout": {
-                  "type": "constant",
-                  "value": 4
-                },
-                "child": {
-                  "type": "object",
-                  "members": {
-                    "domain": {
-                      "type": "null",
-                      "value": null
-                    },
-                    "signalCode": {
-                      "type": "null",
-                      "value": null
-                    },
-                    "exitCode": {
-                      "type": "null",
-                      "value": null
-                    },
-                    "pid": {
-                      "type": "constant",
-                      "value": 13604
-                    },
-                    "stdin": {
-                      "type": "null",
-                      "value": null
-                    },
-                    "stdout": {
-                      "type": "null",
-                      "value": null
-                    },
-                    "stderr": {
-                      "type": "null",
-                      "value": null
-                    },
-                    "stdio": {
-                      "type": "array"
-                    },
-                    "spawn": {
-                      "type": "function"
-                    },
-                    "kill": {
-                      "type": "function"
-                    },
-                    "ref": {
-                      "type": "function"
-                    },
-                    "unref": {
-                      "type": "function"
-                    },
-                    "setMaxListeners": {
-                      "type": "function"
-                    },
-                    "emit": {
-                      "type": "function"
-                    },
-                    "addListener": {
-                      "type": "function",
-                      "refID": 17
-                    },
-                    "on": {
-                      "ref": 17
-                    },
-                    "once": {
-                      "type": "function"
-                    },
-                    "removeListener": {
-                      "type": "function"
-                    },
-                    "removeAllListeners": {
-                      "type": "function"
-                    },
-                    "listeners": {
-                      "type": "function"
-                    }
-                  }
+                  "value": 18765
                 },
                 "getTaskName": {
                   "type": "function"
@@ -14793,6 +14722,7 @@ var packageMetadata = {
       }
     }
   },
+  "twbs:bootstrap": {},
   "livedata": {
     "DDP": {
       "type": "object",
@@ -14875,11 +14805,11 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "76ca8e77b2c7d955a584332d34f41488c4f2455c"
+          "value": "cd7ea3f73b556fb877c6ebd83a273b383bc44e49"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
-          "value": "e3cbfb421c59657c8b7f105fe845ce096987f117"
+          "value": "b1c4b7dcfedc9ab28665ea762ea181c2423679bd"
         },
         "autoupdateVersionCordova": {
           "type": "constant",

@@ -5,7 +5,7 @@ Schema.Campaigns = new SimpleSchema({
     },
     game_master: {
         type: String
-    }, 
+    },
     game_master_name: {
         type: String
     },

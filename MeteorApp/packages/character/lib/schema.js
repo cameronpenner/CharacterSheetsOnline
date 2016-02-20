@@ -8,7 +8,7 @@ Schema.Character = new SimpleSchema({
         type: String,
         defaultValue: "public"
     },
-    username: {
+    owner_name: {
         type: String,
         defaultValue: "public"
     },
