@@ -1,36 +1,46 @@
-var CharListItem = React.createClass({
-    getPath() {
-        return "/character/" + this.props.character._id
-    },
-    removeCharacter(event) {
-        event.preventDefault();
-        Character.remove(this.props.character);
-    },
-    render() {
-        return <li>
-            <a href={this.getPath()}>{this.props.character.name}</a>
-            <span> owned by <strong>{this.props.character.owner_name || "public"}</strong></span>
-            <button onClick={this.removeCharacter}>Remove</button>
-        </li>;
-    }
-});
-
 CharacterList = React.createClass({
     mixins:[ReactMeteorData],
+
+    getInitialState() {
+        return {
+            showNewCharForm: false
+        };
+    },
 
     getMeteorData() {
         const sub = Meteor.subscribe('character-list');
         return {
             ready: sub.ready(),
             characters: Character.findAll()
-        }
+        };
     },
 
-    getListItems() {
+    saveNewCharacter(event) {
+        event.preventDefault();
+        var name = this.refs.name.value;
+        Character.insert({name: name});
+
+        this.refs.name.value = "";
+        this.toggleNewCharacterForm();
+    },
+
+    toggleNewCharacterForm(event) {
+        if (event) event.preventDefault();
+        this.setState({
+            showNewCharForm: !this.state.setNewCharForm
+        });
+    },
+
+    renderCharacters() {
         return this.data.characters.map((character) => {
-            return <CharListItem
-                key={character._id}
-                character={character}/>;
+            return (
+                <a className="list-group-item"
+                    key={character._id}
+                    href={"/character/"+character._id}
+                ><CharacterPreview
+                    _id={character._id}
+                /></a>
+            );
         });
     },
 
@@ -38,9 +48,18 @@ CharacterList = React.createClass({
         return (
             <div>
                 <h3>Characters List</h3>
-                <ul>
-                    {this.data.ready ? this.getListItems() : 'loading'}
-                </ul>
+                <div className="list-group">
+                    {this.data.ready ? this.renderCharacters() : 'loading'}
+                </div>
+                {this.state.showNewCharForm
+                    ? <form onSubmit={this.saveNewCharacter}>
+                        <input type="text" ref="name" />
+                        <button action="submit">Save</button>
+                        <button onClick={this.toggleNewCharacterForm}>Cancel</button>
+                    </form>
+                    : <button onClick={this.toggleNewCharacterForm}>New Character</button>
+                }
+
             </div>
         );
     }

@@ -24,7 +24,6 @@ AppBody = React.createClass({
                                 <div>
                                     <ul className="nav navbar-nav">
                                         <li><a href="/character/list">Character List</a></li>
-                                        <li><a href="/character/new">New Character</a></li>
                                         <li><a href="/campaign/list">Campaign List</a></li>
                                         <li><a href="/campaign/new">New Campaign</a></li>
                                     </ul>
@@ -37,7 +36,11 @@ AppBody = React.createClass({
                         </div>
                     </nav>
                 </header>
-                {this.data.user ? this.props.children : <SignIn/>}
+                <div className="row">
+                    <div className="col-lg-6">
+                        {this.data.user ? this.props.children : <SignIn/>}
+                    </div>
+                </div>
             </div>
         );
     }
