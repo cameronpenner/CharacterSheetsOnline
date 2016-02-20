@@ -1,4 +1,11 @@
 Character = {
+    getEmptyJSON: function() {
+        return {
+            name: "",
+            inventory: [],
+            attributes: []
+        };
+    },
     findAll: function() {
         return Collections.Characters.find().fetch();
     },
@@ -24,7 +31,6 @@ Character = {
         return Meteor.call("upsertCharacter", {_id: _id, name: newName});
     },
     addItem: function(character, item) {
-        //console.log ("in addItem", character, item);
         return Meteor.call("addInventoryItem", character._id, item);
     },
     removeItem: function(character, item) {

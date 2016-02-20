@@ -26,7 +26,7 @@ Meteor.methods({
     updateCharacter: function(character) {
         console.log(character);
         if (!character || !Meteor.user()) return null;
-        return Collections.Characters.update({_id: character._id}, character);        
+        return Collections.Characters.update({_id: character._id}, {$set: character});
     },
     removeCharacter: function(character) {
         if (!character || !Meteor.user()) return null;
