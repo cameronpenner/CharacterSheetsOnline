@@ -2,12 +2,16 @@
 
 ###Instructions for Marker
 We have been using [our Trello board](https://trello.com/b/IYE6wlS5/4350) for big-picture user stories, and splitting them up into smaller stories using our [git issues](https://github.com/cameronpenner/SoftwareEngineering2/issues), where we post about the cost and priority, and assign each to a team member.  
+
 Our app uses the [Meteor](https://www.meteor.com/) platform, which uses Javascript for both client and server code. Within Meteor, we are using [React.js](https://facebook.github.io/react/) for UI layout and logic.  
+
 Our app code is found in the `MeteorApp/` directory, and is organized as follows:  
 * `client/` contains the only code that is sent to the client when our website is used (with the exception of testing). Within this directory, files are organized in directories by which part of the app they are a part of.  
 * `packages/` contains our server code, organized by our two main classes, `campaign/` and `character/`.  
 * `public/` contains our `favicon.png` file.  
 * `tests/` contains all testing code, which is run on the client by default.  
+
+Please use the `master` branch for marking, as we will be using `develop` for the next iteration.
 
 ###Project Overview  
 [Project Vision](https://docs.google.com/document/d/1vjb-VSGzE597DyjM7nernY6ocQbtDChBV6MGlIx8y2M/edit)  
