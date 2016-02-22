@@ -34,7 +34,7 @@ CampaignList = React.createClass({
     getMeteorData() {
         const sub = Meteor.subscribe('campaign-list');
         return {
-            ready: sub.dataIsReady(),
+            ready: sub.ready(),
             campaigns: Campaign.findAll()
         }
     },
@@ -53,7 +53,7 @@ CampaignList = React.createClass({
             <div>
                 <h3>Campaigns List</h3>
                 <ul>
-                    {this.data.dataIsReady ? this.getListItems() : 'loading'}
+                    {this.data.ready ? this.getListItems() : 'loading'}
                 </ul>
             </div>
         );
