@@ -33,5 +33,5 @@ Follow the [Meteor Installation Guide](https://www.meteor.com/install). Once met
 To run the server side unit tests, set the environment variable JASMINE_SERVER_UNIT=1.
 
 ###Note about branches:  
-"master" is the release branch (use this for marking)
+"master" is the release branch (use this for marking)  
 "develop" is the default branch for developing that other branches should be branched off from
