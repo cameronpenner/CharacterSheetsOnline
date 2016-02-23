@@ -29,7 +29,7 @@ describe("Character Methods", function() {
             expect(Characters.upsert.calls.any()).toEqual(false);
         });
 
-        it("shouldn't call collection if parameter is valid but user isn't logged in", function () {
+        it("should call collection if parameter is valid", function () {
             spyOn(Characters, "upsert");
 
             expect(Meteor.call("upsertCharacter", {
