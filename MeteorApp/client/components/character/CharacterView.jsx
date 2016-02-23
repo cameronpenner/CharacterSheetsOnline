@@ -55,7 +55,7 @@ CharacterView = React.createClass({
                 var i = c.attributeList.indexOf(this.state.editing);
                 if (i < 0) return; // should be an error
                 c.attributeList[i] = value;
-                Character.update(c);
+                Character.upsert(c);
                 break;
             case "New Inventory":
                 Character.addItem(c, {name: value});
@@ -66,11 +66,11 @@ CharacterView = React.createClass({
                 }, this);
                 var i = c.inventory.indexOf(el);
                 c.inventory[i].name = value;
-                Character.update(c);
+                Character.upsert(c);
                 break;
             case "Name":
                 c.name = value;
-                Character.update(c);
+                Character.upsert(c);
                 break;
             default:
                 console.log("default case");
