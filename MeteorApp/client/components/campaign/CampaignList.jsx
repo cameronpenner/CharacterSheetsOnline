@@ -4,7 +4,7 @@ var CampaignListItem = React.createClass({
     },
     removeCampaign(event) {
         event.preventDefault();
-        Campaign.remove(this.props.campaign);
+        Meteor.call("removeCampaign", this.props.campaign);
     },
     getPlayers() {
         return this.props.campaign.players.map((player) => {
@@ -35,7 +35,7 @@ CampaignList = React.createClass({
         const sub = Meteor.subscribe('campaign-list');
         return {
             ready: sub.ready(),
-            campaigns: Campaign.findAll()
+            campaigns: Campaigns.find().fetch()
         }
     },
 

@@ -1,42 +1,27 @@
-describe("Character", function() {
+describe("Character Methods", function() {
     'use strict';
-    var characterEmptyJSON = {
-        name: "",
-        inventory: [],
-        attributes: []
-    };
 
-    describe("getEmptyJSON", function() {
-        it("Should return empty JSON of a character", function () {
-            expect(Character.getEmptyJSON()).toEqual(characterEmptyJSON);
+    describe("upsertCharacter", function() {
+        it("return null if no parameter given", function() {
+            expect(Meteor.call("upsertCharacter")).toBe(null);
         });
-    });
 
-    describe("findAll", function() {
-        it("Should return null when there are no characters in the collection",
-            function () {
-                expect(Character.findAll()).toBe(null);
-            }
-        );
-    });
-
-    describe("find", function() {
-        it("Should return null when there are no characters in the collection",
-            function () {
-                expect(Character.find()).toBe(null);
-            }
-        )
-    });
-
-    describe("upsert", function() {
-        it("Should return null if no argument is passed", function () {
-            expect(Character.upsert(null)).toBe(null);
+        it("return null if parameter is null", function() {
+            expect(Meteor.call("upsertCharacter", null)).toBe(null);
         });
-    });
 
-    describe("remove", function () {
-        it("Should return null if no argument is passed", function() {
-            expect(Character.remove(null)).toBe(null);
+        it("return undefined if parameter is {}", function() {
+            expect(Meteor.call("upsertCharacter", {})).toBe(undefined);
+        });
+
+        it("should insert character if parameter is valid", function () {
+            spyOn()
+
+            expect(Meteor.call("upsertCharacter", {
+                name: "test-character"
+            })).toBe(undefined);
+
+
         })
     });
 });

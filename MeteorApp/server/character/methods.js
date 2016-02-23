@@ -7,24 +7,15 @@ var newCharValues = function() {
 };
 
 Meteor.methods({
-    insertCharacter: function(character) {
-        if (!character || !Meteor.user()) return null;
-        return Collections.Characters.insert(_.extend(character, newCharValues()));
-    },
     upsertCharacter: function(character) {
-        if (!character || !Meteor.user()) return null;
-        var result = Collections.Characters.upsert({
+        if (!character || character == {} || !Meteor.user()) return null;
+        return Collections.Characters.upsert({
             _id: character._id
         }, {
             $set: character
         }, {
             $setOnInsert: _.extend(character, newCharValues())
         });
-    },
-    updateCharacter: function(character) {
-        console.log(character);
-        if (!character || !Meteor.user()) return null;
-        return Collections.Characters.update({_id: character._id}, {$set: character});
     },
     removeCharacter: function(character) {
         if (!character || !Meteor.user()) return null;

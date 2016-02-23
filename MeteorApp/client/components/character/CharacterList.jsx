@@ -11,7 +11,7 @@ CharacterList = React.createClass({
         const sub = Meteor.subscribe('character-list');
         return {
             ready: sub.ready(),
-            characters: Character.findAll()
+            characters: Characters.find().fetch()
         };
     },
 

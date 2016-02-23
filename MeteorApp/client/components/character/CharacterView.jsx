@@ -9,19 +9,14 @@ CharacterView = React.createClass({
     },
 
     getMeteorData() {
-        if (!this.props.routeParams._id) {
-            return {
-                ready: true,
-                character: Character.getEmptyJSON()
-            };
-        }
+        if (!this.props.routeParams._id) return {};
         var _id = this.props.routeParams._id;
 
         const sub = Meteor.subscribe("character", _id);
 
         return {
             ready: sub.ready(),
-            character: Character.find(_id)
+            character: Characters.findOne(_id)
         };
     },
 
@@ -47,16 +42,16 @@ CharacterView = React.createClass({
 
         switch (name) {
             case "New Attribute":
-                Character.addAttribute(c, value);
+                Meteor.call("addAttribute", c._id, value);
                 break;
             case "Attribute":
                 var i = c.attributeList.indexOf(this.state.editing);
                 if (i < 0) return; // should be an error
                 c.attributeList[i] = value;
-                Character.upsert(c);
+                Meteor.call("upsertCharacter", c);
                 break;
             case "New Inventory":
-                Character.addItem(c, {name: value});
+                Meteor.call("AddInventoryItem", c._id, {name: value});
                 break;
             case "Inventory":
                 var el = _.find(c.inventory, function(item) {
@@ -64,11 +59,11 @@ CharacterView = React.createClass({
                 }, this);
                 var i = c.inventory.indexOf(el);
                 c.inventory[i].name = value;
-                Character.upsert(c);
+                Meteor.call("upsertCharacter", c);
                 break;
             case "Name":
                 c.name = value;
-                Character.upsert(c);
+                Meteor.call("upsertCharacter", c);
                 break;
             default:
                 console.log("default case");

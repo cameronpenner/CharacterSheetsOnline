@@ -11,21 +11,19 @@ CharacterPreview = React.createClass({
     },
 
     getMeteorData() {
-        if (!this.props._id) {
-            return {
-                ready: true,
-                character: Character.getEmptyJSON()
-            };
-        }
+        if (!this.props._id) return {};
+        console.log(this.props._id);
         const sub = Meteor.subscribe("character", this.props._id);
 
         return {
             ready: sub.ready(),
-            character: Character.find(this.props._id)
-        };    },
+            character: Characters.findOne(this.props._id)
+        };
+    },
 
     render() {
         if (this.data.ready) {
+            console.log(this.data.character.name);
             return (
                 <span>{this.data.character.name}</span>
             );
