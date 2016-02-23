@@ -7,10 +7,14 @@ Character = {
         };
     },
     findAll: function() {
-        return Collections.Characters.find().fetch();
+        var cursor =  Collections.Characters.find();
+        if (cursor) return cursor.fetch();
+        return null;
     },
     find: function(_id) {
-        return Collections.Characters.findOne({_id: _id});
+        var result = Collections.Characters.findOne({_id: _id});
+        if (result) return result;
+        return null;
     },
     upsert: function(character) {
         return Meteor.call("upsertCharacter", character);

@@ -1,20 +1,42 @@
-describe("Characters Collection", function() {
+describe("Character", function() {
     'use strict';
+    var characterEmptyJSON = {
+        name: "",
+        inventory: [],
+        attributes: []
+    };
 
-    it("Characters.findAll()", function() {
-        var result = {};
-
-        spyOn(Collections.Characters, 'find').and.returnValue(result);
-        expect(Character.findAll()).toBe(result);
-        expect(Collections.Characters.find.calls.argsFor(0)).toEqual([]);
+    describe("getEmptyJSON", function() {
+        it("Should return empty JSON of a character", function () {
+            expect(Character.getEmptyJSON()).toEqual(characterEmptyJSON);
+        });
     });
 
-    it("Characters.find()", function() {
-        var _id = '3',
-            result = {_id: '3', name: 'joe'};
+    describe("findAll", function() {
+        it("Should return null when there are no characters in the collection",
+            function () {
+                expect(Character.findAll()).toBe(null);
+            }
+        );
+    });
 
-        spyOn(Collections.Characters, 'find').and.returnValue(result);
-        expect(Character.find(_id)).toBe(result);
-        expect(Collections.Characters.find.calls.argsFor(0)).toEqual([_id]);
+    describe("find", function() {
+        it("Should return null when there are no characters in the collection",
+            function () {
+                expect(Character.find()).toBe(null);
+            }
+        )
+    });
+
+    describe("upsert", function() {
+        it("Should return null if no argument is passed", function () {
+            expect(Character.upsert(null)).toBe(null);
+        });
+    });
+
+    describe("remove", function () {
+        it("Should return null if no argument is passed", function() {
+            expect(Character.remove(null)).toBe(null);
+        })
     });
 });

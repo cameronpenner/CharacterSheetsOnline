@@ -19,8 +19,6 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 react
 accounts-password
 aldeed:collection2
-character
-campaign
 reactrouter:react-router
 velocity:html-reporter
 sanjo:jasmine

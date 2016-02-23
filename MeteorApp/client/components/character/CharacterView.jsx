@@ -45,8 +45,6 @@ CharacterView = React.createClass({
             c = this.data.character;
         if (value.length == 0) return; // or maybe throw an error?
 
-        console.log(value, name);
-
         switch (name) {
             case "New Attribute":
                 Character.addAttribute(c, value);

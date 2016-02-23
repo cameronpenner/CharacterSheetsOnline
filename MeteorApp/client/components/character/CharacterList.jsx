@@ -18,7 +18,7 @@ CharacterList = React.createClass({
     saveNewCharacter(event) {
         event.preventDefault();
         var name = this.refs.name.value;
-        Character.insert({name: name});
+        Character.upsert({name: name});
 
         this.refs.name.value = "";
         this.toggleNewCharacterForm();
