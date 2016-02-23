@@ -18,7 +18,7 @@ CharacterList = React.createClass({
     saveNewCharacter(event) {
         event.preventDefault();
         var name = this.refs.name.value;
-        Character.upsert({name: name});
+        Meteor.call("upsertCharacter", {name: name});
 
         this.refs.name.value = "";
         this.toggleNewCharacterForm();
@@ -27,7 +27,7 @@ CharacterList = React.createClass({
     toggleNewCharacterForm(event) {
         if (event) event.preventDefault();
         this.setState({
-            showNewCharForm: !this.state.setNewCharForm
+            showNewCharForm: !this.state.showNewCharForm
         });
     },
 
@@ -56,12 +56,14 @@ CharacterList = React.createClass({
                         <input type="text"
                                className="form-control"
                                ref="name" />
-                        <button type="button"
-                                className="btn btn-default"
-                                onClick={this.saveNewCharacter}>Save</button>
-                        <button type="button"
-                                className="btn btn-default"
-                                onClick={this.toggleNewCharacterForm}>Cancel</button>
+                        <div className="input-group-btn">
+                            <button type="button"
+                                    className="btn btn-default"
+                                    onClick={this.saveNewCharacter}>Save</button>
+                            <button type="button"
+                                    className="btn btn-default"
+                                    onClick={this.toggleNewCharacterForm}>Cancel</button>
+                        </div>
                     </div> :
                     <button type="button"
                             className="btn btn-default"

@@ -91,19 +91,26 @@ CharacterView = React.createClass({
     renderForm(name, value) {
         if (!this.state.renderOneEdit) {
             this.state.renderOneEdit = true;
+
+            //can't delete the name
+            var deleteFunc = null;
+            if (this.state.editing != "Name: " && this.state.editing != this.data.character.name) {
+                deleteFunc = this.delete;
+            }
+
             return (
                 <li key={name}
                     className="list-group-item">
                     <Form name={name}
                           value={value}
                           save={this.save}
-                          delete={this.delete}
+                          delete={deleteFunc}
                           cancel={this.cancelEdit}/>
                 </li>
             );
         }
         else {
-            return <div>Error Rendering Form...</div>;
+            return <div onClick={this.cancelEdit}>Error Rendering Form...</div>;
         }
     },
 
@@ -115,7 +122,6 @@ CharacterView = React.createClass({
                         this.renderForm("Name", this.data.character.name) :
                         <h2 onClick={this.setEditingState}>Name: {this.data.character.name}</h2>
                     }
-
 
 
                     <h4>Owner: {this.data.character.owner_name}</h4>

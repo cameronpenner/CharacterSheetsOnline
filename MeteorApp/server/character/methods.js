@@ -8,7 +8,7 @@ var newCharValues = function() {
 
 Meteor.methods({
     upsertCharacter: function(character) {
-        if (!character || character == {} || !Meteor.user()) return null;
+        if (!character || !Meteor.user()) return null;
         return Characters.upsert({
             _id: character._id
         }, {
@@ -32,7 +32,7 @@ Meteor.methods({
         });
     },
     removeInventoryItem: function(_id, item) {
-        if (!character || !Meteor.user()) return null;
+        if (!_id || !item || !Meteor.user()) return null;
         return Characters.update({
             _id: _id
         }, {

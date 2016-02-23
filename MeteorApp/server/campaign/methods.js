@@ -29,6 +29,7 @@ Meteor.methods({
     },
 
     removeCampaign: function(campaign) {
+        if (!campaign || !campaign._id || ! Meteor.user()) return null;
         return Campaigns.remove({_id: campaign._id});
     }
 });
