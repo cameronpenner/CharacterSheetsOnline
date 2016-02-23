@@ -9,7 +9,7 @@ var newCharValues = function() {
 Meteor.methods({
     upsertCharacter: function(character) {
         if (!character || character == {} || !Meteor.user()) return null;
-        return Collections.Characters.upsert({
+        return Characters.upsert({
             _id: character._id
         }, {
             $set: character
@@ -19,11 +19,11 @@ Meteor.methods({
     },
     removeCharacter: function(character) {
         if (!character || !Meteor.user()) return null;
-        return Collections.Characters.remove({_id: character._id});
+        return Characters.remove({_id: character._id});
     },
     addInventoryItem: function(_id, item) {
         if (!_id || !item || !Meteor.user()) return null;
-        return Collections.Characters.update({
+        return Characters.update({
             _id: _id
         }, {
             $push: {
@@ -33,7 +33,7 @@ Meteor.methods({
     },
     removeInventoryItem: function(_id, item) {
         if (!character || !Meteor.user()) return null;
-        return Collections.Characters.update({
+        return Characters.update({
             _id: _id
         }, {
             $pull: {
@@ -43,7 +43,7 @@ Meteor.methods({
     },
     addAttribute: function(_id, attribute) {
         if (!_id || !attribute || !Meteor.user()) return null;
-        return Collections.Characters.update({
+        return Characters.update({
             _id: _id
         },{
             $push: {
