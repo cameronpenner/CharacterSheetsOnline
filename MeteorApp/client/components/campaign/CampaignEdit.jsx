@@ -19,13 +19,13 @@ CampaignEdit = React.createClass({
         if (_id) {
             Meteor.subscribe("campaign", _id, {
                 onReady: function() {
-                    setCampaign(Campaign.find(_id));
+                    setCampaign(Campaigns.findOne(_id));
                     self.setState({edit: true});
                 }
             });
         }
 
-        data.campaigns = Campaign.findAll();
+        data.campaigns = Campaigns.find().fetch();
 
         return data;
     },
@@ -46,13 +46,13 @@ CampaignEdit = React.createClass({
         campaign.name = this.refs.campaignName.value.trim();
  
         var self = this;
-        (Campaign.upsert(campaign, function(id) {
+        Meteor.call("upsertCampaign", campaign, function(id) {
             if (shouldRedirect) {
                 self.data.campaign = campaign;
                 self.data.campaign._id = id;
                 self.setState({edit: true});
             }
-        }));
+        });
     },
     
     getOperationName() {

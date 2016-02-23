@@ -3,7 +3,7 @@ AddPlayers = React.createClass({
     handlePlayerSubmit(event) {
         event.preventDefault();
         var playerName = this.refs.playerName.value.trim();
-        Campaign.addPlayer(this.props.campaign, playerName);
+        Meteor.call("addPlayer", this.props.campaign, playerName);
     },
 
 	render() {

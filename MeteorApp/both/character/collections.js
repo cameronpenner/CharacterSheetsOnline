@@ -1,5 +1,4 @@
-Schema = {};
-Schema.Character = new SimpleSchema({
+const characterSchema = new SimpleSchema({
     name: {
         type: String
     },
@@ -44,3 +43,6 @@ Schema.Character = new SimpleSchema({
         optional: true,
     }
 });
+
+Characters = new Mongo.Collection('characters');
+Characters.attachSchema(characterSchema);

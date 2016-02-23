@@ -10,7 +10,7 @@ Meteor.methods({
 
     addPlayer: function(campaign, playerName) {
         if (!campaign || !Meteor.user() || !playerName) return null;
-        return Collections.Campaigns.update({
+        return Campaigns.update({
             _id: campaign._id
         }, {
             $addToSet: {players: playerName}
@@ -19,7 +19,7 @@ Meteor.methods({
 
     upsertCampaign: function(campaign) {
         if (!campaign || !Meteor.user()) return null;
-        return Collections.Campaigns.upsert({
+        return Campaigns.upsert({
             _id: campaign._id
         }, {
             $set: campaign
@@ -29,6 +29,7 @@ Meteor.methods({
     },
 
     removeCampaign: function(campaign) {
-        return Collections.Campaigns.remove({_id: campaign._id});
+        if (!campaign || !campaign._id || ! Meteor.user()) return null;
+        return Campaigns.remove({_id: campaign._id});
     }
 });

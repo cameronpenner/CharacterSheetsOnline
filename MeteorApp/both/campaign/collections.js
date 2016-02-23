@@ -1,5 +1,4 @@
-Schema = {};
-Schema.Campaigns = new SimpleSchema({
+const campaignSchema = new SimpleSchema({
     name: {
         type: String
     },
@@ -16,3 +15,6 @@ Schema.Campaigns = new SimpleSchema({
         type: [String]
     }
 });
+
+Campaigns = new Mongo.Collection('campaigns');
+Campaigns.attachSchema(campaignSchema);
