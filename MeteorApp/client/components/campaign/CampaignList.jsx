@@ -50,15 +50,33 @@ CampaignList = React.createClass({
 
     render() {
         return (
-            <div>
-                <h3>Campaigns List</h3>
-                <ul>
-                    {this.data.ready ? this.getListItems() : 'loading'}
-                </ul>
+            <div className="container">
+                <h3>Campaigns</h3>
+                    {this.data.campaigns.map((campaign) => {
+                        return <CampaignGridElement
+                            key={campaign._id}
+                            campaign={campaign}/>;
+                    })}
+                    <CampaignGridElement addButton={true}/>
             </div>
         );
     }
 });
+
+CampaignGridElement = React.createClass({
+    // defines the div that the campaign is held in - serves two purposes:
+    // 1. something to pass key to for .map()
+    // 2. defines the bootstrap class for the grid
+
+    render() {
+        return (
+            <div className="col-md-4 text-center" style={{border: '1px solid black'}}>
+                {this.props.addButton ? <button className="btn btn-default"><span className="glyphicon glyphicon-plus"/></button> : <CampaignView campaign={this.props.campaign} /> }
+            </div>
+        );
+    }
+    
+})
 
 CampaignPlayer = React.createClass({
 

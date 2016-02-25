@@ -31,5 +31,13 @@ Meteor.methods({
     removeCampaign: function(campaign) {
         if (!campaign || !campaign._id || ! Meteor.user()) return null;
         return Campaigns.remove({_id: campaign._id});
+    },
+
+    canEdit: function(campaign) {
+        if (Meteor.user()._id === campaign.game_master) {
+            return true;
+        } else {
+            return false;
+        }
     }
 });
