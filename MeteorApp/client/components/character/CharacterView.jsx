@@ -51,7 +51,7 @@ CharacterView = React.createClass({
                 Meteor.call("upsertCharacter", c);
                 break;
             case "New Inventory":
-                Meteor.call("AddInventoryItem", c._id, {name: value});
+                Meteor.call("addInventoryItem", c._id, {name: value});
                 break;
             case "Inventory":
                 var el = _.find(c.inventory, function(item) {
