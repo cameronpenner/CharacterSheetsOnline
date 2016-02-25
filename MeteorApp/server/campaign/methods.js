@@ -39,5 +39,16 @@ Meteor.methods({
         } else {
             return false;
         }
+    },
+
+    playerExists: function(username) {
+        if (!Meteor.user()) return null;
+
+        console.log(username);
+        if (Meteor.users.findOne({username: username})) {
+            return true;
+        } else {
+            return false;
+        }
     }
 });
