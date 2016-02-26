@@ -13,6 +13,7 @@ const routes = (
         <Route path="campaign/list" component={CampaignList} />
         <Route path="campaign/new" component={CampaignEdit} />
         <Route path="campaign/:_id" component={CampaignEdit} />
+        <Route path="character/:_id/item/:_id" component={ItemView} />
     </Route>
 );
 

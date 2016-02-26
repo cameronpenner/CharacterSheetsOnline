@@ -3,6 +3,7 @@ Form = React.createClass({
         tempID: React.PropTypes.string,
         name: React.PropTypes.string,
         value: React.PropTypes.string,
+        id: React.PropTypes.string,
         save: React.PropTypes.func,
         delete: React.PropTypes.func,
         cancel: React.PropTypes.func
@@ -29,7 +30,8 @@ Form = React.createClass({
         return (
             <div className="input-group">
                 <div className="input-group">
-                    <input id={this.props.name}
+                    <input id={this.props.id}
+                           label={this.props.name}
                            className="form-control"
                            type="text"
                            ref={this.props.name}

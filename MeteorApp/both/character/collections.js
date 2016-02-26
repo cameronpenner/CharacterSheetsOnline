@@ -17,30 +17,13 @@ const characterSchema = new SimpleSchema({
         type: String,
         optional: true
     },
+    items: {
+        type: [String], //item id's
+        optional: true
+    },
     attributes: {
-        type: [Object],
+        type: [String], //attribute id's
         optional: true
-    },
-    inventory: {
-        type: [Object],
-        optional: true
-    },
-    'inventory.$.name': {
-        type: String
-    },
-    'inventory.$.parameters': {
-        type: [Object],
-        optional: true
-    },
-    'inventory.$.parameters.$.name': {
-        type: String
-    },
-    'inventory.$.parameters.$.value': {
-        type: String
-    },
-    attributeList: {
-        type: [String],
-        optional: true,
     }
 });
 
