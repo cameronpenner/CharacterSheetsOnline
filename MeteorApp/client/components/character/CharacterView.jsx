@@ -119,10 +119,13 @@ CharacterView = React.createClass({
                 deleteFunc = this.delete;
             }
 
+            var tempID = new Mongo.ObjectID();
+
             return (
-                <li key={name}
+                <li key={tempID}
                     className="list-group-item">
-                    <Form name={name}
+                    <Form tempID={tempID}
+                          name={name}
                           value={value}
                           id={key}
                           save={this.save}
