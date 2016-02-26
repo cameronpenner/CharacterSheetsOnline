@@ -11,7 +11,7 @@ CampaignEdit = React.createClass({
 
     getMeteorData() {
         var _id = this.props.routeParams._id;
-        var data = {currentUser: Meteor.userId()};
+        var data = {currentUser: Meteor.userId(), currentUsername: Meteor.user().username};
         var setCampaign = this.setCampaign;
         var setCampaignList = this.setCampaignList;
         var self = this;
@@ -41,6 +41,7 @@ CampaignEdit = React.createClass({
             campaign.players = [];
             campaign.characters = [];
             campaign.game_master = this.data.currentUser;
+            campaign.game_master_name = this.data.currentUsername;
         }
        
         campaign.name = this.refs.campaignName.value.trim();

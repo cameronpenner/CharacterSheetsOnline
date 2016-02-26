@@ -50,5 +50,10 @@ Meteor.methods({
                     attributeList: attribute
             }
         });
+    },
+
+    getCharacter: function(_id) {
+        if (!_id) return null;
+        return Characters.findOne(_id);
     }
 });

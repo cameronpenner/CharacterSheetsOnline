@@ -32,30 +32,28 @@ CampaignList = React.createClass({
     mixins:[ReactMeteorData],
 
     getMeteorData() {
-        const sub = Meteor.subscribe('campaign-list');
+        const campaignSub = Meteor.subscribe('campaign-list');
+        const characterSub = Meteor.subscribe('character-list');
+
         return {
-            ready: sub.ready(),
-            campaigns: Campaigns.find().fetch()
+            ready: campaignSub.ready() && characterSub.ready(),
+            campaigns: Campaigns.find().fetch(),
+            characters: Characters.find().fetch()
         }
     },
 
-    getListItems() {
-        return this.data.campaigns.map((campaign) => {
-            return <CampaignListItem
-                key={campaign._id}
-                campaign={campaign}/>;
-
-        });
-    },
-
     render() {
+        console.log(this.data.characters);
+        console.log(this.data.campaigns);
+        var self = this;
         return (
-            <div className="container">
+            <div>
                 <h3>Campaigns</h3>
                     {this.data.campaigns.map((campaign) => {
                         return <CampaignGridElement
                             key={campaign._id}
-                            campaign={campaign}/>;
+                            campaign={campaign}
+                            characters={self.data.characters}/>;
                     })}
                     <CampaignGridElement addButton={true}/>
             </div>
@@ -70,8 +68,8 @@ CampaignGridElement = React.createClass({
 
     render() {
         return (
-            <div className="col-md-4 text-center" style={{border: '1px solid black'}}>
-                {this.props.addButton ? <button className="btn btn-default"><span className="glyphicon glyphicon-plus"/></button> : <CampaignView campaign={this.props.campaign} /> }
+            <div className="row" style={{border: '1px solid black'}}>
+                {this.props.addButton ? <button className="btn btn-default"><span className="glyphicon glyphicon-plus"/></button> : <CampaignView campaign={this.props.campaign} characters={this.props.characters}/> }
             </div>
         );
     }

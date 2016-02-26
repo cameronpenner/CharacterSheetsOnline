@@ -1,7 +1,5 @@
 var newCampaignValues = function() {
     return {
-        game_master: Meteor.userId(),
-        game_master_name: Meteor.user().username,
         createdAt: new Date()
     };
 }
