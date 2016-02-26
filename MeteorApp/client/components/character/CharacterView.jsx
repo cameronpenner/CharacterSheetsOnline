@@ -83,9 +83,22 @@ CharacterView = React.createClass({
 
     delete(event) {
         event.preventDefault();
-        //handle deleting similar to how saving is handled...
+        var id = $(event.target.parentNode.previousSibling).attr("id"),
+            name = $(event.target.parentNode.previousSibling).attr("label"),
+            c = this.data.character;
+        switch (name) {
+            case "Attribute":
+                Meteor.call("removeCharacterAttribute", c._id, id);
+                break;
+            case "Item":
+                Meteor.call("removeCharacterItem", c._id, id);
+                break;
+            default:
+                console.log("default case");
+        }
 
-        this.cancelEdit();
+        //return to just viewing
+        this.cancelEdit();    
     },
 
     cancelEdit(event) {
@@ -125,11 +138,15 @@ CharacterView = React.createClass({
 
     displayItem(id) {
         item = Items.findOne(id);
+        console.log(id);
+        console.log(item);
         return item.name;
     },
 
     displayAttribute(id) {
         attribute = Attributes.findOne(id);
+        console.log(id);
+        console.log(attribute);
         return attribute.name;
     },
 

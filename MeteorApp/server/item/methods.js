@@ -15,7 +15,7 @@ Meteor.methods({
         return result;
     },
     removeItem: function(itemId) {
-        if (!item || !Meteor.user()) return null;
+        if (!itemId || !Meteor.user()) return null;
         return Items.remove({_id: itemId});
     }
 });

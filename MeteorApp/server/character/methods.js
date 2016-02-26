@@ -33,10 +33,9 @@ Meteor.methods({
             } 
         });
     },
-    removeChracterItem: function(_id, itemId) {
-        if (!_id || !item || !Meteor.user()) return null;
-        //do something here about deleting the item
-        removeItem(itemId);
+    removeCharacterItem: function(_id, itemId) {
+        if (!_id || !itemId || !Meteor.user()) return null;
+        Meteor.call("removeItem", itemId);
         return Characters.update({
             _id: _id
         }, {
@@ -55,5 +54,16 @@ Meteor.methods({
                 attributes: newAttribute.insertedId
             }
         });
-    }
+    },
+    removeCharacterAttribute: function(_id, attributeId) {
+        if (!_id || !attributeId || !Meteor.user()) return null;
+        Meteor.call("removeAttribute", attributeId);
+        return Characters.update({
+            _id: _id
+        }, {
+            $pull: {
+                attributes: attributeId
+            }
+        });    
+    },
 });
