@@ -197,16 +197,11 @@ CharacterView = React.createClass({
                     <div className="list-group">
                         {_.map(this.data.character.items, function (item) {
                             if(this.data.itemReady){
-                                if (this.checkEditingState(this.displayItem(item))) {
-                                    return this.renderForm("Item", this.displayItem(item), item);
-                                }
-                                else {
-                                    return (
-                                        <li className="list-group-item"
+                                return (
+                                        <a className="list-group-item"
                                             key={item}
-                                            onClick={this.setEditingState}>{this.displayItem(item)}</li>
-                                    );
-                                }
+                                            href={this.data.character._id+"/item/"+item}>{this.displayItem(item)}</a>
+                                );
                             
                             }
                             else {

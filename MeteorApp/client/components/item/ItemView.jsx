@@ -9,19 +9,20 @@ ItemView = React.createClass({
     },
 
     getMeteorData() {
-        if (!this.props.routeParams._id) {
-            return {
-                ready: true,
-                item: Item.getEmptyJSON()
-            };
-        }
-        var _id = this.props.routeParams._id;
+        if (!this.props.routeParams._id) return {};
+        var _id = this.props.routeParams._id[1];
+            c_id = this.props.routeParams._id[0]
 
         const sub = Meteor.subscribe("item", _id);
+        const attrSub = Meteor.subscribe('attribute-list');
+        const charSub = Meteor.subscribe("character", c_id);
 
         return {
             ready: sub.ready(),
-            item: Item.find(_id)
+            attrReady: attrSub.ready(),
+            charReady: charSub.ready(),
+            character: Characters.findOne(c_id),
+            item: Items.findOne(_id)
         };
     },
 
@@ -41,25 +42,26 @@ ItemView = React.createClass({
     save(event) {
         event.preventDefault();
         var value = event.target.parentNode.previousSibling.value,
-            name = $(event.target.parentNode.previousSibling).attr("id"),
+            id = $(event.target.parentNode.previousSibling).attr("id"),
+            name = $(event.target.parentNode.previousSibling).attr("label"),
             c = this.data.item;
         if (value.length == 0) return; // or maybe throw an error?
-
-        console.log(value, name);
-
         switch (name) {
             case "New Attribute":
-                // handle adding a new attribute
+                Meteor.call("addItemAttribute", c._id, {name: value});
                 break;
             case "Attribute":
-                var i = c.attributeList.indexOf(this.state.editing);
-                if (i < 0) return; // should be an error
-                c.attributeList[i] = value;
-                Item.update(c);
-                break;            
+                console.log(id);
+                attribute = Attributes.findOne(id);
+                console.log(attribute);
+                attribute.name = value;
+                console.log(attribute);
+                Meteor.call("upsertAttribute", attribute);
+                Meteor.call("upsertItem", c);
+                break;
             case "Name":
                 c.name = value;
-                Item.update(c);
+                Meteor.call("upsertItem", c);
                 break;
             default:
                 console.log("default case");
@@ -71,9 +73,19 @@ ItemView = React.createClass({
 
     delete(event) {
         event.preventDefault();
-        //handle deleting similar to how saving is handled...
+        var id = $(event.target.parentNode.previousSibling).attr("id"),
+            name = $(event.target.parentNode.previousSibling).attr("label"),
+            c = this.data.item;
+        switch (name) {
+            case "Attribute":
+                Meteor.call("removeItemAttribute", c._id, id);
+                break;
+            default:
+                console.log("default case");
+        }
 
-        this.cancelEdit();
+        //return to just viewing
+        this.cancelEdit();    
     },
 
     cancelEdit(event) {
@@ -84,23 +96,38 @@ ItemView = React.createClass({
         })
     },
 
-    renderForm(name, value) {
+    renderForm(name, value, key) {
         if (!this.state.renderOneEdit) {
             this.state.renderOneEdit = true;
+
+            //can't delete the name
+            var deleteFunc = null;
+            if (this.state.editing != "Name: " && this.state.editing != this.data.item.name) {
+                deleteFunc = this.delete;
+            }
+
             return (
                 <li key={name}
                     className="list-group-item">
                     <Form name={name}
                           value={value}
+                          id={key}
                           save={this.save}
-                          delete={this.delete}
+                          delete={deleteFunc}
                           cancel={this.cancelEdit}/>
                 </li>
             );
         }
         else {
-            return <div>Error Rendering Form...</div>;
+            return <div onClick={this.cancelEdit}>Error Rendering Form...</div>;
         }
+    },
+
+    displayAttribute(id) {
+        attribute = Attributes.findOne(id);
+        console.log(id);
+        console.log(attribute);
+        return attribute.name;
     },
 
     render() {
@@ -112,20 +139,28 @@ ItemView = React.createClass({
                         <h2 onClick={this.setEditingState}>Name: {this.data.item.name}</h2>
                     }
 
-                    <h4>Owner: {this.data.item.owner}</h4>
+                    {this.data.charReady ? <a style={{color:'black',textDecoration:'none'}}
+                                                href={"/character/"+this.data.character._id}><h4>Owner: {this.data.character.name}</h4></a> : Loading}
 
                     <h3>Attributes</h3>
                     <div className="list-group">
-                        {_.map(this.data.item.attributeList, function (item) {
-                            if (this.checkEditingState(item)) {
-                                return this.renderForm("Attribute", item)
+                        {_.map(this.data.item.attributes, function (attribute) {
+                            if(this.data.attrReady){
+                                if (this.checkEditingState(this.displayAttribute(attribute))) {
+                                    return this.renderForm("Attribute", this.displayAttribute(attribute), attribute)
+                                }
+                                else {
+                                    return (
+                                        <li className="list-group-item"
+                                            key={attribute}
+                                            onClick={this.setEditingState}>{this.displayAttribute(attribute)}</li>
+                                    );
+                                }
                             }
                             else {
-                                return (
-                                    <li className="list-group-item"
-                                        key={item}
-                                        onClick={this.setEditingState}>{item}</li>
-                                );
+                                <li className="list-group-item"
+                                            key={attribute}
+                                            onClick={this.setEditingState}>loading...</li>
                             }
                         }, this)}
                     </div>
@@ -135,7 +170,7 @@ ItemView = React.createClass({
                                 className="btn btn-default"
                                 onClick={this.setEditingState}>New Attribute</button>
                     }
-                </div>                    
+                </div>
             );
         }
         else {
