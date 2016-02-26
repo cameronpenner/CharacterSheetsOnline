@@ -12,10 +12,14 @@ CharacterView = React.createClass({
         if (!this.props.routeParams._id) return {};
         var _id = this.props.routeParams._id;
 
-        const sub = Meteor.subscribe("character", _id);
+        const charSub = Meteor.subscribe("character", _id);
+        const itemSub = Meteor.subscribe('item-list');
+        const attrSub = Meteor.subscribe('attribute-list');
 
         return {
-            ready: sub.ready(),
+            ready: charSub.ready(),
+            itemReady: itemSub.ready(),
+            attrReady: attrSub.ready(),
             character: Characters.findOne(_id)
         };
     },
@@ -36,29 +40,33 @@ CharacterView = React.createClass({
     save(event) {
         event.preventDefault();
         var value = event.target.parentNode.previousSibling.value,
-            name = $(event.target.parentNode.previousSibling).attr("id"),
+            id = $(event.target.parentNode.previousSibling).attr("id"),
+            name = $(event.target.parentNode.previousSibling).attr("label"),
             c = this.data.character;
         if (value.length == 0) return; // or maybe throw an error?
-
         switch (name) {
             case "New Attribute":
-                Meteor.call("addAttribute", c._id, value);
+                Meteor.call("addCharacterAttribute", c._id, {name: value});
                 break;
             case "Attribute":
-                var i = c.attributeList.indexOf(this.state.editing);
-                if (i < 0) return; // should be an error
-                c.attributeList[i] = value;
+                console.log(id);
+                attribute = Attributes.findOne(id);
+                console.log(attribute);
+                attribute.name = value;
+                console.log(attribute);
+                Meteor.call("upsertAttribute", attribute);
                 Meteor.call("upsertCharacter", c);
                 break;
-            case "New Inventory":
-                Meteor.call("AddInventoryItem", c._id, {name: value});
+            case "New Item":
+                Meteor.call("addCharacterItem", c._id, {name: value});
                 break;
-            case "Inventory":
-                var el = _.find(c.inventory, function(item) {
-                    return item.name == this.state.editing
-                }, this);
-                var i = c.inventory.indexOf(el);
-                c.inventory[i].name = value;
+            case "Item":
+                console.log(id);
+                item = Items.findOne(id);
+                console.log(item);
+                item.name = value;
+                console.log(item);
+                Meteor.call("upsertItem", item);
                 Meteor.call("upsertCharacter", c);
                 break;
             case "Name":
@@ -88,7 +96,7 @@ CharacterView = React.createClass({
         })
     },
 
-    renderForm(name, value) {
+    renderForm(name, value, key) {
         if (!this.state.renderOneEdit) {
             this.state.renderOneEdit = true;
 
@@ -103,6 +111,7 @@ CharacterView = React.createClass({
                     className="list-group-item">
                     <Form name={name}
                           value={value}
+                          id={key}
                           save={this.save}
                           delete={deleteFunc}
                           cancel={this.cancelEdit}/>
@@ -112,6 +121,16 @@ CharacterView = React.createClass({
         else {
             return <div onClick={this.cancelEdit}>Error Rendering Form...</div>;
         }
+    },
+
+    displayItem(id) {
+        item = Items.findOne(id);
+        return item.name;
+    },
+
+    displayAttribute(id) {
+        attribute = Attributes.findOne(id);
+        return attribute.name;
     },
 
     render() {
@@ -129,16 +148,23 @@ CharacterView = React.createClass({
 
                     <h3>Attributes</h3>
                     <div className="list-group">
-                        {_.map(this.data.character.attributeList, function (item) {
-                            if (this.checkEditingState(item)) {
-                                return this.renderForm("Attribute", item)
+                        {_.map(this.data.character.attributes, function (attribute) {
+                            if(this.data.attrReady){
+                                if (this.checkEditingState(this.displayAttribute(attribute))) {
+                                    return this.renderForm("Attribute", this.displayAttribute(attribute), attribute)
+                                }
+                                else {
+                                    return (
+                                        <li className="list-group-item"
+                                            key={attribute}
+                                            onClick={this.setEditingState}>{this.displayAttribute(attribute)}</li>
+                                    );
+                                }
                             }
                             else {
-                                return (
-                                    <li className="list-group-item"
-                                        key={item}
-                                        onClick={this.setEditingState}>{item}</li>
-                                );
+                                <li className="list-group-item"
+                                            key={attribute}
+                                            onClick={this.setEditingState}>loading...</li>
                             }
                         }, this)}
                     </div>
@@ -150,26 +176,34 @@ CharacterView = React.createClass({
                     }
 
 
-                    <h3>Inventory</h3>
+                    <h3>Items</h3>
                     <div className="list-group">
-                        {_.map(this.data.character.inventory, function (item) {
-                            if (this.checkEditingState(item.name)) {
-                                return this.renderForm("Inventory", item.name);
+                        {_.map(this.data.character.items, function (item) {
+                            if(this.data.itemReady){
+                                if (this.checkEditingState(this.displayItem(item))) {
+                                    return this.renderForm("Item", this.displayItem(item), item);
+                                }
+                                else {
+                                    return (
+                                        <li className="list-group-item"
+                                            key={item}
+                                            onClick={this.setEditingState}>{this.displayItem(item)}</li>
+                                    );
+                                }
+                            
                             }
                             else {
-                                return (
-                                    <li className="list-group-item"
-                                        key={item.name}
-                                        onClick={this.setEditingState}>{item.name}</li>
-                                );
+                                <li className="list-group-item"
+                                            key={item}
+                                            onClick={this.setEditingState}>loading...</li>
                             }
                         }, this)}
                     </div>
-                    {this.checkEditingState("New Inventory") ?
-                        this.renderForm("New Inventory", "") :
+                    {this.checkEditingState("New Item") ?
+                        this.renderForm("New Item", "") :
                         <button type="button"
                                 className="btn btn-default"
-                                onClick={this.setEditingState}>New Inventory</button>
+                                onClick={this.setEditingState}>New Item</button>
                     }
                 </div>
             );

@@ -21,33 +21,38 @@ Meteor.methods({
         if (!character || !Meteor.user()) return null;
         return Characters.remove({_id: character._id});
     },
-    addInventoryItem: function(_id, item) {
+    addCharacterItem: function(_id, item) {
         if (!_id || !item || !Meteor.user()) return null;
+        //do something here about creating the item
+        newItem = Meteor.call("upsertItem", item);
         return Characters.update({
             _id: _id
         }, {
             $push: {
-                inventory: item
-            }
+                items: newItem.insertedId
+            } 
         });
     },
-    removeInventoryItem: function(_id, item) {
+    removeChracterItem: function(_id, itemId) {
         if (!_id || !item || !Meteor.user()) return null;
+        //do something here about deleting the item
+        removeItem(itemId);
         return Characters.update({
             _id: _id
         }, {
             $pull: {
-                inventory: item
+                items: itemId
             }
         });
     },
-    addAttribute: function(_id, attribute) {
+    addCharacterAttribute: function(_id, attribute) {
         if (!_id || !attribute || !Meteor.user()) return null;
+        newAttribute = Meteor.call("upsertAttribute", attribute);
         return Characters.update({
             _id: _id
         },{
             $push: {
-                    attributeList: attribute
+                attributes: newAttribute.insertedId
             }
         });
     }
