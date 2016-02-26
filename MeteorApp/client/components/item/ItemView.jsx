@@ -136,11 +136,11 @@ ItemView = React.createClass({
                 <div className="container">
                     {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
                         this.renderForm("Name", this.data.item.name) :
-                        <h2 onClick={this.setEditingState}>Name: {this.data.item.name}</h2>
+                        <h2 onClick={this.setEditingState}>Item: {this.data.item.name}</h2>
                     }
 
                     {this.data.charReady ? <a style={{color:'black',textDecoration:'none'}}
-                                                href={"/character/"+this.data.character._id}><h4>Owner: {this.data.character.name}</h4></a> : Loading}
+                                                href={"/character/"+this.data.character._id}><h4>Owner: {this.data.character.name}</h4></a> : <h4>Loading</h4>}
 
                     <h3>Attributes</h3>
                     <div className="list-group">
