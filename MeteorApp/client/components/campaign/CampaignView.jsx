@@ -1,7 +1,7 @@
 CampaignView = React.createClass({
 
 	getInitialState() {
-		return({editing: false, canEdit: false, characterLookup: {}});
+		return({editing: false, canEdit: false, playerBackup: [], characterLookup: {}});
 	},
 
 	componentDidMount() {
@@ -106,6 +106,13 @@ CampaignView = React.createClass({
 	},
 
 	toggleEditing() {
+		if (!this.state.editing) { // editing is about to start
+			this.setState({playerBackup: this.props.campaign.players});
+			console.log(this.state.playerBackup);
+		} else { // editing is done but not saved
+			console.log(this.state.playerBackup);
+			this.props.campaign.players = this.state.playerBackup;
+		}
 		this.setState({editing: !this.state.editing});
 	},
 
@@ -143,6 +150,7 @@ CampaignView = React.createClass({
 
 	save() {
 		this.props.campaign.name = this.refs.name.value;
+		this.props.game_master_name = this.refs.gamemaster.value;
 		this.setState({editing: false});
 		Meteor.call("upsertCampaign", this.props.campaign);
 	},

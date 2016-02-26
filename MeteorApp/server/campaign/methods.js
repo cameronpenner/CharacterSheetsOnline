@@ -17,6 +17,14 @@ Meteor.methods({
 
     upsertCampaign: function(campaign) {
         if (!campaign || !Meteor.user()) return null;
+
+        if (!campaign.game_master) {
+            campaign.game_master = Meteor.userId();
+        }
+        if (!campaign.game_master_name) {
+            campaign.game_master_name = Meteor.user().username;
+        }
+
         return Campaigns.upsert({
             _id: campaign._id
         }, {

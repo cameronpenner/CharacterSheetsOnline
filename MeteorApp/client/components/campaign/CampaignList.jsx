@@ -43,8 +43,6 @@ CampaignList = React.createClass({
     },
 
     render() {
-        console.log(this.data.characters);
-        console.log(this.data.campaigns);
         var self = this;
         return (
             <div>
@@ -55,9 +53,21 @@ CampaignList = React.createClass({
                             campaign={campaign}
                             characters={self.data.characters}/>;
                     })}
-                    <CampaignGridElement addButton={true}/>
+                    <CampaignGridElement addButton={true} createCampaign={this.createCampaign}/>
             </div>
         );
+    },
+
+    createCampaign() {
+        var campaign = {};
+        campaign.name = "new campaign";
+        campaign.players = [];
+        campaign.characters = [];
+        campaign.game_master = this.data.currentUser;
+        campaign.game_master_name = this.data.currentUsername;
+
+        Meteor.call("upsertCampaign", campaign);
+
     }
 });
 
@@ -69,7 +79,7 @@ CampaignGridElement = React.createClass({
     render() {
         return (
             <div className="row" style={{border: '1px solid black'}}>
-                {this.props.addButton ? <button className="btn btn-default"><span className="glyphicon glyphicon-plus"/></button> : <CampaignView campaign={this.props.campaign} characters={this.props.characters}/> }
+                {this.props.addButton ? <button className="btn btn-default" onClick={this.props.createCampaign}><span className="glyphicon glyphicon-plus"/></button> : <CampaignView campaign={this.props.campaign} characters={this.props.characters}/> }
             </div>
         );
     }
