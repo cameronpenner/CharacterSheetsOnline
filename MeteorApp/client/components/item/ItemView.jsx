@@ -22,7 +22,8 @@ ItemView = React.createClass({
             attrReady: attrSub.ready(),
             charReady: charSub.ready(),
             character: Characters.findOne(c_id),
-            item: Items.findOne(_id)
+            item: Items.findOne(_id),
+            attributes: Attributes.find({_id: {$in: 'item.attributes'}})
         };
     },
 
@@ -123,13 +124,6 @@ ItemView = React.createClass({
         }
     },
 
-    displayAttribute(id) {
-        attribute = Attributes.findOne(id);
-        console.log(id);
-        console.log(attribute);
-        return attribute.name;
-    },
-
     render() {
         if (this.data.ready) {
             return (
@@ -144,25 +138,20 @@ ItemView = React.createClass({
 
                     <h3>Attributes</h3>
                     <div className="list-group">
-                        {_.map(this.data.item.attributes, function (attribute) {
-                            if(this.data.attrReady){
-                                if (this.checkEditingState(this.displayAttribute(attribute))) {
-                                    return this.renderForm("Attribute", this.displayAttribute(attribute), attribute)
+                        {this.data.attrReady ?
+                            _.map(this.data.attributes, function(attribute) {
+                                if (this.checkEditingState(attribute.name)) {
+                                    return this.renderForm("Attribute", attribute.name, attribute._id);
                                 }
                                 else {
                                     return (
                                         <li className="list-group-item"
-                                            key={attribute}
-                                            onClick={this.setEditingState}>{this.displayAttribute(attribute)}</li>
+                                            key={attribute._id}
+                                            onClick={this.setEditingState}>{attribute.name}</li>
                                     );
                                 }
-                            }
-                            else {
-                                <li className="list-group-item"
-                                            key={attribute}
-                                            onClick={this.setEditingState}>loading...</li>
-                            }
-                        }, this)}
+                            }, this) : 'loading'
+                        }
                     </div>
                     {this.checkEditingState("New Attribute") ?
                         this.renderForm("New Attribute", "") :
