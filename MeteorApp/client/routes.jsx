@@ -9,11 +9,9 @@ const createHistory = ReactRouter.history.createHistory;
 const routes = (
     <Route path="/" component={AppBody}>
         <Route path="character/list" component={CharacterList} />
-        <Route path="character/new" component={CharacterEdit} />
-        <Route path="character/:_id" component={CharacterEdit} />
+        <Route path="character/:_id" component={CharacterView} />
         <Route path="campaign/list" component={CampaignList} />
-        <Route path="campaign/new" component={CampaignEdit} />
-        <Route path="campaign/:_id" component={CampaignEdit} />
+        <Route path="character/:_id/item/:_id" component={ItemView} />
     </Route>
 );
 

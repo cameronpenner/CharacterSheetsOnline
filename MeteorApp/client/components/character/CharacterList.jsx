@@ -1,36 +1,50 @@
-var CharListItem = React.createClass({
-    getPath() {
-        return "/character/" + this.props.character._id
-    },
-    removeCharacter(event) {
-        event.preventDefault();
-        Character.remove(this.props.character);
-    },
-    render() {
-        return <li>
-            <a href={this.getPath()}>{this.props.character.name}</a>
-            <span> owned by <strong>{this.props.character.username || "public"}</strong></span>
-            <button onClick={this.removeCharacter}>Remove</button>
-        </li>;
-    }
-});
-
 CharacterList = React.createClass({
     mixins:[ReactMeteorData],
 
-    getMeteorData() {
-        const sub = Meteor.subscribe('character-list');
+    getInitialState() {
         return {
-            ready: sub.ready(),
-            characters: Character.findAll()
-        }
+            showNewCharForm: false
+        };
     },
 
-    getListItems() {
+    getMeteorData() {
+        const charSub = Meteor.subscribe('character-list');
+        const itemSub = Meteor.subscribe('item-list');
+        const attrSub = Meteor.subscribe('attribute-list');
+        return {
+            charReady: charSub.ready(),
+            itemReady: itemSub.ready(),
+            attrReady: attrSub.ready(),
+            characters: Characters.find().fetch()
+        };
+    },
+
+    saveNewCharacter(event) {
+        event.preventDefault();
+        var name = this.refs.name.value;
+        Meteor.call("upsertCharacter", {name: name});
+
+        this.refs.name.value = "";
+        this.toggleNewCharacterForm();
+    },
+
+    toggleNewCharacterForm(event) {
+        if (event) event.preventDefault();
+        this.setState({
+            showNewCharForm: !this.state.showNewCharForm
+        });
+    },
+
+    renderCharacters() {
         return this.data.characters.map((character) => {
-            return <CharListItem
-                key={character._id}
-                character={character}/>;
+            return (
+                <a className="list-group-item"
+                    key={character._id}
+                    href={"/character/"+character._id}
+                ><CharacterPreview
+                    _id={character._id}
+                /></a>
+            );
         });
     },
 
@@ -38,9 +52,28 @@ CharacterList = React.createClass({
         return (
             <div>
                 <h3>Characters List</h3>
-                <ul>
-                    {this.data.ready ? this.getListItems() : 'loading'}
-                </ul>
+                <div className="list-group">
+                    {this.data.charReady ? this.renderCharacters() : 'loading'}
+                </div>
+                {this.state.showNewCharForm ?
+                    <div className="input-group">
+                        <input type="text"
+                               className="form-control"
+                               ref="name" />
+                        <div className="input-group-btn">
+                            <button type="button"
+                                    className="btn btn-default"
+                                    onClick={this.saveNewCharacter}>Save</button>
+                            <button type="button"
+                                    className="btn btn-default"
+                                    onClick={this.toggleNewCharacterForm}>Cancel</button>
+                        </div>
+                    </div> :
+                    <button type="button"
+                            className="btn btn-default"
+                            onClick={this.toggleNewCharacterForm}>New Character</button>
+                }
+
             </div>
         );
     }
