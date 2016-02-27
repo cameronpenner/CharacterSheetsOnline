@@ -283,34 +283,26 @@ CharacterView = React.createClass({
                                     className="btn btn-default"
                                     onClick={this.setEditingState}>New Item</button>
                         }
+                        <h3>Presets</h3>
+                        <div className="input-group-presets">
+                            <button type="button"
+                                    className="Wizard Button"
+                                    label = {"Wizard"}
+                                    onClick={this.setType}>Wizard</button>
+                            <button type="button"
+                                    className="Thief Button"
+                                    label = {"Thief"}
+                                    onClick={this.setType}>Thief</button>
+                            <button type="button"
+                                    className="Warrior Button"
+                                    label = {"Warrior"}
+                                    onClick={this.setType}>Warrior</button>
+                            <button type="button"
+                                    className="Archer Button"
+                                    label = {"Archer"}
+                                    onClick={this.setType}>Archer</button>
+                        </div>
                     </div>
-                    {this.checkEditingState("New Item") ?
-                        this.renderForm("New Item", "") :
-                        <button type="button"
-                                className="btn btn-default"
-                                onClick={this.setEditingState}>New Item</button>
-                    }
-                    <h3>Presets</h3>
-                    <div className="input-group-presets">
-                        <button type="button"
-                                className="Wizard Button"
-                                label = {"Wizard"}
-                                onClick={this.setType}>Wizard</button>
-                        <button type="button"
-                                className="Thief Button"
-                                label = {"Thief"}
-                                onClick={this.setType}>Thief</button>
-                        <button type="button"
-                                className="Warrior Button"
-                                label = {"Warrior"}
-                                onClick={this.setType}>Warrior</button>
-                        <button type="button"
-                                className="Archer Button"
-                                label = {"Archer"}
-                                onClick={this.setType}>Archer</button>
-                    </div>
-                </div>
-            );
                 );
             }
             else {
