@@ -18,5 +18,9 @@ Meteor.methods({
     removeAttribute: function(attributeId) {
         if (!attributeId || !Meteor.user()) return null;
         return Attributes.remove({_id: attributeId});
+    },
+    removeAllAttributes: function(owner) {
+        if (!owner || !Meteor.user()) return null;
+        return Attributes.remove({_id: {$in: owner.attributes}});
     }
 });
