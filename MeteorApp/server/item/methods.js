@@ -40,4 +40,8 @@ Meteor.methods({
             }
         });    
     },
+    removeAllItems: function(owner) {
+        if (!owner || !Meteor.user()) return null;
+        return Items.remove({_id: {$in: owner.items}});
+    }
 });
