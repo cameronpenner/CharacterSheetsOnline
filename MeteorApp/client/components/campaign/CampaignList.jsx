@@ -35,7 +35,7 @@ CampaignList = React.createClass({
 
     createCampaign() {
         var campaign = {};
-        campaign.name = "new campaign";
+        campaign.name = "New Campaign";
         campaign.players = [];
         campaign.character_ids = [];
         campaign.game_master_name = this.data.currentUsername;

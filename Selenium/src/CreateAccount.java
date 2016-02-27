@@ -24,9 +24,9 @@ public class CreateAccount {
   public void testCreateAccount() throws Exception {
     driver.get(baseUrl + "/");
     driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys("jeff");
+    driver.findElement(By.id("username")).sendKeys("test");
     driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys("jeff");
+    driver.findElement(By.id("password")).sendKeys("test");
     driver.findElement(By.linkText("create an account")).click();
     driver.findElement(By.cssSelector("button.btn.btn-default")).click();
   }

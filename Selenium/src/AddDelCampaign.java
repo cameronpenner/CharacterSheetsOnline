@@ -1,13 +1,16 @@
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
+
 import org.junit.*;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class CreateAccountAndLogin {
+public class AddDelCampaign {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -21,21 +24,18 @@ public class CreateAccountAndLogin {
   }
 
   @Test
-  public void testCreateAccountAndLogin() throws Exception {
+  public void testAddCampaign() throws Exception {
     driver.get(baseUrl + "/");
-    driver.findElement(By.linkText("create an account")).click();
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("test");
     driver.findElement(By.id("password")).clear();
     driver.findElement(By.id("password")).sendKeys("test");
     driver.findElement(By.cssSelector("button.btn.btn-default")).click();
-    driver.findElement(By.linkText("Logout")).click();
-    driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys("test");
-    driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys("test");
+    driver.findElement(By.linkText("Campaigns")).click();
     driver.findElement(By.cssSelector("button.btn.btn-default")).click();
-    driver.findElement(By.linkText("Logout")).click();
+    assert driver.findElement(By.cssSelector("h3.panel-title")).getText().equals("New Campaign");
+    driver.findElement(By.xpath("//button[@type='button']")).click();
+    assert !driver.findElement(By.linkText("new campaign")).isDisplayed();
   }
 
   @After

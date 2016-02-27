@@ -7,7 +7,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class CreateAccountAndLogin {
+public class HomeButton {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -21,21 +21,21 @@ public class CreateAccountAndLogin {
   }
 
   @Test
-  public void testCreateAccountAndLogin() throws Exception {
+  public void testHomeButton() throws Exception {
     driver.get(baseUrl + "/");
-    driver.findElement(By.linkText("create an account")).click();
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("test");
     driver.findElement(By.id("password")).clear();
     driver.findElement(By.id("password")).sendKeys("test");
     driver.findElement(By.cssSelector("button.btn.btn-default")).click();
-    driver.findElement(By.linkText("Logout")).click();
-    driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys("test");
-    driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys("test");
-    driver.findElement(By.cssSelector("button.btn.btn-default")).click();
-    driver.findElement(By.linkText("Logout")).click();
+    driver.findElement(By.linkText("RPG Companion")).click();
+    assert driver.getCurrentUrl().equals(baseUrl + "/");
+    driver.findElement(By.linkText("Characters")).click();
+    driver.findElement(By.linkText("RPG Companion")).click();
+    assert driver.getCurrentUrl().equals(baseUrl + "/");
+    driver.findElement(By.linkText("Campaigns")).click();
+    driver.findElement(By.linkText("RPG Companion")).click();
+    assert driver.getCurrentUrl().equals(baseUrl + "/");
   }
 
   @After

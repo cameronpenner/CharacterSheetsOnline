@@ -1,3 +1,5 @@
+package com.example.tests;
+
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
@@ -7,7 +9,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class CreateAccountAndLogin {
+public class CreateAccount {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -16,26 +18,18 @@ public class CreateAccountAndLogin {
   @Before
   public void setUp() throws Exception {
     driver = new FirefoxDriver();
-    baseUrl = "http://localhost:3000";
+    baseUrl = "http://localhost:3000/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testCreateAccountAndLogin() throws Exception {
+  public void testCreateAccount() throws Exception {
     driver.get(baseUrl + "/");
     driver.findElement(By.linkText("create an account")).click();
     driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys("test");
+    driver.findElement(By.id("username")).sendKeys("cam");
     driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys("test");
-    driver.findElement(By.cssSelector("button.btn.btn-default")).click();
-    driver.findElement(By.linkText("Logout")).click();
-    driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys("test");
-    driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys("test");
-    driver.findElement(By.cssSelector("button.btn.btn-default")).click();
-    driver.findElement(By.linkText("Logout")).click();
+    driver.findElement(By.id("password")).sendKeys("cam");
   }
 
   @After
