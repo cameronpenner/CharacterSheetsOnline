@@ -155,73 +155,78 @@ CharacterView = React.createClass({
 
     render() {
         if (this.data.ready) {
-            return (
-                <div className="container">
-                    {this.checkEditingState("Name: ") || this.checkEditingState(this.data.character.name) ?
-                        this.renderForm("Name", this.data.character.name) :
-                        <h2 onClick={this.setEditingState}>Name: {this.data.character.name}</h2>
-                    }
+            if (this.data.character){
+                return (
+                    <div className="container">
+                        {this.checkEditingState("Name: ") || this.checkEditingState(this.data.character.name) ?
+                            this.renderForm("Name", this.data.character.name) :
+                            <h2 onClick={this.setEditingState}>Name: {this.data.character.name}</h2>
+                        }
 
 
-                    <h4>Owner: {this.data.character.owner_name}</h4>
+                        <h4>Owner: {this.data.character.owner_name}</h4>
 
 
-                    <h3>Attributes</h3>
-                    <div className="list-group">
-                        {_.map(this.data.character.attributes, function (attribute) {
-                            if(this.data.attrReady){
-                                if (this.checkEditingState(this.displayAttribute(attribute))) {
-                                    return this.renderForm("Attribute", this.displayAttribute(attribute), attribute)
+                        <h3>Attributes</h3>
+                        <div className="list-group">
+                            {_.map(this.data.character.attributes, function (attribute) {
+                                if(this.data.attrReady){
+                                    if (this.checkEditingState(this.displayAttribute(attribute))) {
+                                        return this.renderForm("Attribute", this.displayAttribute(attribute), attribute)
+                                    }
+                                    else {
+                                        return (
+                                            <li className="list-group-item"
+                                                key={attribute}
+                                                onClick={this.setEditingState}>{this.displayAttribute(attribute)}</li>
+                                        );
+                                    }
                                 }
                                 else {
-                                    return (
-                                        <li className="list-group-item"
-                                            key={attribute}
-                                            onClick={this.setEditingState}>{this.displayAttribute(attribute)}</li>
-                                    );
+                                    <li className="list-group-item"
+                                                key={attribute}
+                                                onClick={this.setEditingState}>loading...</li>
                                 }
-                            }
-                            else {
-                                <li className="list-group-item"
-                                            key={attribute}
-                                            onClick={this.setEditingState}>loading...</li>
-                            }
-                        }, this)}
-                    </div>
-                    {this.checkEditingState("New Attribute") ?
-                        this.renderForm("New Attribute", "") :
-                        <button type="button"
-                                className="btn btn-default"
-                                onClick={this.setEditingState}>New Attribute</button>
-                    }
+                            }, this)}
+                        </div>
+                        {this.checkEditingState("New Attribute") ?
+                            this.renderForm("New Attribute", "") :
+                            <button type="button"
+                                    className="btn btn-default"
+                                    onClick={this.setEditingState}>New Attribute</button>
+                        }
 
 
-                    <h3>Items</h3>
-                    <div className="list-group">
-                        {_.map(this.data.character.items, function (item) {
-                            if(this.data.itemReady){
-                                return (
-                                        <a className="list-group-item"
-                                            key={item}
-                                            href={this.data.character._id+"/item/"+item}>{this.displayItem(item)}</a>
-                                );
-                            
-                            }
-                            else {
-                                <li className="list-group-item"
-                                            key={item}
-                                            onClick={this.setEditingState}>loading...</li>
-                            }
-                        }, this)}
+                        <h3>Items</h3>
+                        <div className="list-group">
+                            {_.map(this.data.character.items, function (item) {
+                                if(this.data.itemReady){
+                                    return (
+                                            <a className="list-group-item"
+                                                key={item}
+                                                href={this.data.character._id+"/item/"+item}>{this.displayItem(item)}</a>
+                                    );
+                                
+                                }
+                                else {
+                                    <li className="list-group-item"
+                                                key={item}
+                                                onClick={this.setEditingState}>loading...</li>
+                                }
+                            }, this)}
+                        </div>
+                        {this.checkEditingState("New Item") ?
+                            this.renderForm("New Item", "") :
+                            <button type="button"
+                                    className="btn btn-default"
+                                    onClick={this.setEditingState}>New Item</button>
+                        }
                     </div>
-                    {this.checkEditingState("New Item") ?
-                        this.renderForm("New Item", "") :
-                        <button type="button"
-                                className="btn btn-default"
-                                onClick={this.setEditingState}>New Item</button>
-                    }
-                </div>
-            );
+                );
+            }
+            else {
+                return <div>No valid character found</div>;
+            }
         }
         else {
             return <div>loading</div>;
