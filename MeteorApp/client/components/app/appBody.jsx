@@ -23,8 +23,8 @@ AppBody = React.createClass({
                             {this.data.user != null ?
                                 <div>
                                     <ul className="nav navbar-nav">
-                                        <li><a href="/character/list">Character List</a></li>
-                                        <li><a href="/campaign/list">Campaign List</a></li>
+                                        <li><a href="/character/list">Characters</a></li>
+                                        <li><a href="/campaign/list">Campaigns</a></li>
                                     </ul>
                                     <u1 className="nav navbar-nav navbar-right">
                                         <li><a href="#" onClick={this.logout}>Logout</a></li>
