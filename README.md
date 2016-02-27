@@ -43,9 +43,12 @@ An additional note on our project's design pattern can be found [here](https://d
 ### End-to-End Tests (Selenium)  
 We have built a full test suite using the [Selenium](http://www.seleniumhq.org/) binding for Java in the `Selenium/` folder. Run the Meteor app locally in production mode using `meteor --production run` and make sure [Firefox](https://www.mozilla.org/en-US/firefox/desktop/) is installed. Then open the `Selenium/` folder as a project in [Eclipse](https://eclipse.org/) and run as JUnit 4 tests.
 
-### Unit Tests
+###Installation
+Follow the [Meteor Installation Guide](https://www.meteor.com/install). Once meteor is installed, `cd` into the MeteorApp/ directory and run `meteor`. The app will be available in your web browser at `localhost:3000`.
+
+###Unit Tests
 To run the server side unit tests, set the environment variable JASMINE_SERVER_UNIT=1.
 
-### Note about branches:  
-"master" is the release branch (use this for marking)  
+###Note about branches:  
+"master" is the release branch  
 "develop" is the default branch for developing that other branches should be branched off from
