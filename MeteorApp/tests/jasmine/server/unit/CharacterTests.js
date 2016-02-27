@@ -54,6 +54,4 @@ describe("Character Methods", function() {
             expect(Characters.remove.calls.count()).toEqual(1);
         });
     });
-
-    // Not testing Inventory/Attributes code yet because Irina is building it
 });
