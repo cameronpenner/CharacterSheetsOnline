@@ -12,7 +12,6 @@ CharacterPreview = React.createClass({
 
     getMeteorData() {
         if (!this.props._id) return {};
-        console.log(this.props._id);
         const sub = Meteor.subscribe("character", this.props._id);
 
         return {
@@ -23,7 +22,6 @@ CharacterPreview = React.createClass({
 
     render() {
         if (this.data.ready) {
-            console.log(this.data.character.name);
             return (
                 <span>{this.data.character.name}</span>
             );
