@@ -41,7 +41,7 @@ Our app code is found in the `MeteorApp/` directory, and is organized into `clie
 An additional note on our project's design pattern can be found [here](https://docs.google.com/document/d/1vymuKmtHZd4tbO8SAMZfaR9r_FIGkbHxl9ZcOTyFBr0/edit?usp=sharing).  
 
 ### End-to-End Tests (Selenium)  
-We have built a full test suite using the [Selenium](http://www.seleniumhq.org/) binding for Java in the `Selenium/` folder. Run the Meteor app locally in production mode using `meteor --production run` and make sure [Firefox](https://www.mozilla.org/en-US/firefox/desktop/) is installed. Then open the `Selenium/` folder as a project in [Eclipse](https://eclipse.org/) and run as JUnit 4 tests.
+We have built a full test suite using the [Selenium](http://www.seleniumhq.org/) binding for Java in the `Selenium/` folder. Run the Meteor app locally in production mode using `meteor --production run` and make sure [Firefox](https://www.mozilla.org/en-US/firefox/desktop/) is installed. Then open the `Selenium/` folder as a project in [Eclipse](https://eclipse.org/) and run as JUnit 4 tests. All tests should pass on the second run.
 
 ###Installation
 Follow the [Meteor Installation Guide](https://www.meteor.com/install). Once meteor is installed, `cd` into the MeteorApp/ directory and run `meteor`. The app will be available in your web browser at `localhost:3000`.
