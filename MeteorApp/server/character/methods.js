@@ -56,11 +56,6 @@ Meteor.methods({
         });
     },
 
-    getCharacter: function(_id) {
-        if (!_id) return null;
-        return Characters.findOne(_id);
-    },
-
     removeCharacterAttribute: function(_id, attributeId) {
         if (!_id || !attributeId || !Meteor.user()) return null;
         Meteor.call("removeAttribute", attributeId);
