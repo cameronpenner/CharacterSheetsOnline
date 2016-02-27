@@ -19,41 +19,49 @@ CampaignView = React.createClass({
 		return(
 			<div>
 			{this.state.editing ? 
-				<form>
-					<input type="text" ref="name" className="form-control" defaultValue={this.props.campaign.name}/>
-					<button type="button" className="btn btn-success" onClick={this.save}><span className="glyphicon glyphicon-ok"></span></button> 
-					<div className ="list-group">
-						{this.props.campaign.players.map((player, i) => {
-							return <div key={i} className="list-group-item">{player} <button className="btn pull-right btn-xs btn-default" type="button" onClick={this.removePlayer.bind(this, player)}><span className="glyphicon glyphicon-remove"></span></button></div>;
-						})}
+				<div className="panel panel-default">
+					<div className="panel-heading clearfix">
+						<button type="button" className="btn btn-success btn-sm pull-right" onClick={this.save}><span className="glyphicon glyphicon-ok"></span></button>
+						<button type="button" className="btn btn-cancel btn-danger btn-sm pull-right" onClick={this.toggleEditing}><span className="glyphicon glyphicon-remove"></span></button> 
+						<h3 className="panel-title pull-left">Editing {this.props.campaign.name}</h3>
 					</div>
+					<div className="panel-body">
+						<form>
+							<input type="text" ref="name" className="form-control" defaultValue={this.props.campaign.name}/>
+							<div className ="list-group">
+								{this.props.campaign.players.map((player, i) => {
+									return <div key={i} className="list-group-item">{player} <button className="btn pull-right btn-xs btn-default" type="button" onClick={this.removePlayer.bind(this, player)}><span className="glyphicon glyphicon-remove"></span></button></div>;
+								})}
+							</div>
 
-					<div className="input-group">
-						<input type="text" className="form-control" placeholder="Add player..." ref="newplayer" />
-						<span className="input-group-btn">
-							<button className="btn btn-default" type="button" onClick={this.addPlayer}>Add</button>
-						</span>
+							<div className="input-group">
+								<input type="text" className="form-control" placeholder="Add player..." ref="newplayer" />
+								<span className="input-group-btn">
+									<button className="btn btn-default" type="button" onClick={this.addPlayer}>Add</button>
+								</span>
 
+							</div>
+
+							<h4>Game master:</h4>
+							<select className="form-control" ref="gamemaster">
+								<option>{this.props.campaign.game_master_name}</option>
+								{this.props.campaign.players.map((player, i) => {
+									if (player != this.props.campaign.game_master_name) {
+										return <option key={i}>{player}</option>;
+									} else {
+										return null;
+									}
+								})}
+							</select>
+						</form>
 					</div>
-
-					<h4>Game master:</h4>
-					<select className="form-control" ref="gamemaster">
-						<option>{this.props.campaign.game_master_name}</option>
-						{this.props.campaign.players.map((player, i) => {
-							if (player != this.props.campaign.game_master_name) {
-								return <option key={i}>{player}</option>;
-							} else {
-								return null;
-							}
-						})}
-					</select>
-				</form>
+				</div>
 			: 
 				<div className="panel panel-default">
 					<div className="panel-heading clearfix">
 						{this.state.canEdit ? 
 							<div>
-								<button type="button" className="btn pull-right btn-danger btn-sm" onClick={this.props.onDelete.bind(null, this.props.campaign)}><span className="glyphicon glyphicon-remove"></span></button> 
+								<button type="button" className="btn pull-right btn-danger btn-sm" onClick={this.props.onDelete.bind(null, this.props.campaign)}><span className="glyphicon glyphicon-trash"></span></button> 
 								<button type="button" className="btn pull-right btn-default btn-sm" onClick={this.toggleEditing}><span className="glyphicon glyphicon-pencil"></span></button> 
 							</div>
 						: 
