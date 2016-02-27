@@ -17,14 +17,20 @@ ItemView = React.createClass({
         const attrSub = Meteor.subscribe('attribute-list');
         const charSub = Meteor.subscribe("character", c_id);
 
-        return {
+        var data = {
             ready: sub.ready(),
             attrReady: attrSub.ready(),
             charReady: charSub.ready(),
             character: Characters.findOne(c_id),
             item: Items.findOne(_id),
-            attributes: Attributes.find({_id: {$in: 'item.attributes'}})
+            attributes: []
         };
+
+        if (data.item && data.item.attributes) {
+            data.attributes = Attributes.find({_id: {$in: data.item.attributes}}).fetch();
+        }
+        console.log(data);
+        return data;
     },
 
     checkEditingState(str) {
