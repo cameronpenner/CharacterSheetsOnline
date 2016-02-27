@@ -20,7 +20,7 @@ AppBody = React.createClass({
                             <div className="navbar-header">
                                 <a className="navbar-brand" href="/">RPG Companion</a>
                             </div>
-                            {this.data.user ?
+                            {this.data.user != null ?
                                 <div>
                                     <ul className="nav navbar-nav">
                                         <li><a href="/character/list">Character List</a></li>
@@ -37,7 +37,7 @@ AppBody = React.createClass({
                 </header>
                 <div className="row">
                     <div className="col-lg-12">
-                        {this.data.user ? this.props.children : <SignIn/>}
+                        {this.data.user === null ? <SignIn/> : this.props.children}
                     </div>
                 </div>
             </div>

@@ -21,33 +21,37 @@ Meteor.methods({
         if (!character || !Meteor.user()) return null;
         return Characters.remove({_id: character._id});
     },
-    addInventoryItem: function(_id, item) {
+    addCharacterItem: function(_id, item) {
         if (!_id || !item || !Meteor.user()) return null;
+        //do something here about creating the item
+        newItem = Meteor.call("upsertItem", item);
         return Characters.update({
             _id: _id
         }, {
             $push: {
-                inventory: item
-            }
+                items: newItem.insertedId
+            } 
         });
     },
-    removeInventoryItem: function(_id, item) {
-        if (!_id || !item || !Meteor.user()) return null;
+    removeCharacterItem: function(_id, itemId) {
+        if (!_id || !itemId || !Meteor.user()) return null;
+        Meteor.call("removeItem", itemId);
         return Characters.update({
             _id: _id
         }, {
             $pull: {
-                inventory: item
+                items: itemId
             }
         });
     },
-    addAttribute: function(_id, attribute) {
+    addCharacterAttribute: function(_id, attribute) {
         if (!_id || !attribute || !Meteor.user()) return null;
+        newAttribute = Meteor.call("upsertAttribute", attribute);
         return Characters.update({
             _id: _id
         },{
             $push: {
-                    attributeList: attribute
+                attributes: newAttribute.insertedId
             }
         });
     },
@@ -55,5 +59,17 @@ Meteor.methods({
     getCharacter: function(_id) {
         if (!_id) return null;
         return Characters.findOne(_id);
-    }
+    },
+
+    removeCharacterAttribute: function(_id, attributeId) {
+        if (!_id || !attributeId || !Meteor.user()) return null;
+        Meteor.call("removeAttribute", attributeId);
+        return Characters.update({
+            _id: _id
+        }, {
+            $pull: {
+                attributes: attributeId
+            }
+        });    
+    },
 });

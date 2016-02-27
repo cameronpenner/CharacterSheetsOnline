@@ -1,7 +1,9 @@
 Form = React.createClass({
     propTypes: {
+        tempID: React.PropTypes.string,
         name: React.PropTypes.string,
         value: React.PropTypes.string,
+        id: React.PropTypes.string,
         save: React.PropTypes.func,
         delete: React.PropTypes.func,
         cancel: React.PropTypes.func
@@ -9,7 +11,8 @@ Form = React.createClass({
 
     getInitialState() {
         return {
-            value: this.props.value
+            value: this.props.value,
+            tempID: this.props.tempID
         }
     },
 
@@ -21,10 +24,14 @@ Form = React.createClass({
     },
 
     render() {
+
+        if (this.state.tempID != this.props.tempID) this.getInitialState();
+
         return (
             <div className="input-group">
                 <div className="input-group">
-                    <input id={this.props.name}
+                    <input id={this.props.id}
+                           label={this.props.name}
                            className="form-control"
                            type="text"
                            ref={this.props.name}
