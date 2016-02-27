@@ -1,5 +1,6 @@
 Meteor.publish('campaign-list', function () {
 	var user = Meteor.users.findOne({_id: this.userId});
+	if (!user) return null;
     return Campaigns.find({
 		$or: [
 			{game_master_name: user.username},
