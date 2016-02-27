@@ -245,9 +245,9 @@ CharacterView = React.createClass({
                                     }
                                 }
                                 else {
-                                    <li className="list-group-item"
+                                    return (<li className="list-group-item"
                                                 key={attribute}
-                                                onClick={this.setEditingState}>loading...</li>
+                                                onClick={this.setEditingState}>loading...</li>);
                                 }
                             }, this)}
                         </div>
@@ -271,9 +271,9 @@ CharacterView = React.createClass({
                                 
                                 }
                                 else {
-                                    <li className="list-group-item"
+                                    return (<li className="list-group-item"
                                                 key={item}
-                                                onClick={this.setEditingState}>loading...</li>
+                                                onClick={this.setEditingState}>loading...</li>);
                                 }
                             }, this)}
                         </div>
