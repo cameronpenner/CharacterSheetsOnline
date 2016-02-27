@@ -33,7 +33,7 @@ Please note that electronic discussion regarding the project is recorded in a Sl
 This installation guide is based on the [Meteor Installation Guide](https://www.meteor.com/install). On OSX or Linux, use `curl https://install.meteor.com/ | sh` to install the latest version of the Meteor Dev Kit. Once meteor is installed, clone this repository and `cd` into the MeteorApp/ directory and type `meteor`. The app will build and provide server output in the terminal. The web app will be available at `localhost:3000`.
 
 ### Versions and Dependencies  
-Our app is built on Meteor 1.2.1 and internally stores [package dependencies](https://github.com/cameronpenner/SoftwareEngineering2/blob/develop/MeteorApp/.meteor/packages) and [versions](https://github.com/cameronpenner/SoftwareEngineering2/blob/develop/MeteorApp/.meteor/versions)
+Our app is built on Meteor 1.2.1 and externally depends on Node v0.10.40. It internally stores [package dependencies](https://github.com/cameronpenner/SoftwareEngineering2/blob/develop/MeteorApp/.meteor/packages) and [versions](https://github.com/cameronpenner/SoftwareEngineering2/blob/develop/MeteorApp/.meteor/versions)
 
 ### Design Pattern  
 Our app code is found in the `MeteorApp/` directory, and is organized into `client/`, `server/` and `both/` directories, for code that runs on the client, server, and both the client and server, respectively. Within each of these directories are directories such as `character/` and `campaign/` which specify which functional part of the app or user story the code within them is for. Unit and integration tests are separated into the `MeteorApp/tests/` directory and are run automatically within the app when it is built.  
