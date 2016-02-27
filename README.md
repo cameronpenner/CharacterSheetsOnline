@@ -47,7 +47,7 @@ We have built a full test suite using the [Selenium](http://www.seleniumhq.org/)
 Follow the [Meteor Installation Guide](https://www.meteor.com/install). Once meteor is installed, `cd` into the MeteorApp/ directory and run `meteor`. The app will be available in your web browser at `localhost:3000`.
 
 ###Unit Tests
-To run the server side unit tests, set the environment variable JASMINE_SERVER_UNIT=1.
+To run the server side unit tests, set the environment variable JASMINE_SERVER_UNIT=1. For more information [check this out](https://meteor-testing.readme.io/docs/jasmine-testing-modes#section-server-unit-test-mode)
 
 ###Note about branches:  
 "master" is the release branch  
