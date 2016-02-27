@@ -103,6 +103,11 @@ ItemView = React.createClass({
         })
     },
 
+    deleteItem(event) {
+        c = this.data.character;
+        Meteor.call("removeCharacterItem", c._id, this.data.item._id);
+    },
+
     renderForm(name, value, key) {
         if (!this.state.renderOneEdit) {
             this.state.renderOneEdit = true;
@@ -132,41 +137,57 @@ ItemView = React.createClass({
 
     render() {
         if (this.data.ready) {
-            return (
-                <div className="container">
-                    {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
-                        this.renderForm("Name", this.data.item.name) :
-                        <h2 onClick={this.setEditingState}>Item: {this.data.item.name}</h2>
-                    }
-
-                    {this.data.charReady ? <a style={{color:'black',textDecoration:'none'}}
-                                                href={"/character/"+this.data.character._id}><h4>Owner: {this.data.character.name}</h4></a> : <h4>Loading</h4>}
-
-                    <h3>Attributes</h3>
-                    <div className="list-group">
-                        {this.data.attrReady ?
-                            _.map(this.data.attributes, function(attribute) {
-                                if (this.checkEditingState(attribute.name)) {
-                                    return this.renderForm("Attribute", attribute.name, attribute._id);
-                                }
-                                else {
-                                    return (
-                                        <li className="list-group-item"
-                                            key={attribute._id}
-                                            onClick={this.setEditingState}>{attribute.name}</li>
-                                    );
-                                }
-                            }, this) : 'loading'
+            if (this.data.item) {
+                return (
+                    <div className="container">
+                        {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
+                            this.renderForm("Name", this.data.item.name) :
+                            <h2 onClick={this.setEditingState}>Item: {this.data.item.name}</h2>
                         }
-                    </div>
-                    {this.checkEditingState("New Attribute") ?
-                        this.renderForm("New Attribute", "") :
+
+                        {this.data.charReady ? <a style={{color:'black',textDecoration:'none'}}
+                                                    href={"/character/"+this.data.character._id}><h4>Owner: {this.data.character.name}</h4></a> : <h4>Loading</h4>}
+
+                        <h3>Attributes</h3>
+                        <div className="list-group">
+                            {this.data.attrReady ?
+                                _.map(this.data.attributes, function(attribute) {
+                                    if (this.checkEditingState(attribute.name)) {
+                                        return this.renderForm("Attribute", attribute.name, attribute._id);
+                                    }
+                                    else {
+                                        return (
+                                            <li className="list-group-item"
+                                                key={attribute._id}
+                                                onClick={this.setEditingState}>{attribute.name}</li>
+                                        );
+                                    }
+                                }, this) : 'loading'
+                            }
+                        </div>
+                        {this.checkEditingState("New Attribute") ?
+                            this.renderForm("New Attribute", "") :
+                            <button type="button"
+                                    className="btn btn-default"
+                                    onClick={this.setEditingState}>New Attribute</button>
+                        }
+                        <h3> </h3>
                         <button type="button"
-                                className="btn btn-default"
-                                onClick={this.setEditingState}>New Attribute</button>
-                    }
-                </div>
-            );
+                                    className="btn btn-default"
+                                    href={"/"}
+                                    onClick={this.deleteItem}>Delete Item</button>
+                    </div>
+                );
+            }
+            else {
+                return (
+                    <div> 
+                        <h3>No valid item found</h3>
+                        <a style={{color:'black',textDecoration:'none'}}
+                            href={"/character/list/"}><button>Return to Character List</button></a>
+                    </div>
+                    );
+            }
         }
         else {
             return <div>loading</div>;

@@ -205,6 +205,12 @@ CharacterView = React.createClass({
         }
     },
 
+    deleteCharacter(event) {
+        this.deleteAll();//all data is deleted
+        Meteor.call("removeCharacter", this.data.character);
+        //navigate to the character list.
+    },
+
     displayItem(id) {
         item = Items.findOne(id);
         return item.name;
@@ -302,11 +308,22 @@ CharacterView = React.createClass({
                                     label = {"Archer"}
                                     onClick={this.setType}>Archer</button>
                         </div>
+                        <h3> </h3>
+                        <button type="button"
+                                className="btn btn-default"
+                                href={"/"}
+                                onClick={this.deleteCharacter}>Delete Character</button>
                     </div>
                 );
             }
             else {
-                return <div>No valid character found</div>;
+                return (
+                    <div> 
+                        <h3>No valid item found</h3>
+                        <a style={{color:'black',textDecoration:'none'}}
+                            href={"/character/list/"}><button>Return to Character List</button></a>
+                    </div>
+                    );
             }
         }
         else {

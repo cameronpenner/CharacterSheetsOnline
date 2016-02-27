@@ -16,11 +16,11 @@ Meteor.methods({
     },
     removeItem: function(itemId) {
         if (!itemId || !Meteor.user()) return null;
+        c = Items.findOne(itemId);
+        if(c.attributes){
+            Meteor.call("removeAllAttributes", c);
+        }
         return Items.remove({_id: itemId});
-    },
-    removeAllItems: function(owner) {
-        if (!owner || !Meteor.user()) return null;
-        return Items.remove({_id: {$in: owner.items}});
     },
     addItemAttribute: function(_id, attributeId) {
         if (!_id || !attributeId || !Meteor.user()) return null;
