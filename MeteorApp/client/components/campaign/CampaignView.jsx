@@ -139,8 +139,8 @@ CampaignView = React.createClass({
 		Meteor.call("playerExists", this.refs.newplayer.value, function(err, data) {
 			if (data === true) {
 				self.props.campaign.players.push(self.refs.newplayer.value);
+				jQuery.unique(self.props.campaign.players);
 				self.refs.newplayer.value = "";
-				ReactDOM.findDOMNode(self.refs.newplayer).className += " has-success";
 			} else {
 				alert("Player does not exist.");
 			}
