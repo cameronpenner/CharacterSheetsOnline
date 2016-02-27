@@ -36,7 +36,7 @@ AppBody = React.createClass({
                     </nav>
                 </header>
                 <div className="row">
-                    <div className="col-lg-6">
+                    <div className="col-lg-12">
                         {this.data.user ? this.props.children : <SignIn/>}
                     </div>
                 </div>

@@ -11,7 +11,7 @@ const campaignSchema = new SimpleSchema({
     players: {
         type: [String]
     },
-    characters: {
+    character_ids: {
         type: [String]
     }
 });
