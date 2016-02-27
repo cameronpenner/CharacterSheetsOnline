@@ -3,6 +3,8 @@
 ### Instructions for Marker
 We have been using [our Trello board](https://trello.com/b/IYE6wlS5/4350) for big-picture user stories, and splitting them up into smaller stories, developer tasks, and bugs using our [iteration 2 git issues](https://github.com/cameronpenner/SoftwareEngineering2/issues?q=is%3Aissue+milestone%3A%22Iteration+2%22+is%3Aclosed), where we post about the cost and priority, and assign each to a team member. Alternatively, our contributions to this iteration are summed up in [this document](https://docs.google.com/document/d/1VZ51a9XeNEVHGBGt0svqGsoXaxb3YFXm0-SYghIq-Gc/edit?usp=sharing); and our evaluation of last iteration's process and things to change for this iteration on [this trello board](https://trello.com/b/UY0zflXQ/retro-iteration-1).  
 
+Our app is currently being hosted [on AWS](http://52.36.207.133:3000/) and [on Meteor](http://rpgcompanion.meteor.com).
+
 Our DDP documentation and justification of it over REST can be found [here](https://docs.google.com/document/d/15u_med2RhxHqvzpFxNDgSYxE5a1q1_Pj2FRalbPUYQg/edit?usp=sharing).  
 
 Please use the `master` branch for marking.  
