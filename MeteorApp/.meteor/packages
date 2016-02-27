@@ -20,7 +20,6 @@ react
 accounts-password
 aldeed:collection2
 reactrouter:react-router
-velocity:html-reporter
 sanjo:jasmine
+velocity:html-reporter
 twbs:bootstrap
-pcel:serialize
