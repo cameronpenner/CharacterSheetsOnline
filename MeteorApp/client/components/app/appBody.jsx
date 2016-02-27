@@ -25,7 +25,6 @@ AppBody = React.createClass({
                                     <ul className="nav navbar-nav">
                                         <li><a href="/character/list">Character List</a></li>
                                         <li><a href="/campaign/list">Campaign List</a></li>
-                                        <li><a href="/campaign/new">New Campaign</a></li>
                                     </ul>
                                     <u1 className="nav navbar-nav navbar-right">
                                         <li><a href="#" onClick={this.logout}>Logout</a></li>
@@ -37,7 +36,7 @@ AppBody = React.createClass({
                     </nav>
                 </header>
                 <div className="row">
-                    <div className="col-lg-6">
+                    <div className="col-lg-12">
                         {this.data.user === null ? <SignIn/> : this.props.children}
                     </div>
                 </div>
