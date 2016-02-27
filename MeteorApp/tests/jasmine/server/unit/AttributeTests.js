@@ -31,7 +31,7 @@ describe("Attribute Methods", function() {
     describe("removeAttribute", function() {
 
         beforeEach(function() {
-            spyOn(Characters, "remove");
+            spyOn(Attributes, "remove");
         });
 
         it("return null and don't call collection if no parameter given", function() {
