@@ -27,7 +27,10 @@ CampaignView = React.createClass({
 					</div>
 					<div className="panel-body">
 						<form>
+							<h4>Campaign Name:</h4>
 							<input type="text" ref="name" className="form-control" defaultValue={this.props.campaign.name}/>
+
+							<h4>Players:</h4>
 							<div className ="list-group">
 								{this.props.campaign.players.map((player, i) => {
 									return <div key={i} className="list-group-item">{player} <button className="btn pull-right btn-xs btn-default" type="button" onClick={this.removePlayer.bind(this, player)}><span className="glyphicon glyphicon-remove"></span></button></div>;
@@ -70,13 +73,13 @@ CampaignView = React.createClass({
 					</div>
 					<div className="panel-body">
 						<h4>Game master: {this.props.campaign.game_master_name}</h4>
-						<h4>Players</h4>
+						<h4>Players:</h4>
 						<ul className="list-group">
 							{this.props.campaign.players.map((player, i) => {
 								return <li key={i} className="list-group-item">{player}</li>;
 							})}
 						</ul>
-						<h4>Characters</h4>
+						<h4>Characters:</h4>
 						<ul className="list-group">
 							{this.props.campaign.character_ids.map((characterId) => {
 								var canEdit = false;
