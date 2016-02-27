@@ -72,4 +72,20 @@ Meteor.methods({
             }
         });    
     },
+    removeAll: function(_id) {
+        if(!_id) return null;
+        c = Characters.findOne(_id);
+
+        Meteor.call("removeAllItems", c);
+        Meteor.call("removeAllAttributes", c);
+
+        return Characters.update({
+            _id: _id
+        }, {
+            $pull: {
+                attributes: {$in: c.attributes},
+                items: {$in: c.items}
+            }
+        });  
+    },
 });

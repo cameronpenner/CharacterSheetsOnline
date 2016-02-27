@@ -8,9 +8,13 @@ CharacterList = React.createClass({
     },
 
     getMeteorData() {
-        const sub = Meteor.subscribe('character-list');
+        const charSub = Meteor.subscribe('character-list');
+        const itemSub = Meteor.subscribe('item-list');
+        const attrSub = Meteor.subscribe('attribute-list');
         return {
-            ready: sub.ready(),
+            charReady: charSub.ready(),
+            itemReady: itemSub.ready(),
+            attrReady: attrSub.ready(),
             characters: Characters.find().fetch()
         };
     },
@@ -49,7 +53,7 @@ CharacterList = React.createClass({
             <div>
                 <h3>Characters List</h3>
                 <div className="list-group">
-                    {this.data.ready ? this.renderCharacters() : 'loading'}
+                    {this.data.charReady ? this.renderCharacters() : 'loading'}
                 </div>
                 {this.state.showNewCharForm ?
                     <div className="input-group">
