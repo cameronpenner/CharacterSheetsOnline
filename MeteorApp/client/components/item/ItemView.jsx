@@ -184,7 +184,9 @@ ItemView = React.createClass({
                     <div> 
                         <h3>No valid item found</h3>
                         <a style={{color:'black',textDecoration:'none'}}
-                            href={"/character/list/"}><button>Return to Character List</button></a>
+                            href={"/character/list/"}>
+                                <button type="button"
+                                        className= "btn btn-default">Return to Character List</button></a>
                     </div>
                     );
             }

@@ -292,19 +292,19 @@ CharacterView = React.createClass({
                         <h3>Presets</h3>
                         <div className="input-group-presets">
                             <button type="button"
-                                    className="Wizard Button"
+                                    className="btn btn-default"
                                     label = {"Wizard"}
                                     onClick={this.setType}>Wizard</button>
                             <button type="button"
-                                    className="Thief Button"
+                                    className="btn btn-default"
                                     label = {"Thief"}
                                     onClick={this.setType}>Thief</button>
                             <button type="button"
-                                    className="Warrior Button"
+                                    className="btn btn-default"
                                     label = {"Warrior"}
                                     onClick={this.setType}>Warrior</button>
                             <button type="button"
-                                    className="Archer Button"
+                                    className="btn btn-default"
                                     label = {"Archer"}
                                     onClick={this.setType}>Archer</button>
                         </div>
@@ -319,9 +319,11 @@ CharacterView = React.createClass({
             else {
                 return (
                     <div> 
-                        <h3>No valid item found</h3>
+                        <h3>No valid character found</h3>
                         <a style={{color:'black',textDecoration:'none'}}
-                            href={"/character/list/"}><button>Return to Character List</button></a>
+                            href={"/character/list/"}>
+                                <button type="button"
+                                        className= "btn btn-default">Return to Character List</button></a>
                     </div>
                     );
             }
