@@ -118,63 +118,6 @@ CharacterView = React.createClass({
         console.log("FinishedDeleting");
     },
 
-    setType(event) {
-        console.log(event);
-        console.log("Setting Preset Data.");
-        var c = this.data.character;
-        console.log(c);
-        console.log(event.target);
-        label = $(event.target).attr('label');
-        console.log(label);
-
-        switch (label) {
-            case "Wizard":
-                this.deleteAll();
-                Meteor.call("addCharacterAttribute", c._id, {name: "Health: 22"});
-                Meteor.call("addCharacterAttribute", c._id, {name: "Mana: 89"});
-                Meteor.call("addCharacterAttribute", c._id, {name: "Equip Load: 100"});
-
-                Meteor.call("addCharacterItem", c._id, {name: "Hat"});
-                Meteor.call("addCharacterItem", c._id, {name: "Staff"});
-                Meteor.call("addCharacterItem", c._id, {name: "Robes"});
-                break;
-            case "Warrior":
-                this.deleteAll();
-                Meteor.call("addCharacterAttribute", c._id, {name: "Health: 89"});
-                Meteor.call("addCharacterAttribute", c._id, {name: "Mana: 20"});
-                Meteor.call("addCharacterAttribute", c._id, {name: "Equip Load: 300"});
-
-                Meteor.call("addCharacterItem", c._id, {name: "Shield"});
-                Meteor.call("addCharacterItem", c._id, {name: "Sword"});
-                Meteor.call("addCharacterItem", c._id, {name: "Plate Mail"});
-
-                break;
-            case "Thief":
-                this.deleteAll();
-                Meteor.call("addCharacterAttribute", c._id, {name: "Health: 60"});
-                Meteor.call("addCharacterAttribute", c._id, {name: "Mana: 10"});
-                Meteor.call("addCharacterAttribute", c._id, {name: "Equip Load: 100"});
-
-                Meteor.call("addCharacterItem", c._id, {name: "Theif Mask"});
-                Meteor.call("addCharacterItem", c._id, {name: "Dagger"});
-                Meteor.call("addCharacterItem", c._id, {name: "Black Leather Armour"});
-
-                break;
-            case "Archer":
-                this.deleteAll();
-                Meteor.call("addCharacterAttribute", c._id, {name: "Health: 42"});
-                Meteor.call("addCharacterAttribute", c._id, {name: "Mana: 50"});
-                Meteor.call("addCharacterAttribute", c._id, {name: "Equip Load: 150"});
-
-                Meteor.call("addCharacterItem", c._id, {name: "Bow"});
-                Meteor.call("addCharacterItem", c._id, {name: "Leather Armour"});
-
-                break;
-            default:
-                console.log("default case");
-        }
-    },
-
     renderForm(name, value, key) {
         if (!this.state.renderOneEdit) {
             this.state.renderOneEdit = true;
@@ -289,25 +232,6 @@ CharacterView = React.createClass({
                                     className="btn btn-default"
                                     onClick={this.setEditingState}>New Item</button>
                         }
-                        <h3>Presets</h3>
-                        <div className="input-group-presets">
-                            <button type="button"
-                                    className="btn btn-default"
-                                    label = {"Wizard"}
-                                    onClick={this.setType}>Wizard</button>
-                            <button type="button"
-                                    className="btn btn-default"
-                                    label = {"Thief"}
-                                    onClick={this.setType}>Thief</button>
-                            <button type="button"
-                                    className="btn btn-default"
-                                    label = {"Warrior"}
-                                    onClick={this.setType}>Warrior</button>
-                            <button type="button"
-                                    className="btn btn-default"
-                                    label = {"Archer"}
-                                    onClick={this.setType}>Archer</button>
-                        </div>
                         <h3> </h3>
                         <button type="button"
                                 className="btn btn-default"
