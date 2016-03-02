@@ -24,18 +24,13 @@ CharacterList = React.createClass({
         event.preventDefault();
         var name = this.refs.name.value;
         type = this.data.type;
-        console.log(type);
         Meteor.call("upsertCharacter", {name: name}, function(err, data){
-            console.log(type);
-            console.log(data);
             switch (type) {
                 case "Wizard":
                     Meteor.call("addCharacterAttribute", data.insertedId, {name: "Health: 22"});
                     Meteor.call("addCharacterAttribute", data.insertedId, {name: "Mana: 89"});
                     Meteor.call("addCharacterAttribute", data.insertedId, {name: "Equip Load: 100"});
-                    console.log(data);
                     Meteor.call("addCharacterItem", data.insertedId, {name: "Wizard Hat"}, function(err, data){
-                        console.log(data);
                         Meteor.call("addItemAttribute", data.insertedId, {name: "Intelligence: 14"});
                         Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 50"});
                     });
@@ -164,23 +159,28 @@ CharacterList = React.createClass({
                                 <li role="presentation"><a role="menuitem" 
                                                             tabindex="-1" 
                                                             label = {"Wizard"}
+                                                            href = "#"
                                                             onClick={this.setType}>Wizard</a></li>
                                 <li role="presentation"><a role="menuitem" 
                                                             tabindex="-1" 
                                                             label = {"Thief"}
+                                                            href = "#"
                                                             onClick={this.setType}>Thief</a></li>
                                 <li role="presentation"><a role="menuitem" 
                                                             tabindex="-1" 
                                                             label = {"Warrior"}
+                                                            href = "#"
                                                             onClick={this.setType}>Warrior</a></li>
                                 <li role="presentation"><a role="menuitem" 
                                                             tabindex="-1" 
                                                             label = {"Archer"}
+                                                            href = "#"
                                                             onClick={this.setType}>Archer</a></li>
                                 <li role="presentation" className="divider"></li>
                                 <li role="presentation"><a role="menuitem" 
                                                             tabindex="-1" 
                                                             label = {"Presets"}
+                                                            href = "#"
                                                             onClick={this.setType}>None</a></li>
                             </ul>
                             <button type="button"
