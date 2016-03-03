@@ -25,13 +25,14 @@ Meteor.methods({
         if (!_id || !item || !Meteor.user()) return null;
         //do something here about creating the item
         newItem = Meteor.call("upsertItem", item);
-        return Characters.update({
+        Characters.update({
             _id: _id
         }, {
             $push: {
                 items: newItem.insertedId
             } 
         });
+        return newItem;
     },
     removeCharacterItem: function(_id, itemId) {
         if (!_id || !itemId || !Meteor.user()) return null;
