@@ -15,16 +15,44 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import im.delight.android.ddp.Meteor;
+import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MeteorCallback {
 
     private Meteor mMeteor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_connecting);
+
+        // Setup Meteor
+        if (!MeteorSingleton.hasInstance()) {
+            // Create singleton and wait for callback to do everything else
+            mMeteor = MeteorSingleton.createInstance(this, getString(R.string.server_ws_url));
+            mMeteor.addCallback(this);
+            mMeteor.connect();
+        }
+        else {
+            mMeteor = MeteorSingleton.getInstance();
+            mMeteor.addCallback(this);
+
+            if(!mMeteor.isConnected()) {
+                mMeteor.reconnect();
+            }
+            else if(mMeteor.isLoggedIn()) {
+                setupHomeLayout();
+            }
+            else {
+                launchLoginActivity();
+            }
+        }
+
+    }
+
+    private void setupHomeLayout() {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -46,12 +74,11 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
 
-        mMeteor = MeteorSingleton.getInstance();
-        if (!mMeteor.isConnected()) {
-            Intent intent = new Intent(this, ConnectingActivity.class);
-            startActivity(intent);
-        }
+    private void launchLoginActivity() {
+        Intent loginIntent = new Intent(this, LoginActivity.class);
+        startActivity(loginIntent);
     }
 
     @Override
@@ -82,9 +109,8 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_logout) {
-            Intent intent = new Intent(this, LoginActivity.class);
             mMeteor.logout();
-            startActivity(intent);
+            launchLoginActivity();
         }
 
         return super.onOptionsItemSelected(item);
@@ -113,5 +139,40 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onConnect(boolean b) {
+        if (!b) {
+            launchLoginActivity();
+        }
+        else {
+            setupHomeLayout();
+        }
+    }
+
+    @Override
+    public void onDisconnect() {
+
+    }
+
+    @Override
+    public void onException(Exception e) {
+
+    }
+
+    @Override
+    public void onDataAdded(String s, String s1, String s2) {
+
+    }
+
+    @Override
+    public void onDataChanged(String s, String s1, String s2, String s3) {
+
+    }
+
+    @Override
+    public void onDataRemoved(String s, String s1) {
+
     }
 }

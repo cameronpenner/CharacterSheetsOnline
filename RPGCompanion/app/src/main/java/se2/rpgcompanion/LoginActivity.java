@@ -47,7 +47,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends Activity implements MeteorCallback {
 
-    private Meteor mMeteor;
+    private Meteor mMeteor = null;
     // UI references.
     private EditText mUsernameView;
     private EditText mPasswordView;
@@ -57,10 +57,6 @@ public class LoginActivity extends Activity implements MeteorCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // Set up Meteor Singleton
-        mMeteor = MeteorSingleton.getInstance();
-        mMeteor.addCallback(this);
 
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);
@@ -88,16 +84,9 @@ public class LoginActivity extends Activity implements MeteorCallback {
             }
         });
 
-        Button mUsernameCreateAccountButton = (Button) findViewById(R.id.username_create_account_button);
-        mUsernameCreateAccountButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptCreateAccount();
-            }
-        });
-
         mLoginFormView = findViewById(R.id.login_form);
     }
+
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid username, missing fields, etc.), the
@@ -110,23 +99,31 @@ public class LoginActivity extends Activity implements MeteorCallback {
         String password = mPasswordView.getText().toString();
 
         if (validateUsernameAndPassword(username, password)) {
-            mMeteor.loginWithUsername(username, password, loggedInListener);
-        }
-    }
+            mMeteor = MeteorSingleton.hasInstance()
+                    ? MeteorSingleton.getInstance()
+                    : MeteorSingleton.createInstance(this, getString(R.string.server_ws_url));
 
-    private void attemptCreateAccount() {
-        // Store values at the time of the login attempt.
-        String username = mUsernameView.getText().toString();
-        String password = mPasswordView.getText().toString();
+            mMeteor.addCallback(this);
 
-        if (validateUsernameAndPassword(username, password)) {
-            mMeteor.registerAndLogin(username, "dumb@d.d", password, loggedInListener);
+            if (mMeteor.isConnected()) {
+                mMeteor.registerAndLogin(username, null, password, new ResultListener() {
+
+                    @Override
+                    public void onSuccess(String s) {
+                        launchHomeActivity();
+                    }
+
+                    @Override
+                    public void onError(String s, String s1, String s2) {
+                        mUsernameView.setError(s);
+                    }
+                });
+            }
         }
     }
 
     private boolean validateUsernameAndPassword(String username, String password) {
         boolean valid = true;
-        View focusView = null;
 
         // Reset errors.
         mUsernameView.setError(null);
@@ -135,74 +132,59 @@ public class LoginActivity extends Activity implements MeteorCallback {
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !AccountValidation.isValidPassword(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
             valid = false;
         }
 
         // Check for a valid username.
         if (TextUtils.isEmpty(username)) {
             mUsernameView.setError(getString(R.string.error_field_required));
-            focusView = mUsernameView;
             valid = false;
         } else if (!AccountValidation.isValidUsername(username)) {
             mUsernameView.setError(getString(R.string.error_invalid_username));
-            focusView = mUsernameView;
             valid = false;
         }
 
         return valid;
     }
 
-    private ResultListener loggedInListener = new ResultListener() {
-
-        @Override
-        public void onSuccess(String s) {
-            launchHomeActivity();
-        }
-
-        @Override
-        public void onError(String s, String s1, String s2) {
-            // Display Error
-            Log.d("loggedInListener", s + " \n\n " + s1 + " \n\n " + s2);
-        }
-    };
-
     private void launchHomeActivity() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
+        Intent homeIntent = new Intent(this, HomeActivity.class);
+        startActivity(homeIntent);
     }
 
     @Override
     public void onDestroy() {
-        mMeteor.removeCallback(this);
-        mMeteor.disconnect();
         super.onDestroy();
     }
 
-    // Meteor Methods
-    public void onConnect(boolean signedInAutomatically) {
-        Log.d("Meteor.onConnect", "Signed in: " + String.valueOf(signedInAutomatically));
+    @Override
+    public void onConnect(boolean b) {
+
     }
 
+    @Override
     public void onDisconnect() {
-        Log.d("Meteor Methods", "onDisconnect Callback");
+
     }
 
-    public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d("Meteor Methods", "onDataAdded Callback");
-    }
-
-    public void onDataChanged(String collectionName, String documentID, String updatedValuesJson, String removedValuesJson) {
-        Log.d("Meteor Methods", "onDataChanged Callback");
-    }
-
-    public void onDataRemoved(String collectionName, String documentID) {
-        Log.d("Meteor Methods", "onDataRemoved Callback");
-    }
-
+    @Override
     public void onException(Exception e) {
-        Log.d("Meteor onException", e.toString());
-        e.printStackTrace();
+
+    }
+
+    @Override
+    public void onDataAdded(String s, String s1, String s2) {
+
+    }
+
+    @Override
+    public void onDataChanged(String s, String s1, String s2, String s3) {
+
+    }
+
+    @Override
+    public void onDataRemoved(String s, String s1) {
+
     }
 }
 
