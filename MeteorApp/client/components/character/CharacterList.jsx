@@ -23,7 +23,7 @@ CharacterList = React.createClass({
     saveNewCharacter(event) {
         event.preventDefault();
         var name = this.refs.name.value;
-        type = this.data.type;
+        type = this.state.type;
         Meteor.call("upsertCharacter", {name: name}, function(err, data){
             switch (type) {
                 case "Wizard":
@@ -119,7 +119,7 @@ CharacterList = React.createClass({
 
     setType(event){
         console.log($(event.target).attr('label'));
-        this.data.type = $(event.target).attr('label');
+        this.state.type = $(event.target).attr('label');
     },
 
     renderCharacters() {
@@ -153,7 +153,7 @@ CharacterList = React.createClass({
                             <button className="btn btn-default dropdown-toggle" 
                                     type="button" 
                                     id="menu1" 
-                                    data-toggle="dropdown">Presets 
+                                    data-toggle="dropdown">{this.data.type} 
                             <span className="caret"></span></button>
                             <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
                                 <li role="presentation"><a role="menuitem" 

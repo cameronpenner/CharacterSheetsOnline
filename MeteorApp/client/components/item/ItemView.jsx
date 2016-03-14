@@ -112,7 +112,7 @@ ItemView = React.createClass({
 
     giveItem(event) {
         var char2_id = $(event.target).attr("label");
-        character = Characters.findOne(char_id);
+        character = Characters.findOne(char2_id);
         console.log(character_id);
         console.log("gives to");
         console.log(char2_id);
