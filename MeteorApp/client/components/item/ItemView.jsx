@@ -16,20 +16,25 @@ ItemView = React.createClass({
         const sub = Meteor.subscribe("item", _id);
         const attrSub = Meteor.subscribe('attribute-list');
         const charSub = Meteor.subscribe("character", c_id);
+        const campSub = Meteor.subscribe('campaign-list-character', c_id);
+        const charsSub = Meteor.subscribe('character-list');
 
         var data = {
             ready: sub.ready(),
             attrReady: attrSub.ready(),
             charReady: charSub.ready(),
+            campReady: campSub.ready(),
+            charsReady: charsSub.ready(),
             character: Characters.findOne(c_id),
             item: Items.findOne(_id),
-            attributes: []
+            attributes: [],
+            campaigns:[]
         };
 
         if (data.item && data.item.attributes) {
             data.attributes = Attributes.find({_id: {$in: data.item.attributes}}).fetch();
         }
-        console.log(data);
+        data.campaigns = Campaigns.find({character_ids: {$in: [c_id]}}).fetch();
         return data;
     },
 
@@ -58,11 +63,8 @@ ItemView = React.createClass({
                 Meteor.call("addItemAttribute", c._id, {name: value});
                 break;
             case "Attribute":
-                console.log(id);
                 attribute = Attributes.findOne(id);
-                console.log(attribute);
                 attribute.name = value;
-                console.log(attribute);
                 Meteor.call("upsertAttribute", attribute);
                 Meteor.call("upsertItem", c);
                 break;
@@ -106,6 +108,16 @@ ItemView = React.createClass({
     deleteItem(event) {
         c = this.data.character;
         Meteor.call("removeCharacterItem", c._id, this.data.item._id);
+    },
+
+    giveItem(event) {
+        var char_id = $(event.target).attr("label");
+        character = Characters.findOne(char_id);
+        console.log(c_id);
+        console.log("gives to");
+        console.log(char_id);
+
+        Meteor.call("swapItems", c_id, char_id, this.data.item._id);
     },
 
     renderForm(name, value, key) {
@@ -171,11 +183,41 @@ ItemView = React.createClass({
                                     className="btn btn-default"
                                     onClick={this.setEditingState}>New Attribute</button>
                         }
+                        
                         <h3> </h3>
                         <button type="button"
                                     className="btn btn-default"
-                                    href={"/"}
                                     onClick={this.deleteItem}>Delete Item</button>
+
+                        <h3> </h3>
+                        <div class="dropdown">
+                            <button className="btn btn-default dropdown-toggle" 
+                                    type="button" 
+                                    id="menu1" 
+                                    data-toggle="dropdown">Give
+                            <span className="caret"></span></button>
+                            <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                {this.data.campReady && (this.data.campaigns.length != 0) ? 
+                                    _.map(this.data.campaigns, function(campaign) {
+                                        return (
+                                            _.map(campaign.character_ids, function(char_id) {
+                                                character = Characters.findOne(char_id);
+                                                if(char_id != c_id){
+                                                    return <li role="presentation"><a role="menuitem" 
+                                                                               tabindex="-1" 
+                                                                               label = {char_id}
+                                                                               href={"/character/"+this.data.character._id}
+                                                                               onClick={this.giveItem}>{character.name}</a></li>
+                                                }
+                                            }, this)
+                                        );
+                                    }, this) : <li role="presentation"><a role="menuitem" 
+                                                                               tabindex="-1" 
+                                                                               label = "Loading...">Loading...</a></li>
+                                }
+                            </ul>  
+                        </div>
+
                     </div>
                 );
             }

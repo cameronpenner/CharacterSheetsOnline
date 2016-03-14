@@ -12,3 +12,7 @@ Meteor.publish('campaign-list', function () {
 Meteor.publish('campaign-player-list', function(_id) {
 	return Campaigns.find({_id: _id}, {players: 1});
 });
+
+Meteor.publish('campaign-list-character', function(_id) {
+	return Campaigns.find({character_ids: {$in: [_id]}}); //should find all the campaigns that have this character id in them.
+});
