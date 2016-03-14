@@ -97,4 +97,22 @@ Meteor.methods({
             });
         }
     },
+    swapItems: function(c1_id, c2_id, item_id) {
+
+        Characters.update({
+            _id: c2_id
+        },{
+            $push: {
+                items: item_id
+            }
+        });
+
+        Characters.update({
+            _id: c1_id
+        },{
+            $pull: {
+                items: item_id
+            }
+        });
+    },
 });
