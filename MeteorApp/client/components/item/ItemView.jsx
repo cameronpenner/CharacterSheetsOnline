@@ -11,12 +11,12 @@ ItemView = React.createClass({
     getMeteorData() {
         if (!this.props.routeParams._id) return {};
         var _id = this.props.routeParams._id[1];
-            c_id = this.props.routeParams._id[0]
+            character_id = this.props.routeParams._id[0]
 
         const sub = Meteor.subscribe("item", _id);
         const attrSub = Meteor.subscribe('attribute-list');
-        const charSub = Meteor.subscribe("character", c_id);
-        const campSub = Meteor.subscribe('campaign-list-character', c_id);
+        const charSub = Meteor.subscribe("character", character_id);
+        const campSub = Meteor.subscribe('campaign-list-character', character_id);
         const charsSub = Meteor.subscribe('character-list');
 
         var data = {
@@ -25,7 +25,7 @@ ItemView = React.createClass({
             charReady: charSub.ready(),
             campReady: campSub.ready(),
             charsReady: charsSub.ready(),
-            character: Characters.findOne(c_id),
+            character: Characters.findOne(character_id),
             item: Items.findOne(_id),
             attributes: [],
             campaigns:[]
@@ -34,7 +34,7 @@ ItemView = React.createClass({
         if (data.item && data.item.attributes) {
             data.attributes = Attributes.find({_id: {$in: data.item.attributes}}).fetch();
         }
-        data.campaigns = Campaigns.find({character_ids: {$in: [c_id]}}).fetch();
+        data.campaigns = Campaigns.find({character_ids: {$in: [character_id]}}).fetch();
         return data;
     },
 
@@ -111,13 +111,13 @@ ItemView = React.createClass({
     },
 
     giveItem(event) {
-        var char_id = $(event.target).attr("label");
+        var char2_id = $(event.target).attr("label");
         character = Characters.findOne(char_id);
-        console.log(c_id);
+        console.log(character_id);
         console.log("gives to");
-        console.log(char_id);
+        console.log(char2_id);
 
-        Meteor.call("swapItems", c_id, char_id, this.data.item._id);
+        Meteor.call("swapItems", character_id, char2_id, this.data.item._id);
     },
 
     renderForm(name, value, key) {
@@ -202,7 +202,7 @@ ItemView = React.createClass({
                                         return (
                                             _.map(campaign.character_ids, function(char_id) {
                                                 character = Characters.findOne(char_id);
-                                                if(char_id != c_id){
+                                                if(char_id != character_id){
                                                     return <li role="presentation"><a role="menuitem" 
                                                                                tabindex="-1" 
                                                                                label = {char_id}
