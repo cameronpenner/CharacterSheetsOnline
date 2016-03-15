@@ -84,6 +84,14 @@ public class LoginActivity extends Activity implements MeteorCallback {
             }
         });
 
+        Button mUsernameRegisterButton = (Button) findViewById(R.id.username_register_button);
+        mUsernameRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptRegister();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
     }
 
@@ -106,6 +114,36 @@ public class LoginActivity extends Activity implements MeteorCallback {
             mMeteor.addCallback(this);
 
             if (mMeteor.isConnected()) {
+                mMeteor.loginWithUsername(username, password, new ResultListener() {
+
+                    @Override
+                    public void onSuccess(String s) {
+                        launchHomeActivity();
+                    }
+
+                    @Override
+                    public void onError(String s, String s1, String s2) {
+                        Log.e("loginWithUsername()", s + ": " + s1 + " " + s2);
+                        mUsernameView.setError(s + ": " + s1);
+                    }
+                });
+            }
+        }
+    }
+
+    private void attemptRegister () {
+        // Store values at the time of the login attempt.
+        String username = mUsernameView.getText().toString();
+        String password = mPasswordView.getText().toString();
+
+        if (validateUsernameAndPassword(username, password)) {
+            mMeteor = MeteorSingleton.hasInstance()
+                    ? MeteorSingleton.getInstance()
+                    : MeteorSingleton.createInstance(this, getString(R.string.server_ws_url));
+
+            mMeteor.addCallback(this);
+
+            if (mMeteor.isConnected()) {
                 mMeteor.registerAndLogin(username, null, password, new ResultListener() {
 
                     @Override
@@ -115,7 +153,8 @@ public class LoginActivity extends Activity implements MeteorCallback {
 
                     @Override
                     public void onError(String s, String s1, String s2) {
-                        mUsernameView.setError(s);
+                        Log.e("registerAndLogin()", s + ": " + s1 + " " + s2);
+                        mUsernameView.setError(s + ": " + s1);
                     }
                 });
             }
@@ -159,17 +198,17 @@ public class LoginActivity extends Activity implements MeteorCallback {
 
     @Override
     public void onConnect(boolean b) {
-
+        Log.d("Meteor", "onConnect()");
     }
 
     @Override
     public void onDisconnect() {
-
+        Log.d("Meteor", "onDisconnect()");
     }
 
     @Override
     public void onException(Exception e) {
-
+        e.printStackTrace();
     }
 
     @Override
