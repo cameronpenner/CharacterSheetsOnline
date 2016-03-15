@@ -1,9 +1,12 @@
 package se2.rpgcompanion;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,16 +20,22 @@ import android.view.MenuItem;
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
+import im.delight.android.ddp.ResultListener;
+import se2.rpgcompanion.dummy.DummyContent;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MeteorCallback {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        LoginFragment.OnSuccessfulLoginListener,
+        CharacterFragment.OnListFragmentInteractionListener,
+        MeteorCallback
+{
 
     private Meteor mMeteor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_connecting);
+        setupHomeLayout();
 
         // Setup Meteor
         if (!MeteorSingleton.hasInstance()) {
@@ -42,29 +51,26 @@ public class HomeActivity extends AppCompatActivity
             if(!mMeteor.isConnected()) {
                 mMeteor.reconnect();
             }
-            else if(mMeteor.isLoggedIn()) {
-                setupHomeLayout();
-            }
-            else {
-                launchLoginActivity();
+            else if(!mMeteor.isLoggedIn()) {
+                launchLoginFragment();
             }
         }
 
     }
 
-    private void setupHomeLayout() {
+    private boolean setupHomeLayout() {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -74,11 +80,19 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        return true;
     }
 
-    private void launchLoginActivity() {
-        Intent loginIntent = new Intent(this, LoginActivity.class);
-        startActivity(loginIntent);
+    private void launchLoginFragment() {
+        Fragment loginFragment = new LoginFragment();
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction().replace(R.id.content_frame, loginFragment).commit();
+    }
+
+    private void launchHomeFragment(String userId) {
+        Fragment loginFragment = new CharacterFragment();
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction().replace(R.id.content_frame, loginFragment).commit();
     }
 
     @Override
@@ -110,7 +124,7 @@ public class HomeActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.action_logout) {
             mMeteor.logout();
-            launchLoginActivity();
+            launchLoginFragment();
         }
 
         return super.onOptionsItemSelected(item);
@@ -143,22 +157,21 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onConnect(boolean b) {
+        Log.d("Meteor.onConnect()", String.valueOf(b));
+
         if (!b) {
-            launchLoginActivity();
-        }
-        else {
-            setupHomeLayout();
+            launchLoginFragment();
         }
     }
 
     @Override
     public void onDisconnect() {
-
+        Log.d("Meteor.onDisconnect()", "");
     }
 
     @Override
     public void onException(Exception e) {
-
+        e.printStackTrace();
     }
 
     @Override
@@ -174,5 +187,15 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onDataRemoved(String s, String s1) {
 
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
+
+    @Override
+    public void onSuccessfulLogin(String jsonResult) {
+        launchHomeFragment(jsonResult);
     }
 }
