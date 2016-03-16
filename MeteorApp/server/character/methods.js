@@ -98,7 +98,7 @@ Meteor.methods({
         }
     },
     swapItems: function(c1_id, c2_id, item_id) {
-
+        if(!c1_id || ! c2_id || !item_id) return null;
         Characters.update({
             _id: c2_id
         },{
