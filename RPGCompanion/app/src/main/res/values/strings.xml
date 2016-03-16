@@ -15,12 +15,18 @@
         completions."
     </string>
 
-    <string name="title_activity_connecting">Connecting...</string>
+    <string name="title_activity_connecting">Connecting…</string>
     <string name="title_activity_home">RPG Companion</string>
+    <string name="title_login">Login</string>
+    <string name="title_characters">Characters</string>
+    <string name="title_campaigns">Campaigns</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
     <string name="action_logout">Log Out</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
