@@ -54,4 +54,77 @@ describe("Character Methods", function() {
             expect(Characters.remove.calls.count()).toEqual(1);
         });
     });
+
+    describe("addCharacterItem", function() {
+
+        beforeEach(function() {
+            spyOn(Meteor.call, "upsertItem");
+            spyOn(Characters, "update");
+        });
+
+        it("return null and don't call collection if no parameter given", function() {
+            expect(Meteor.call("addCharacterItem")).toBe(null);
+            expect(Characters.update.calls.any()).toEqual(false);
+        });
+
+        it("return null and don't call collection if parameters are null", function() {
+            expect(Meteor.call("addCharacterItem", null, null)).toBe(null);
+            expect(Characters.update.calls.any()).toEqual(false);
+        });
+
+        it("return undefined and call collection if parameter is valid", function () {
+            expect(Meteor.call("addCharacterItem", "test-id", {name: "test-item"})).toBe(undefined);
+            expect(Characters.update.calls.count()).toEqual(1);
+        });
+    });
+
+    describe("removeCharacterItem", function() {
+
+        beforeEach(function() {
+            spyOn(Meteor.call, "removeItem");
+            spyOn(Characters, "update");
+        });
+
+        it("return null and don't call collection if no parameter given", function() {
+            expect(Meteor.call("removeCharacterItem")).toBe(null);
+            expect(Characters.update.calls.any()).toEqual(false);
+        });
+
+        it("return null and don't call collection if parameters are null", function() {
+            expect(Meteor.call("removeCharacterItem", null, null)).toBe(null);
+            expect(Characters.update.calls.any()).toEqual(false);
+        });
+
+        it("return undefined and call collection if parameter is valid", function () {
+            expect(Meteor.call("removeCharacterItem", "test-id", {name: "test-item"})).toBe(undefined);
+            expect(Characters.update.calls.count()).toEqual(1);
+        });
+    });
+
+    describe("addCharacterAttribute", function() {
+
+        beforeEach(function() {
+            spyOn(Characters, "remove");
+        });
+
+        it("return null and don't call collection if no parameter given", function() {
+            expect(Meteor.call("removeCharacter")).toBe(null);
+            expect(Characters.remove.calls.any()).toEqual(false);
+        });
+
+        it("return null and don't call collection if parameter is null", function() {
+            expect(Meteor.call("removeCharacter", null)).toBe(null);
+            expect(Characters.remove.calls.any()).toEqual(false);
+        });
+
+        it("return undefined and call collection if parameter is {}", function() {
+            expect(Meteor.call("removeCharacter", {})).toBe(undefined);
+            expect(Characters.remove.calls.count()).toEqual(1);
+        });
+
+        it("return undefined and call collection if parameter is valid", function () {
+            expect(Meteor.call("removeCharacter", {name: "test-character"})).toBe(undefined);
+            expect(Characters.remove.calls.count()).toEqual(1);
+        });
+    });
 });
