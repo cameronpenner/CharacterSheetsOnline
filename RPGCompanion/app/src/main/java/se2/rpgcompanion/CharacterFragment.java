@@ -21,9 +21,6 @@ import se2.rpgcompanion.dummy.DummyContent.DummyItem;
  */
 public class CharacterFragment extends Fragment {
 
-    //In case we want to adjust the number of columns being displayed.
-    //private static final String FRAG_ARG_COLUMNS = "numColumns";
-    //private int mColumns = 1;
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -33,23 +30,9 @@ public class CharacterFragment extends Fragment {
     public CharacterFragment() {
     }
 
-    /*
-    @SuppressWarnings("unused")
-    public static CharacterFragment newInstance(int numColumns) {
-        CharacterFragment fragment = new CharacterFragment();
-        Bundle args = new Bundle();
-        args.putInt(FRAG_ARG_COLUMNS, numColumns);
-        fragment.setArguments(args);
-        return fragment;
-    }
-    */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //if (getArguments() != null) {
-        //   mColumns = getArguments().getInt(FRAG_ARG_COLUMNS);
-        //}
     }
 
     @Override
@@ -61,11 +44,7 @@ public class CharacterFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            //if (mColumns <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            //} else {
-            //    recyclerView.setLayoutManager(new GridLayoutManager(context, mColumns));
-            //}
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(new MyCharacterRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
         return view;
