@@ -27,6 +27,8 @@ ItemView = React.createClass({
             charsReady: charsSub.ready(),
             character: Characters.findOne(character_id),
             item: Items.findOne(_id),
+            user: Meteor.user(),
+            canEdit: false,
             attributes: [],
             campaigns:[]
         };
@@ -35,6 +37,20 @@ ItemView = React.createClass({
             data.attributes = Attributes.find({_id: {$in: data.item.attributes}}).fetch();
         }
         data.campaigns = Campaigns.find({character_ids: {$in: [character_id]}}).fetch();
+
+        if(data.character && data.user){
+            if((data.character.owner == data.user._id)){
+                data.canEdit = true;
+            }
+            else {
+                for(i = 0; i < data.campaigns.length; i++){
+                    if(data.user._id == data.campaigns[i].game_master){
+                        data.canEdit = true;
+                    }
+                }
+            }
+        }
+
         return data;
     },
 
@@ -45,10 +61,13 @@ ItemView = React.createClass({
 
     setEditingState(event) {
         event.preventDefault();
-        this.setState({
-            editing: event.target.textContent,
-            renderOneEdit: false
-        });
+
+        if(this.data.canEdit){
+            this.setState({
+                editing: event.target.textContent,
+                renderOneEdit: false
+            });
+        }
     },
 
     save(event) {
@@ -121,13 +140,11 @@ ItemView = React.createClass({
     },
 
     characterOwnsItem(event){
-        console.log("in characterOwns");
         cha = this.data.character;
         bool = false;
         for(i = 0; i < cha.items.length; i++){
             if(cha.items[i] == this.data.item._id) {
                 bool = true;
-
             }
         }
         return bool;
@@ -161,7 +178,7 @@ ItemView = React.createClass({
     },
 
     render() {
-        if (this.data.ready) {
+        if (this.data.ready && this.data.charReady) {
             if (this.data.item && this.characterOwnsItem()) {
                 return (
                     <div className="container">
@@ -191,46 +208,48 @@ ItemView = React.createClass({
                             }
                         </div>
                         {this.checkEditingState("New Attribute") ?
-                            this.renderForm("New Attribute", "") :
-                            <button type="button"
-                                    className="btn btn-default"
-                                    onClick={this.setEditingState}>New Attribute</button>
+                            this.renderForm("New Attribute", "") : <div>
+                                {this.data.canEdit ? 
+                                    <button type="button"
+                                        className="btn btn-default"
+                                        onClick={this.setEditingState}>New Attribute</button> : <div></div>} </div>
                         }
                         
                         <h3> </h3>
-                        <button type="button"
-                                    className="btn btn-default"
-                                    onClick={this.deleteItem}>Delete Item</button>
+                        {this.data.canEdit ?
+                            <button type="button"
+                                        className="btn btn-default"
+                                        onClick={this.deleteItem}>Delete Item</button> : <div></div>}
 
                         <h3> </h3>
-                        <div class="dropdown">
-                            <button className="btn btn-default dropdown-toggle" 
-                                    type="button" 
-                                    id="menu1" 
-                                    data-toggle="dropdown">Give
-                            <span className="caret"></span></button>
-                            <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                {this.data.campReady && (this.data.campaigns.length != 0) ? 
-                                    _.map(this.data.campaigns, function(campaign) {
-                                        return (
-                                            _.map(campaign.character_ids, function(char_id) {
-                                                character = Characters.findOne(char_id);
-                                                if(character && (char_id != character_id)){
-                                                    return <li role="presentation"><a role="menuitem" 
-                                                                               tabindex="-1" 
-                                                                               label = {char_id}
-                                                                               href={"/character/"+this.data.character._id}
-                                                                               onClick={this.giveItem}>{character.name}</a></li>
-                                                }
-                                            }, this)
-                                        );
-                                    }, this) : <li role="presentation"><a role="menuitem" 
-                                                                               tabindex="-1" 
-                                                                               label = "Loading...">Loading...</a></li>
-                                }
-                            </ul>  
-                        </div>
-
+                        {this.data.canEdit ?
+                            <div class="dropdown">
+                                <button className="btn btn-default dropdown-toggle" 
+                                        type="button" 
+                                        id="menu1" 
+                                        data-toggle="dropdown">Give
+                                <span className="caret"></span></button>
+                                <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                    {this.data.campReady && (this.data.campaigns.length != 0) ? 
+                                        _.map(this.data.campaigns, function(campaign) {
+                                            return (
+                                                _.map(campaign.character_ids, function(char_id) {
+                                                    character = Characters.findOne(char_id);
+                                                    if(character && (char_id != character_id){
+                                                        return <li role="presentation"><a role="menuitem" 
+                                                                                   tabindex="-1" 
+                                                                                   label = {char_id}
+                                                                                   href={"/character/"+this.data.character._id}
+                                                                                   onClick={this.giveItem}>{character.name}</a></li>
+                                                    }
+                                                }, this)
+                                            );
+                                        }, this) : <li role="presentation"><a role="menuitem" 
+                                                                                   tabindex="-1" 
+                                                                                   label = "Loading...">Loading...</a></li>
+                                    }
+                                </ul>  
+                            </div> : <div></div>}
                     </div>
                 );
             }
