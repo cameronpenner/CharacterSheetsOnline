@@ -15,13 +15,33 @@ CharacterView = React.createClass({
         const charSub = Meteor.subscribe("character", _id);
         const itemSub = Meteor.subscribe('item-list');
         const attrSub = Meteor.subscribe('attribute-list');
+        const campSub = Meteor.subscribe('campaign-list-character', _id);
 
-        return {
+        var data = {
             ready: charSub.ready(),
             itemReady: itemSub.ready(),
             attrReady: attrSub.ready(),
-            character: Characters.findOne(_id)
+            character: Characters.findOne(_id),
+            user: Meteor.user(),
+            canEdit: false,
+            campaigns:[]
         };
+        data.campaigns = Campaigns.find({character_ids: {$in: [_id]}}).fetch();
+
+        if(data.character && data.user){
+            if((data.character.owner == data.user._id)){
+                data.canEdit = true;
+            }
+            else {
+                for(i = 0; i < data.campaigns.length; i++){
+                    if(data.user._id == data.campaigns[i].game_master){
+                        data.canEdit = true;
+                    }
+                }
+            }
+        }
+        console.log(data);
+        return data;
     },
 
     checkEditingState(str) {
@@ -31,10 +51,13 @@ CharacterView = React.createClass({
 
     setEditingState(event) {
         event.preventDefault();
-        this.setState({
-            editing: event.target.textContent,
-            renderOneEdit: false
-        });
+
+        if(this.data.canEdit){
+            this.setState({
+                editing: event.target.textContent,
+                renderOneEdit: false
+            });
+        }
     },
 
     save(event) {
@@ -201,10 +224,12 @@ CharacterView = React.createClass({
                             }, this)}
                         </div>
                         {this.checkEditingState("New Attribute") ?
-                            this.renderForm("New Attribute", "") :
-                            <button type="button"
-                                    className="btn btn-default"
-                                    onClick={this.setEditingState}>New Attribute</button>
+                            this.renderForm("New Attribute", "") : <div>
+                                {this.data.canEdit ? 
+                                    <button type="button"
+                                        className="btn btn-default"
+                                        onClick={this.setEditingState}>New Attribute</button> : <div></div>} </div>
+                            
                         }
 
 
@@ -227,16 +252,18 @@ CharacterView = React.createClass({
                             }, this)}
                         </div>
                         {this.checkEditingState("New Item") ?
-                            this.renderForm("New Item", "") :
-                            <button type="button"
-                                    className="btn btn-default"
-                                    onClick={this.setEditingState}>New Item</button>
+                            this.renderForm("New Item", "") : <div>
+                                {this.data.canEdit ? 
+                                    <button type="button"
+                                        className="btn btn-default"
+                                        onClick={this.setEditingState}>New Item</button> : <div></div>} </div>
                         }
                         <h3> </h3>
-                        <button type="button"
-                                className="btn btn-default"
-                                href={"/"}
-                                onClick={this.deleteCharacter}>Delete Character</button>
+                        {this.data.canEdit ? 
+                                <button type="button"
+                                    className="btn btn-default"
+                                    href={"/"}
+                                    onClick={this.deleteCharacter}>Delete Character</button> : <div></div>}
                     </div>
                 );
             }
