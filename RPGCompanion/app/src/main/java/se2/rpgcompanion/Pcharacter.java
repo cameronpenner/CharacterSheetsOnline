@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by tygopro on 16/03/16.
  */
-public class Character {
+public class Pcharacter {
 
     private String name;
     private String owner;
@@ -15,26 +15,26 @@ public class Character {
     private ArrayList<Item> items;
     private ArrayList<String> attributes;
 
-    public Character (String name,
+    public Pcharacter (String name)/*,
                       String owner,
                       String ownerName,
                       String creationDate,
                       String campaign,
                       ArrayList<Item> items,
-                      ArrayList<String> attributes){
-        this.name = name;
+                      ArrayList<String> attributes)*/{
+        this.name = name; /*
         this.owner = owner;
         this.ownerName = ownerName;
         this.creationDate = creationDate;
         this.campaign = campaign;
         this.items = items;
-        this.attributes = attributes;
+        this.attributes = attributes; */
     }
 
     public String getName(){
         return this.name;
     }
-
+    /*
     public String getOwner(){
         return this.owner;
     }
@@ -57,5 +57,10 @@ public class Character {
 
     public ArrayList<String> getAttributes(){
         return this.attributes;
+    }
+    */
+    @Override
+    public String toString() {
+        return this.getName();
     }
 }

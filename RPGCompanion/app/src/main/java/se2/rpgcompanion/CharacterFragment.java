@@ -3,15 +3,13 @@ package se2.rpgcompanion;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import se2.rpgcompanion.dummy.DummyContent;
-import se2.rpgcompanion.dummy.DummyContent.DummyItem;
+import se2.rpgcompanion.dummy.DummyPcharacters;
 
 /**
  * A fragment representing a list of Items.
@@ -45,7 +43,7 @@ public class CharacterFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new MyCharacterRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyCharacterRecyclerViewAdapter(DummyPcharacters.CHARS, mListener));
         }
         return view;
     }
@@ -79,7 +77,6 @@ public class CharacterFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Pcharacter playerCharacter);
     }
 }

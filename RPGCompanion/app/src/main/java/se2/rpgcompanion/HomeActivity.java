@@ -16,7 +16,9 @@ import android.view.MenuItem;
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
-import se2.rpgcompanion.dummy.DummyContent;
+
+import se2.rpgcompanion.dummy.DummyPcharacters;
+import se2.rpgcompanion.Pcharacter;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -192,8 +194,9 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(Pcharacter playerCharacter) {
         //Display the character view screen here using this character^.
+
     }
 
     @Override
