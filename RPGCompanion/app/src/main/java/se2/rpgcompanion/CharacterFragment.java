@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import se2.rpgcompanion.dummy.DummyContent;
 import se2.rpgcompanion.dummy.DummyContent.DummyItem;
 
-import java.util.List;
-
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -23,10 +21,9 @@ import java.util.List;
  */
 public class CharacterFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    //In case we want to adjust the number of columns being displayed.
+    //private static final String FRAG_ARG_COLUMNS = "numColumns";
+    //private int mColumns = 1;
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -36,23 +33,23 @@ public class CharacterFragment extends Fragment {
     public CharacterFragment() {
     }
 
-    // TODO: Customize parameter initialization
+    /*
     @SuppressWarnings("unused")
-    public static CharacterFragment newInstance(int columnCount) {
+    public static CharacterFragment newInstance(int numColumns) {
         CharacterFragment fragment = new CharacterFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putInt(FRAG_ARG_COLUMNS, numColumns);
         fragment.setArguments(args);
         return fragment;
     }
-
+    */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
+        //if (getArguments() != null) {
+        //   mColumns = getArguments().getInt(FRAG_ARG_COLUMNS);
+        //}
     }
 
     @Override
@@ -64,11 +61,11 @@ public class CharacterFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
+            //if (mColumns <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
+            //} else {
+            //    recyclerView.setLayoutManager(new GridLayoutManager(context, mColumns));
+            //}
             recyclerView.setAdapter(new MyCharacterRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
         return view;

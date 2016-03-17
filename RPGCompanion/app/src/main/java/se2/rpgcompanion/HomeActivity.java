@@ -82,6 +82,9 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void launchCharactersFragment() {
+        //This needs to be unsubscribed from sometime later:
+        final String subscriptionId = mMeteor.subscribe("characters");
+
         setTitle(getString(R.string.title_characters));
         Fragment characterFragment = new CharacterFragment();
         FragmentManager fm = getFragmentManager();
@@ -174,23 +177,23 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDataAdded(String s, String s1, String s2) {
-
+    public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
+        //new stuff comes in here
     }
 
     @Override
     public void onDataChanged(String s, String s1, String s2, String s3) {
-
+        //new changes come in here
     }
 
     @Override
     public void onDataRemoved(String s, String s1) {
-
+        //removal notices come in here
     }
 
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
-
+        //Display the character view screen here using this character^.
     }
 
     @Override
