@@ -235,7 +235,7 @@ ItemView = React.createClass({
                                             return (
                                                 _.map(campaign.character_ids, function(char_id) {
                                                     character = Characters.findOne(char_id);
-                                                    if(character && (char_id != character_id){
+                                                    if(character && (char_id != character_id)){
                                                         return <li role="presentation"><a role="menuitem" 
                                                                                    tabindex="-1" 
                                                                                    label = {char_id}
