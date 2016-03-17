@@ -17,7 +17,7 @@ ItemView = React.createClass({
         const attrSub = Meteor.subscribe('attribute-list');
         const charSub = Meteor.subscribe("character", character_id);
         const campSub = Meteor.subscribe('campaign-list-character', character_id);
-        const charsSub = Meteor.subscribe('character-list');
+        const charsSub = Meteor.subscribe('all-character-list');
 
         var data = {
             ready: sub.ready(),
@@ -235,7 +235,7 @@ ItemView = React.createClass({
                                             return (
                                                 _.map(campaign.character_ids, function(char_id) {
                                                     character = Characters.findOne(char_id);
-                                                    if(char_id != character_id){
+                                                    if(character && (char_id != character_id){
                                                         return <li role="presentation"><a role="menuitem" 
                                                                                    tabindex="-1" 
                                                                                    label = {char_id}
@@ -250,7 +250,6 @@ ItemView = React.createClass({
                                     }
                                 </ul>  
                             </div> : <div></div>}
-
                     </div>
                 );
             }
