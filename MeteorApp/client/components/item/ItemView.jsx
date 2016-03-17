@@ -120,6 +120,19 @@ ItemView = React.createClass({
         Meteor.call("swapItems", character_id, char2_id, this.data.item._id);
     },
 
+    characterOwnsItem(event){
+        console.log("in characterOwns");
+        cha = this.data.character;
+        bool = false;
+        for(i = 0; i < cha.items.length; i++){
+            if(cha.items[i] == this.data.item._id) {
+                bool = true;
+
+            }
+        }
+        return bool;
+    },
+
     renderForm(name, value, key) {
         if (!this.state.renderOneEdit) {
             this.state.renderOneEdit = true;
@@ -149,7 +162,7 @@ ItemView = React.createClass({
 
     render() {
         if (this.data.ready) {
-            if (this.data.item) {
+            if (this.data.item && this.characterOwnsItem()) {
                 return (
                     <div className="container">
                         {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
