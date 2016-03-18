@@ -2,6 +2,7 @@ package se2.rpgcompanion;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -262,6 +264,8 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onSuccessfulLogin(String jsonResult) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
         launchCharactersFragment();
     }
 
