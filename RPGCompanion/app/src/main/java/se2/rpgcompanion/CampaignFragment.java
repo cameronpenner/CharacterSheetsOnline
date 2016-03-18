@@ -12,6 +12,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import im.delight.android.ddp.MeteorSingleton;
+import im.delight.android.ddp.ResultListener;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -23,6 +32,9 @@ import android.widget.TextView;
 public class CampaignFragment extends Fragment {
 
     private Campaign campaign;
+    private List<String> characterNames;
+
+    private ArrayAdapter<String> characterAdapter;
 
     private OnCampaignFragmentInteractionListener mListener;
 
@@ -46,6 +58,35 @@ public class CampaignFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ResultListener characterResultListener = new ResultListener() {
+
+            @Override
+            public void onSuccess(String s) {
+                Log.d("charactername", s);
+                //@TODO: replace this with Character construtor once it exists
+                String name = "";
+                try {
+                    name = new JSONObject(s).getString("name");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                characterNames.add(name);
+                characterAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String s, String s1, String s2) {
+                Log.e("characterResultListener", s + " " + s1 + " " + s2);
+            }
+        };
+
+        characterNames = new ArrayList<String>();
+        characterAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, characterNames);
+        for (int i = 0; i < campaign.getCharacterIds().size(); i++) {
+            String[] params = {campaign.getCharacterIds().get(i)};
+            MeteorSingleton.getInstance().call("getCharacter", params, characterResultListener);
+        }
     }
 
     @Override
@@ -56,7 +97,6 @@ public class CampaignFragment extends Fragment {
         ((TextView) view.findViewById(R.id.gameMasterTextView)).setText(campaign.getGameMasterName());
 
         ListView characterNamesListView = (ListView) view.findViewById(R.id.characterListView);
-        ArrayAdapter<String> characterAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, campaign.getCharacterIds());
         characterNamesListView.setAdapter(characterAdapter);
 
 

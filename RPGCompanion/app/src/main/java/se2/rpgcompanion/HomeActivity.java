@@ -212,7 +212,7 @@ public class HomeActivity extends AppCompatActivity
                 }
                 break;
             default :
-                Log.d("collectionName", "the collectionName was unrecognized: " + collectionName);
+                Log.d("collectionName", "the collectionName was unrecognized in onDataAdded: " + collectionName);
         }
         Log.d("JSON", "Collection name is: " + collectionName + ", values are: " + newValuesJson + "doc id " + documentID);
     }

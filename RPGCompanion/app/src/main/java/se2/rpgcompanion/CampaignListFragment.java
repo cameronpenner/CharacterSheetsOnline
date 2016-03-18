@@ -23,9 +23,7 @@ import java.util.List;
  */
 public class CampaignListFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnCampaignListFragmentInteractionListener mListener;
     private MyCampaignRecyclerViewAdapter adapter;
@@ -114,7 +112,6 @@ public class CampaignListFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnCampaignListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onCampaignListFragmentInteraction(Campaign item);
     }
 }
