@@ -13,12 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.json.JSONObject;
+
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
 
-import se2.rpgcompanion.dummy.DummyPcharacters;
-import se2.rpgcompanion.Pcharacter;
+import se2.rpgcompanion.dummy.DummyContent;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -29,6 +30,15 @@ public class HomeActivity extends AppCompatActivity
 {
 
     private Meteor mMeteor;
+    private String characterSub = null;
+    private String characterListSub = null;
+    private String itemSub = null;
+    private String itemListSub = null;
+    private String attributeSub = null;
+    private String attributeListSub = null;
+    private String campaignListSub = null;
+    private String campaignPlayerListSub = null;
+    private String campaignListCharacter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +86,19 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    //Maybe not like this in the future...
+    private void subscribe(){
+        //characterSub = mMeteor.subscribe("character");
+        characterListSub = mMeteor.subscribe("character-list");
+        //itemSub = mMeteor.subscribe("item");
+        //itemListSub = mMeteor.subscribe("item-list");
+        //attributeSub = mMeteor.subscribe("attributes");
+        //attributeListSub = mMeteor.subscribe("attribute-list");
+        //campaignListSub = mMeteor.subscribe("campaign-list");
+        //campaignPlayerListSub = mMeteor.subscribe("campaign-player-list");
+        //campaignListCharacter = mMeteor.subscribe("campaign-list-character");
+    }
+
     private void launchLoginFragment() {
         setTitle(getString(R.string.title_login));
         Fragment loginFragment = new LoginFragment();
@@ -84,8 +107,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void launchCharactersFragment() {
-        //This needs to be unsubscribed from sometime later:
-        final String subscriptionId = mMeteor.subscribe("characters");
+        subscribe();
 
         setTitle(getString(R.string.title_characters));
         Fragment characterFragment = new CharacterFragment();
@@ -180,22 +202,29 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        //new stuff comes in here
+        //Log.d("JSON", "onDataAdded:");
+        Log.d("JSON", "Collection name is: " + collectionName + ", values are: " + newValuesJson);
+        //Log.d("JSON", "DocumentID is: " + documentID);
+        //Log.d("JSON", "JSON values are: " + newValuesJson);
     }
 
     @Override
-    public void onDataChanged(String s, String s1, String s2, String s3) {
-        //new changes come in here
+    public void onDataChanged(String collectionName, String documentID, String updateJson, String removeJson) {
+
     }
 
     @Override
-    public void onDataRemoved(String s, String s1) {
-        //removal notices come in here
+    public void onDataRemoved(String collectionName, String documentID) {
+
     }
 
     @Override
     public void onListFragmentInteraction(Pcharacter playerCharacter) {
         //Display the character view screen here using this character^.
+        Log.d("rpgcompanion", "You clicked on character: " + playerCharacter.getName());
+    }
+
+    public void onListFragmentInteraction(DummyContent.DummyItem item){
 
     }
 

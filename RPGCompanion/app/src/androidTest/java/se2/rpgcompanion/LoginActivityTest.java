@@ -5,12 +5,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import im.delight.android.ddp.Meteor;
-import im.delight.android.ddp.MeteorSingleton;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -26,8 +24,8 @@ public class LoginActivityTest {
     private String mStringToBetyped;
 
     @Rule
-    public ActivityTestRule<LoginActivity> mLoginActivityRule = new ActivityTestRule<>(
-            LoginActivity.class);
+    public ActivityTestRule<LoginFragment> mLoginFragmentRule = new ActivityTestRule<>(
+            LoginFragment.class);
 
     @Before
     public void init() {
