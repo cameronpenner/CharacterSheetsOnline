@@ -19,6 +19,21 @@ Meteor.methods({
     },
     removeCharacter: function(character) {
         if (!character || !Meteor.user()) return null;
+
+        // Remove Character from all campaigns they are recorded in
+        var campaigns = Campaigns.find({character_ids: {$in: [character._id]}}).fetch();
+        _.each(campaigns, function(campaign) {
+            console.log(campaign);
+            Campaigns.update({
+                _id: campaign._id
+            }, {
+                $pull: {
+                    character_ids: {$in: [character._id]}
+                }
+            });
+        });
+        console.log("remove character");
+        console.log(Campaigns.find({character_ids: {$in: [character._id]}}).fetch());
         return Characters.remove({_id: character._id});
     },
     addCharacterItem: function(_id, item) {
