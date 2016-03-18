@@ -2,6 +2,8 @@ package se2.rpgcompanion;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -12,6 +14,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +37,8 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         LoginFragment.OnSuccessfulLoginListener,
         CharacterFragment.OnListFragmentInteractionListener,
-        CampaignFragment.OnListFragmentInteractionListener,
+        CampaignListFragment.OnCampaignListFragmentInteractionListener,
+        CampaignFragment.OnCampaignFragmentInteractionListener,
         MeteorCallback
 {
 
@@ -36,6 +46,9 @@ public class HomeActivity extends AppCompatActivity
     private CharacterFragment characterFragment;
     public static ArrayList<Pcharacter> pCharacters;
     private String characterListSub;
+    private List<Campaign> campaigns;
+    private CampaignListFragment campaignListFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +56,7 @@ public class HomeActivity extends AppCompatActivity
         setupHomeLayout();
 
         pCharacters = new ArrayList<>();
+        campaigns = new ArrayList<Campaign>();
 
         // Setup Meteor
         if (!MeteorSingleton.hasInstance()) {
@@ -101,9 +115,20 @@ public class HomeActivity extends AppCompatActivity
         fm.beginTransaction().replace(R.id.content_frame, characterFragment).commit();
     }
 
-    private void launchCampaignsFragment() {
+    private void launchCampaignListFragment() {
+        mMeteor.subscribe("campaign-list");
+
         setTitle(getString(R.string.title_campaigns));
-        Fragment campaignFragment = new CampaignFragment();
+        campaignListFragment = new CampaignListFragment();
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction().replace(R.id.content_frame, campaignListFragment).commit();
+    }
+
+    private void launchCampaignFragment(Campaign campaign) {
+        setTitle(getString(R.string.title_campaign));
+
+        CampaignFragment campaignFragment = new CampaignFragment();
+        campaignFragment.setCampaign(campaign);
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction().replace(R.id.content_frame, campaignFragment).commit();
     }
@@ -155,7 +180,7 @@ public class HomeActivity extends AppCompatActivity
             if (id == R.id.nav_characters) {
                 launchCharactersFragment();
             } else if (id == R.id.nav_campaigns) {
-                launchCampaignsFragment();
+                launchCampaignListFragment();
             } else if (id == R.id.nav_logout) {
                 mMeteor.logout();
                 launchLoginFragment();
@@ -188,7 +213,20 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
+        Log.d("nametag", "Collection name is: " + collectionName + ", values are: " + newValuesJson);
         switch (collectionName) {
+            case "campaigns" :
+                try {
+                    campaigns.add(new Campaign(documentID, new JSONObject(newValuesJson)));
+                    if (campaignListFragment != null) {
+                        campaignListFragment.updateCampaigns(campaigns);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
             case "characters" :
                 try {
                     JSONObject jsonObject = new JSONObject(newValuesJson);
@@ -215,16 +253,37 @@ public class HomeActivity extends AppCompatActivity
                     jse.printStackTrace();
                 }
                 break;
-            default:
-                Log.d("nametag", "Unrecognised collection.");
-        }
 
-        Log.d("nametag", "Collection name is: " + collectionName + ", values are: " + newValuesJson);
+            default :
+                Log.d("collectionName", "the collectionName was unrecognized in onDataAdded: " + collectionName);
+        }
+        Log.d("JSON", "Collection name is: " + collectionName + ", values are: " + newValuesJson + "doc id " + documentID);
     }
 
     @Override
     public void onDataChanged(String collectionName, String documentID, String updateJson, String removeJson) {
-
+        Log.d("JSON", "Collection name is: " + collectionName + ", values are: " + updateJson + ", removed values are " + removeJson + "doc id " + documentID);
+        switch (collectionName) {
+            case "campaigns" :
+                try {
+                    JSONObject updatedObject = new JSONObject(updateJson);
+                    String newName = updatedObject.getString("name");
+                    if (newName != null) {
+                        for (Campaign c : campaigns) {
+                            if (c.getId().equals(documentID)) {
+                                Log.d("change", "changing name of " + documentID);
+                                c.setName(newName);
+                            }
+                        }
+                        if (campaignListFragment != null) {
+                            campaignListFragment.updateCampaigns(campaigns);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            break;
+        }
     }
 
     @Override
@@ -239,17 +298,27 @@ public class HomeActivity extends AppCompatActivity
         // launch the character view fragment.
     }
 
-    public void onListFragmentInteraction(DummyContent.DummyItem item){
+    public void onCampaignListFragmentInteraction(Campaign campaign) {
+        launchCampaignFragment(campaign);
+    }
 
+    public void onCampaignFragmentInteraction(Uri uri) {
     }
 
     @Override
     public void onSuccessfulLogin(String jsonResult) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
         launchCharactersFragment();
     }
 
-    public ArrayList<Pcharacter> getCharacters(){
+
+    public ArrayList<Pcharacter> getCharacters() {
         Log.d("nametag", "getCharacters() has been called.");
         return pCharacters;
+    }
+
+    public List<Campaign> getCampaigns() {
+        return campaigns;
     }
 }

@@ -41,7 +41,7 @@ Meteor.methods({
             _id: _id
         }, {
             $pull: {
-                attributes: attributeId
+                attributes: attribute
             }
         });    
     },

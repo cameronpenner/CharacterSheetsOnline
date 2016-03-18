@@ -4,7 +4,8 @@ CharacterView = React.createClass({
     getInitialState() {
         return {
             editing: false,
-            renderOneEdit: false
+            renderOneEdit: false,
+            error: null
         };
     },
 
@@ -15,13 +16,38 @@ CharacterView = React.createClass({
         const charSub = Meteor.subscribe("character", _id);
         const itemSub = Meteor.subscribe('item-list');
         const attrSub = Meteor.subscribe('attribute-list');
+        const campSub = Meteor.subscribe('campaign-list-character', _id);
 
-        return {
+        var data = {
             ready: charSub.ready(),
             itemReady: itemSub.ready(),
             attrReady: attrSub.ready(),
-            character: Characters.findOne(_id)
+            character: Characters.findOne(_id),
+            user: Meteor.user(),
+            canEdit: false,
+            campaigns:[]
         };
+        data.campaigns = Campaigns.find({character_ids: {$in: [_id]}}).fetch();
+
+        if(data.character && data.user){
+            if((data.character.owner == data.user._id)){
+                data.canEdit = true;
+            }
+            else {
+                for(i = 0; i < data.campaigns.length; i++){
+                    if(data.user._id == data.campaigns[i].game_master){
+                        data.canEdit = true;
+                    }
+                }
+            }
+        }
+        return data;
+    },
+
+    setError(error) {
+        this.setState({
+            error: error
+        });
     },
 
     checkEditingState(str) {
@@ -31,10 +57,14 @@ CharacterView = React.createClass({
 
     setEditingState(event) {
         event.preventDefault();
-        this.setState({
-            editing: event.target.textContent,
-            renderOneEdit: false
-        });
+
+        if(this.data.canEdit){
+            this.setState({
+                editing: event.target.textContent,
+                renderOneEdit: false,
+                error: null
+            });
+        }
     },
 
     save(event) {
@@ -43,42 +73,42 @@ CharacterView = React.createClass({
             id = $(event.target.parentNode.previousSibling).attr("id"),
             name = $(event.target.parentNode.previousSibling).attr("label"),
             c = this.data.character;
-        if (value.length == 0) return; // or maybe throw an error?
-        switch (name) {
-            case "New Attribute":
-                Meteor.call("addCharacterAttribute", c._id, {name: value});
-                break;
-            case "Attribute":
-                console.log(id);
-                attribute = Attributes.findOne(id);
-                console.log(attribute);
-                attribute.name = value;
-                console.log(attribute);
-                Meteor.call("upsertAttribute", attribute);
-                Meteor.call("upsertCharacter", c);
-                break;
-            case "New Item":
-                Meteor.call("addCharacterItem", c._id, {name: value});
-                break;
-            case "Item":
-                console.log(id);
-                item = Items.findOne(id);
-                console.log(item);
-                item.name = value;
-                console.log(item);
-                Meteor.call("upsertItem", item);
-                Meteor.call("upsertCharacter", c);
-                break;
-            case "Name":
-                c.name = value;
-                Meteor.call("upsertCharacter", c);
-                break;
-            default:
-                console.log("default case");
-        }
 
-        //return to just viewing
-        this.cancelEdit();
+        if (value.length == 0) {
+            this.setError({reason:"A value is required"});
+            this.state.renderOneEdit = false;
+        }
+        else {
+            console.log("else not setError");
+            this.setError(null);
+            switch (name) {
+                case "New Attribute":
+                    Meteor.call("addCharacterAttribute", c._id, {name: value});
+                    break;
+                case "Attribute":
+                    attribute = Attributes.findOne(id);
+                    attribute.name = value;
+                    Meteor.call("upsertAttribute", attribute);
+                    break;
+                case "New Item":
+                    Meteor.call("addCharacterItem", c._id, {name: value});
+                    break;
+                case "Item":
+                    item = Items.findOne(id);
+                    item.name = value;
+                    Meteor.call("upsertItem", item);
+                    break;
+                case "Name":
+                    c.name = value;
+                    Meteor.call("upsertCharacter", c);
+                    break;
+                default:
+                    console.log("default case");
+            }
+
+            //return to just viewing
+            this.cancelEdit();
+        }
     },
 
     delete(event) {
@@ -103,10 +133,7 @@ CharacterView = React.createClass({
 
     cancelEdit(event) {
         if (event) event.preventDefault();
-        this.setState({
-            editing: false,
-            renderOneEdit: false
-        })
+        this.setState(this.getInitialState());
     },
 
     deleteAll(){
@@ -129,11 +156,11 @@ CharacterView = React.createClass({
             }
 
             var tempID = new Mongo.ObjectID();
-
             return (
-                <li key={tempID}
+                <li key={tempID._str}
                     className="list-group-item">
-                    <Form tempID={tempID}
+                    {this.state.error ? <div className="alert alert-danger" role="alert">Error: {this.state.error.reason}</div> : ''}
+                    <Form tempID={tempID._str}
                           name={name}
                           value={value}
                           id={key}
@@ -168,15 +195,22 @@ CharacterView = React.createClass({
         if (this.data.ready) {
             if (this.data.character){
                 return (
-                    <div className="container">
+                    <Fader>
+                        <h2>Name:&nbsp; 
                         {this.checkEditingState("Name: ") || this.checkEditingState(this.data.character.name) ?
                             this.renderForm("Name", this.data.character.name) :
-                            <h2 onClick={this.setEditingState}>Name: {this.data.character.name}</h2>
-                        }
+                            <button type="button"
+                                className="btn btn-default"
+                                onClick={this.setEditingState}>{this.data.character.name}</button>
+                        }</h2>  
 
-
-                        <h4>Owner: {this.data.character.owner_name}</h4>
-
+                        <h4>Owner:&nbsp; 
+                        {this.data.ready ? <a href={"/character/list/"}>
+                                                    <button type="button"
+                                                            className="btn btn-default">{this.data.character.owner_name}</button></a>
+                                             : <button type="button"
+                                                    className="btn btn-default">Loading</button>
+                        }</h4>
 
                         <h3>Attributes</h3>
                         <div className="list-group">
@@ -196,15 +230,17 @@ CharacterView = React.createClass({
                                 else {
                                     return (<li className="list-group-item"
                                                 key={attribute}
-                                                onClick={this.setEditingState}>loading...</li>);
+                                                onClick={this.setEditingState}><LoadingImage/></li>);
                                 }
                             }, this)}
                         </div>
                         {this.checkEditingState("New Attribute") ?
-                            this.renderForm("New Attribute", "") :
-                            <button type="button"
-                                    className="btn btn-default"
-                                    onClick={this.setEditingState}>New Attribute</button>
+                            this.renderForm("New Attribute", "") : <div>
+                                {this.data.canEdit ? 
+                                    <button type="button"
+                                        className="btn btn-default"
+                                        onClick={this.setEditingState}>New Attribute</button> : <div></div>} </div>
+                            
                         }
 
 
@@ -222,38 +258,40 @@ CharacterView = React.createClass({
                                 else {
                                     return (<li className="list-group-item"
                                                 key={item}
-                                                onClick={this.setEditingState}>loading...</li>);
+                                                onClick={this.setEditingState}><LoadingImage/></li>);
                                 }
                             }, this)}
                         </div>
                         {this.checkEditingState("New Item") ?
-                            this.renderForm("New Item", "") :
-                            <button type="button"
-                                    className="btn btn-default"
-                                    onClick={this.setEditingState}>New Item</button>
+                            this.renderForm("New Item", "") : <div>
+                                {this.data.canEdit ? 
+                                    <button type="button"
+                                        className="btn btn-default"
+                                        onClick={this.setEditingState}>New Item</button> : <div></div>} </div>
                         }
                         <h3> </h3>
-                        <button type="button"
-                                className="btn btn-default"
-                                href={"/"}
-                                onClick={this.deleteCharacter}>Delete Character</button>
-                    </div>
+                        {this.data.canEdit ? 
+                                <button type="button"
+                                    className="btn btn-danger"
+                                    href={"/"}
+                                    onClick={this.deleteCharacter}>Delete Character</button> : <div></div>}
+                    </Fader>
                 );
             }
             else {
                 return (
-                    <div> 
+                    <Fader>
                         <h3>No valid character found</h3>
                         <a style={{color:'black',textDecoration:'none'}}
                             href={"/character/list/"}>
                                 <button type="button"
                                         className= "btn btn-default">Return to Character List</button></a>
-                    </div>
+                    </Fader>
                     );
             }
         }
         else {
-            return <div>loading</div>;
+            return <LoadingImage/>;
         }
     }
 });

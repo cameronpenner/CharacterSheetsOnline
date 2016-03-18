@@ -27,7 +27,7 @@ CharacterPreview = React.createClass({
             );
         }
         else {
-            return <span>loading</span>
+            return <LoadingImage/>
         }
 
     }

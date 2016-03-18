@@ -54,4 +54,21 @@ describe("Attribute Methods", function() {
             expect(Attributes.remove.calls.count()).toEqual(1);
         });
     });
+
+    describe("removeAllAttributes", function() {
+
+        beforeEach(function() {
+            spyOn(Attributes, "remove").and.returnValue("test-value");
+        });
+
+        it("return null and don't call collection if parameter invalid", function() {
+            expect(Meteor.call("removeAllAttributes")).toBe(null);
+            expect(Attributes.remove.calls.count()).toEqual(0);
+        });
+
+        it("return something and call collection if parameter is valid", function() {
+            expect(Meteor.call("removeAllAttributes", "test-param")).toBe("test-value");
+            expect(Attributes.remove.calls.count()).toEqual(1);
+        })
+    });
 });

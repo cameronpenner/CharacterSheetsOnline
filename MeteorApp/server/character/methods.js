@@ -9,16 +9,38 @@ var newCharValues = function() {
 Meteor.methods({
     upsertCharacter: function(character) {
         if (!character || !Meteor.user()) return null;
-        return Characters.upsert({
-            _id: character._id
-        }, {
-            $set: character
-        }, {
-            $setOnInsert: _.extend(character, newCharValues())
-        });
+
+        if (character._id) {
+            return Characters.update({_id: character._id}, {$set: character});
+        }
+        else {
+            return Characters.upsert({
+                _id: character._id
+            }, {
+                $set: character
+            }, {
+                $setOnInsert: _.extend(character, newCharValues())
+            });
+        }
+
     },
     removeCharacter: function(character) {
         if (!character || !Meteor.user()) return null;
+
+        // Remove Character from all campaigns they are recorded in
+        var campaigns = Campaigns.find({character_ids: {$in: [character._id]}}).fetch();
+        _.each(campaigns, function(campaign) {
+            console.log(campaign);
+            Campaigns.update({
+                _id: campaign._id
+            }, {
+                $pull: {
+                    character_ids: {$in: [character._id]}
+                }
+            });
+        });
+        console.log("remove character");
+        console.log(Campaigns.find({character_ids: {$in: [character._id]}}).fetch());
         return Characters.remove({_id: character._id});
     },
     addCharacterItem: function(_id, item) {
@@ -98,7 +120,7 @@ Meteor.methods({
         }
     },
     swapItems: function(c1_id, c2_id, item_id) {
-
+        if(!c1_id || ! c2_id || !item_id) return null;
         Characters.update({
             _id: c2_id
         },{
