@@ -169,14 +169,21 @@ CharacterView = React.createClass({
             if (this.data.character){
                 return (
                     <div className="container">
+                        <h2>Name:&nbsp; 
                         {this.checkEditingState("Name: ") || this.checkEditingState(this.data.character.name) ?
                             this.renderForm("Name", this.data.character.name) :
-                            <h2 onClick={this.setEditingState}>Name: {this.data.character.name}</h2>
-                        }
+                            <button type="button"
+                                className="btn btn-default"
+                                onClick={this.setEditingState}>{this.data.character.name}</button>
+                        }</h2>  
 
-
-                        <h4>Owner: {this.data.character.owner_name}</h4>
-
+                        <h4>Owner:&nbsp; 
+                        {this.data.ready ? <a href={"/character/list/"}>
+                                                    <button type="button"
+                                                            className="btn btn-default">{this.data.character.owner_name}</button></a>
+                                             : <button type="button"
+                                                    className="btn btn-default">Loading</button>
+                        }</h4>
 
                         <h3>Attributes</h3>
                         <div className="list-group">
