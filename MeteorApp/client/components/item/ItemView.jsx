@@ -4,7 +4,8 @@ ItemView = React.createClass({
     getInitialState() {
         return {
             editing: false,
-            renderOneEdit: false
+            renderOneEdit: false,
+            error: null
         };
     },
 
@@ -54,6 +55,10 @@ ItemView = React.createClass({
         return data;
     },
 
+    setError(error) {
+        this.setState({error: error});
+    },
+
     checkEditingState(str) {
         return this.state.renderOneEdit == false &&
             this.state.editing == str;
@@ -65,7 +70,8 @@ ItemView = React.createClass({
         if(this.data.canEdit){
             this.setState({
                 editing: event.target.textContent,
-                renderOneEdit: false
+                renderOneEdit: false,
+                error: null
             });
         }
     },
@@ -76,27 +82,35 @@ ItemView = React.createClass({
             id = $(event.target.parentNode.previousSibling).attr("id"),
             name = $(event.target.parentNode.previousSibling).attr("label"),
             c = this.data.item;
-        if (value.length == 0) return; // or maybe throw an error?
-        switch (name) {
-            case "New Attribute":
-                Meteor.call("addItemAttribute", c._id, {name: value});
-                break;
-            case "Attribute":
-                attribute = Attributes.findOne(id);
-                attribute.name = value;
-                Meteor.call("upsertAttribute", attribute);
-                Meteor.call("upsertItem", c);
-                break;
-            case "Name":
-                c.name = value;
-                Meteor.call("upsertItem", c);
-                break;
-            default:
-                console.log("default case");
+
+
+        if (value.length == 0) {
+            this.setError({reason: "A value is required"});
+            this.state.renderOneEdit = false;
+        }
+        else {
+            switch (name) {
+                case "New Attribute":
+                    Meteor.call("addItemAttribute", c._id, {name: value});
+                    break;
+                case "Attribute":
+                    attribute = Attributes.findOne(id);
+                    attribute.name = value;
+                    Meteor.call("upsertAttribute", attribute);
+                    Meteor.call("upsertItem", c);
+                    break;
+                case "Name":
+                    c.name = value;
+                    Meteor.call("upsertItem", c);
+                    break;
+                default:
+                    console.log("default case");
+            }
+            //return to just viewing
+            this.cancelEdit();
         }
 
-        //return to just viewing
-        this.cancelEdit();
+
     },
 
     delete(event) {
@@ -118,10 +132,7 @@ ItemView = React.createClass({
 
     cancelEdit(event) {
         if (event) event.preventDefault();
-        this.setState({
-            editing: false,
-            renderOneEdit: false
-        })
+        this.setState(this.getInitialState());
     },
 
     deleteItem(event) {
@@ -163,6 +174,7 @@ ItemView = React.createClass({
             return (
                 <li key={name}
                     className="list-group-item">
+                    {this.state.error ? <div className="alert alert-danger" role="alert">Error: {this.state.error.reason}</div> : ''}
                     <Form name={name}
                           value={value}
                           id={key}
@@ -223,7 +235,7 @@ ItemView = React.createClass({
 
                         <h3> </h3>
                         {this.data.canEdit ?
-                            <div class="dropdown">
+                            <div className="dropdown">
                                 <button className="btn btn-default dropdown-toggle" 
                                         type="button" 
                                         id="menu1" 
@@ -237,7 +249,7 @@ ItemView = React.createClass({
                                                     character = Characters.findOne(char_id);
                                                     if(character && (char_id != character_id)){
                                                         return <li role="presentation"><a role="menuitem" 
-                                                                                   tabindex="-1" 
+                                                                                   tabIndex="-1"
                                                                                    label = {char_id}
                                                                                    href={"/character/"+this.data.character._id}
                                                                                    onClick={this.giveItem}>{character.name}</a></li>
@@ -245,7 +257,7 @@ ItemView = React.createClass({
                                                 }, this)
                                             );
                                         }, this) : <li role="presentation"><a role="menuitem" 
-                                                                                   tabindex="-1" 
+                                                                                   tabIndex="-1"
                                                                                    label = "Loading...">Loading...</a></li>
                                     }
                                 </ul>  
