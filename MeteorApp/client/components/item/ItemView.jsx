@@ -193,14 +193,22 @@ ItemView = React.createClass({
         if (this.data.ready && this.data.charReady) {
             if (this.data.item && this.characterOwnsItem()) {
                 return (
-                    <div className="container">
-                        {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
-                            this.renderForm("Name", this.data.item.name) :
-                            <h2 onClick={this.setEditingState}>Item: {this.data.item.name}</h2>
-                        }
+                    <div>
+                    <h2>Name:&nbsp; 
+                            {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
+                                    this.renderForm("Name", this.data.item.name) :
+                                    <button type="button"
+                                            className="btn btn-default"
+                                            onClick={this.setEditingState}>{this.data.item.name}</button>
+                            }</h2>                        
 
-                        {this.data.charReady ? <a style={{color:'black',textDecoration:'none'}}
-                                                    href={"/character/"+this.data.character._id}><h4>Owner: {this.data.character.name}</h4></a> : <h4><LoadingImage/></h4>}
+                        <h4>Owner:&nbsp; 
+                        {this.data.charReady ? <a href={"/character/"+this.data.character._id}>
+                                                    <button type="button"
+                                                            className="btn btn-default">{this.data.character.name}</button></a>
+                                             : <button type="button"
+                                                    className="btn btn-default"><LoadingImage/></button>
+                        }</h4>
 
                         <h3>Attributes</h3>
                         <div className="list-group">
