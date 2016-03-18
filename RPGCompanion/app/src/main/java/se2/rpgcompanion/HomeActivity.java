@@ -13,7 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
@@ -30,20 +33,16 @@ public class HomeActivity extends AppCompatActivity
 {
 
     private Meteor mMeteor;
-    private String characterSub = null;
-    private String characterListSub = null;
-    private String itemSub = null;
-    private String itemListSub = null;
-    private String attributeSub = null;
-    private String attributeListSub = null;
-    private String campaignListSub = null;
-    private String campaignPlayerListSub = null;
-    private String campaignListCharacter = null;
+    private CharacterFragment characterFragment;
+    public static ArrayList<Pcharacter> pCharacters;
+    private String characterListSub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupHomeLayout();
+
+        pCharacters = new ArrayList<>();
 
         // Setup Meteor
         if (!MeteorSingleton.hasInstance()) {
@@ -83,20 +82,8 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        return true;
-    }
 
-    //Maybe not like this in the future...
-    private void subscribe(){
-        //characterSub = mMeteor.subscribe("character");
-        characterListSub = mMeteor.subscribe("character-list");
-        //itemSub = mMeteor.subscribe("item");
-        //itemListSub = mMeteor.subscribe("item-list");
-        //attributeSub = mMeteor.subscribe("attributes");
-        //attributeListSub = mMeteor.subscribe("attribute-list");
-        //campaignListSub = mMeteor.subscribe("campaign-list");
-        //campaignPlayerListSub = mMeteor.subscribe("campaign-player-list");
-        //campaignListCharacter = mMeteor.subscribe("campaign-list-character");
+        return true;
     }
 
     private void launchLoginFragment() {
@@ -107,10 +94,9 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void launchCharactersFragment() {
-        subscribe();
-
+        characterListSub = mMeteor.subscribe("character-list");
         setTitle(getString(R.string.title_characters));
-        Fragment characterFragment = new CharacterFragment();
+        characterFragment = new CharacterFragment();
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction().replace(R.id.content_frame, characterFragment).commit();
     }
@@ -202,10 +188,38 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        //Log.d("JSON", "onDataAdded:");
-        Log.d("JSON", "Collection name is: " + collectionName + ", values are: " + newValuesJson);
-        //Log.d("JSON", "DocumentID is: " + documentID);
-        //Log.d("JSON", "JSON values are: " + newValuesJson);
+        switch (collectionName) {
+            case "characters" :
+                try {
+                    JSONObject jsonObject = new JSONObject(newValuesJson);
+                    if (jsonObject.has("name")){
+                        Log.d("nametag", "Valid character name found.");
+                    } else {
+                        Log.d("nametag", "Did not find a character name.");
+                    }
+
+                    String charName = jsonObject.getString("name");
+                    //String owner
+                    //String owner_name
+                    //String creationDate
+                    Pcharacter newChar = new Pcharacter(charName);
+                    pCharacters.add(newChar);
+                    if(characterFragment != null){
+                        characterFragment.updateList(pCharacters);
+                        Log.d("nametag", "charFrag.updateList() has been called.");
+                    } else {
+                        Log.d("nametag", "charFrag was null.");
+                    }
+                } catch (JSONException jse) {
+                    Log.d("nametag", "failed to call updateList()");
+                    jse.printStackTrace();
+                }
+                break;
+            default:
+                Log.d("nametag", "Unrecognised collection.");
+        }
+
+        Log.d("nametag", "Collection name is: " + collectionName + ", values are: " + newValuesJson);
     }
 
     @Override
@@ -222,6 +236,7 @@ public class HomeActivity extends AppCompatActivity
     public void onListFragmentInteraction(Pcharacter playerCharacter) {
         //Display the character view screen here using this character^.
         Log.d("rpgcompanion", "You clicked on character: " + playerCharacter.getName());
+        // launch the character view fragment.
     }
 
     public void onListFragmentInteraction(DummyContent.DummyItem item){
@@ -231,5 +246,10 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onSuccessfulLogin(String jsonResult) {
         launchCharactersFragment();
+    }
+
+    public ArrayList<Pcharacter> getCharacters(){
+        Log.d("nametag", "getCharacters() has been called.");
+        return pCharacters;
     }
 }

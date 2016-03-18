@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import se2.rpgcompanion.dummy.DummyPcharacters;
+import java.util.ArrayList;
+
+import im.delight.android.ddp.Meteor;
+import im.delight.android.ddp.MeteorSingleton;
 
 /**
  * A fragment representing a list of Items.
@@ -20,6 +24,9 @@ import se2.rpgcompanion.dummy.DummyPcharacters;
 public class CharacterFragment extends Fragment {
 
     private OnListFragmentInteractionListener mListener;
+    private MyCharacterRecyclerViewAdapter adapter;
+    private ArrayList<Pcharacter> characterList;
+    private Meteor mMeteor;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -31,6 +38,9 @@ public class CharacterFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mMeteor = MeteorSingleton.getInstance();
+        characterList = ((HomeActivity)getActivity()).getCharacters();
+        adapter = new MyCharacterRecyclerViewAdapter(characterList, mListener);
     }
 
     @Override
@@ -43,11 +53,16 @@ public class CharacterFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new MyCharacterRecyclerViewAdapter(DummyPcharacters.CHARS, mListener));
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }
 
+    public void updateList(ArrayList<Pcharacter> newList){
+        characterList = newList;
+        adapter.notifyDataSetChanged();
+        Log.d("nametag", "updateList has run.");
+    }
 
     @Override
     public void onAttach(Context context) {
