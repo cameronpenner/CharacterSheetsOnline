@@ -234,7 +234,7 @@ CharacterView = React.createClass({
                                 else {
                                     return (<li className="list-group-item"
                                                 key={attribute}
-                                                onClick={this.setEditingState}>loading...</li>);
+                                                onClick={this.setEditingState}><LoadingImage/></li>);
                                 }
                             }, this)}
                         </div>
@@ -262,7 +262,7 @@ CharacterView = React.createClass({
                                 else {
                                     return (<li className="list-group-item"
                                                 key={item}
-                                                onClick={this.setEditingState}>loading...</li>);
+                                                onClick={this.setEditingState}><LoadingImage/></li>);
                                 }
                             }, this)}
                         </div>
@@ -276,7 +276,7 @@ CharacterView = React.createClass({
                         <h3> </h3>
                         {this.data.canEdit ? 
                                 <button type="button"
-                                    className="btn btn-default"
+                                    className="btn btn-danger"
                                     href={"/"}
                                     onClick={this.deleteCharacter}>Delete Character</button> : <div></div>}
                     </div>
@@ -295,7 +295,7 @@ CharacterView = React.createClass({
             }
         }
         else {
-            return <div>loading</div>;
+            return <LoadingImage/>;
         }
     }
 });

@@ -207,7 +207,7 @@ ItemView = React.createClass({
                                                     <button type="button"
                                                             className="btn btn-default">{this.data.character.name}</button></a>
                                              : <button type="button"
-                                                    className="btn btn-default">Loading</button>
+                                                    className="btn btn-default"><LoadingImage/></button>
                         }</h4>
 
                         <h3>Attributes</h3>
@@ -224,7 +224,7 @@ ItemView = React.createClass({
                                                 onClick={this.setEditingState}>{attribute.name}</li>
                                         );
                                     }
-                                }, this) : 'loading'
+                                }, this) : <LoadingImage/>
                             }
                         </div>
                         {this.checkEditingState("New Attribute") ?
@@ -234,12 +234,6 @@ ItemView = React.createClass({
                                         className="btn btn-default"
                                         onClick={this.setEditingState}>New Attribute</button> : <div></div>} </div>
                         }
-                        
-                        <h3> </h3>
-                        {this.data.canEdit ?
-                            <button type="button"
-                                        className="btn btn-default"
-                                        onClick={this.deleteItem}>Delete Item</button> : <div></div>}
 
                         <h3> </h3>
                         {this.data.canEdit ?
@@ -266,10 +260,16 @@ ItemView = React.createClass({
                                             );
                                         }, this) : <li role="presentation"><a role="menuitem" 
                                                                                    tabIndex="-1"
-                                                                                   label = "Loading...">Loading...</a></li>
+                                                                                   label = "Loading..."><LoadingImage/></a></li>
                                     }
                                 </ul>  
                             </div> : <div></div>}
+
+                        <h3> </h3>
+                        {this.data.canEdit ?
+                            <button type="button"
+                                    className="btn btn-danger"
+                                    onClick={this.deleteItem}>Delete Item</button> : <div></div>}
                     </div>
                 );
             }
@@ -286,7 +286,7 @@ ItemView = React.createClass({
             }
         }
         else {
-            return <div>loading</div>;
+            return <LoadingImage/>;
         }
     }
 });
