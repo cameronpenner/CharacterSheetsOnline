@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">RPGCompanion</string>
-    <string name="server_ws_url">ws://52.36.207.133/websocket</string>
-    <!-- Strings related to login -->
+    <!--string name="server_ws_url">ws://52.36.207.133/websocket</string -->
+    <string name="server_ws_url">ws://rpgcompanion.meteor.com/websocket</string>
+    <!-- Strings related to login -->\
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign In</string>
@@ -20,6 +21,7 @@
     <string name="title_login">Login</string>
     <string name="title_characters">Characters</string>
     <string name="title_campaigns">Campaigns</string>
+    <string name="title_campaign">Campaign</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

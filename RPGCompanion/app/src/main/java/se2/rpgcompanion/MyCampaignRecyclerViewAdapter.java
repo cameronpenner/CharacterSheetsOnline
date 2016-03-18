@@ -6,22 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import se2.rpgcompanion.CampaignFragment.OnListFragmentInteractionListener;
-import se2.rpgcompanion.dummy.DummyContent.DummyItem;
+import se2.rpgcompanion.CampaignListFragment.OnCampaignListFragmentInteractionListener;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * {@link RecyclerView.Adapter} that can display a {@link Campaign} and makes a call to the
+ * specified {@link OnCampaignListFragmentInteractionListener}.
  */
 public class MyCampaignRecyclerViewAdapter extends RecyclerView.Adapter<MyCampaignRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final List<Campaign> mValues;
+    private final OnCampaignListFragmentInteractionListener mListener;
 
-    public MyCampaignRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyCampaignRecyclerViewAdapter(List<Campaign> items, OnCampaignListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -36,8 +34,7 @@ public class MyCampaignRecyclerViewAdapter extends RecyclerView.Adapter<MyCampai
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mContentView.setText(mValues.get(position).getName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +42,7 @@ public class MyCampaignRecyclerViewAdapter extends RecyclerView.Adapter<MyCampai
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onCampaignListFragmentInteraction(holder.mItem);
                 }
             }
         });
@@ -58,14 +55,12 @@ public class MyCampaignRecyclerViewAdapter extends RecyclerView.Adapter<MyCampai
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public Campaign mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 
