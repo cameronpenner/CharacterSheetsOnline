@@ -220,6 +220,27 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onDataChanged(String collectionName, String documentID, String updateJson, String removeJson) {
         Log.d("JSON", "Collection name is: " + collectionName + ", values are: " + updateJson + ", removed values are " + removeJson + "doc id " + documentID);
+        switch (collectionName) {
+            case "campaigns" :
+                try {
+                    JSONObject updatedObject = new JSONObject(updateJson);
+                    String newName = updatedObject.getString("name");
+                    if (newName != null) {
+                        for (Campaign c : campaigns) {
+                            if (c.getId().equals(documentID)) {
+                                Log.d("change", "changing name of " + documentID);
+                                c.setName(newName);
+                            }
+                        }
+                        if (campaignListFragment != null) {
+                            campaignListFragment.updateCampaigns(campaigns);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            break;
+        }
     }
 
     @Override
