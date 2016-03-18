@@ -23,3 +23,6 @@ reactrouter:react-router
 sanjo:jasmine
 velocity:html-reporter
 twbs:bootstrap
+cfs:standard-packages
+cfs:gridfs
+cfs:s3
