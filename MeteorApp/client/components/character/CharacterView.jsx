@@ -4,7 +4,8 @@ CharacterView = React.createClass({
     getInitialState() {
         return {
             editing: false,
-            renderOneEdit: false
+            renderOneEdit: false,
+            error: null
         };
     },
 
@@ -40,8 +41,13 @@ CharacterView = React.createClass({
                 }
             }
         }
-        console.log(data);
         return data;
+    },
+
+    setError(error) {
+        this.setState({
+            error: error
+        });
     },
 
     checkEditingState(str) {
@@ -55,7 +61,8 @@ CharacterView = React.createClass({
         if(this.data.canEdit){
             this.setState({
                 editing: event.target.textContent,
-                renderOneEdit: false
+                renderOneEdit: false,
+                error: null
             });
         }
     },
@@ -66,42 +73,46 @@ CharacterView = React.createClass({
             id = $(event.target.parentNode.previousSibling).attr("id"),
             name = $(event.target.parentNode.previousSibling).attr("label"),
             c = this.data.character;
-        if (value.length == 0) return; // or maybe throw an error?
-        switch (name) {
-            case "New Attribute":
-                Meteor.call("addCharacterAttribute", c._id, {name: value});
-                break;
-            case "Attribute":
-                console.log(id);
-                attribute = Attributes.findOne(id);
-                console.log(attribute);
-                attribute.name = value;
-                console.log(attribute);
-                Meteor.call("upsertAttribute", attribute);
-                Meteor.call("upsertCharacter", c);
-                break;
-            case "New Item":
-                Meteor.call("addCharacterItem", c._id, {name: value});
-                break;
-            case "Item":
-                console.log(id);
-                item = Items.findOne(id);
-                console.log(item);
-                item.name = value;
-                console.log(item);
-                Meteor.call("upsertItem", item);
-                Meteor.call("upsertCharacter", c);
-                break;
-            case "Name":
-                c.name = value;
-                Meteor.call("upsertCharacter", c);
-                break;
-            default:
-                console.log("default case");
-        }
 
-        //return to just viewing
-        this.cancelEdit();
+        console.log(value, value.length);
+        if (value.length == 0) {
+            console.log("setError");
+            this.setError({reason:"A value is required"});
+            this.state.renderOneEdit = false;
+        }
+        else {
+            console.log("else not setError");
+            this.setError(null);
+            switch (name) {
+                case "New Attribute":
+                    Meteor.call("addCharacterAttribute", c._id, {name: value});
+                    break;
+                case "Attribute":
+                    attribute = Attributes.findOne(id);
+                    attribute.name = value;
+                    Meteor.call("upsertAttribute", attribute);
+                    Meteor.call("upsertCharacter", c);
+                    break;
+                case "New Item":
+                    Meteor.call("addCharacterItem", c._id, {name: value});
+                    break;
+                case "Item":
+                    item = Items.findOne(id);
+                    item.name = value;
+                    Meteor.call("upsertItem", item);
+                    Meteor.call("upsertCharacter", c);
+                    break;
+                case "Name":
+                    c.name = value;
+                    Meteor.call("upsertCharacter", c);
+                    break;
+                default:
+                    console.log("default case");
+            }
+
+            //return to just viewing
+            this.cancelEdit();
+        }
     },
 
     delete(event) {
@@ -126,10 +137,7 @@ CharacterView = React.createClass({
 
     cancelEdit(event) {
         if (event) event.preventDefault();
-        this.setState({
-            editing: false,
-            renderOneEdit: false
-        })
+        this.setState(this.getInitialState());
     },
 
     deleteAll(){
@@ -152,11 +160,11 @@ CharacterView = React.createClass({
             }
 
             var tempID = new Mongo.ObjectID();
-
             return (
-                <li key={tempID}
+                <li key={tempID._str}
                     className="list-group-item">
-                    <Form tempID={tempID}
+                    {this.state.error ? <div className="alert alert-danger" role="alert">Error: {this.state.error.reason}</div> : ''}
+                    <Form tempID={tempID._str}
                           name={name}
                           value={value}
                           id={key}
