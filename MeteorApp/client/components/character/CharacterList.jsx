@@ -157,7 +157,7 @@ CharacterList = React.createClass({
                 <h3>Characters List</h3>
 
                 <div className="list-group">
-                    {this.data.charReady ? this.renderCharacters() : 'loading'}
+                    {this.data.charReady ? this.renderCharacters() : <LoadingImage/>}
                 </div>
                 {this.state.showNewCharForm ?
                     <div>
