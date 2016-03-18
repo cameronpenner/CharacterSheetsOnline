@@ -23,11 +23,11 @@ CharacterPreview = React.createClass({
     render() {
         if (this.data.ready) {
             return (
-                <span>{this.data.character.name}</span>
+                <span><img src={this.data.character.img_path}/> {this.data.character.name}</span>
             );
         }
         else {
-            return <span>loading</span>
+            return <LoadingImage/>
         }
 
     }

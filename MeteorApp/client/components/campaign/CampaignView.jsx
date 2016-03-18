@@ -17,7 +17,7 @@ CampaignView = React.createClass({
 
 	render() {
 		return(
-			<div>
+			<Fader>
 			{this.state.editing ? 
 				<div className="panel panel-default">
 					<div className="panel-heading clearfix">
@@ -83,18 +83,24 @@ CampaignView = React.createClass({
 						<ul className="list-group">
 							{this.props.campaign.character_ids.map((characterId) => {
 								var canEdit = false;
-								this.props.characters.filter(function(curr) {
-									if (curr._id === characterId) {
-										canEdit = true;
-									}
-								});
+								if (this.props.campaign.game_master == Meteor.userId()) {
+									canEdit = true;
+								}
+								else {
+									this.props.characters.filter(function(curr) {
+										if (curr._id === characterId) {
+											canEdit = true;
+										}
+									});
+								}
+
 								if (canEdit) {
 									return (
-										<li key={characterId} className="list-group-item"><a href={"/character/" + characterId}>{this.state.characterLookup[characterId] ? this.state.characterLookup[characterId].name : "loading..."}</a><button className="btn btn-xs btn-default pull-right" onClick={this.removeCharacter.bind(this, characterId)}><span className="glyphicon glyphicon-remove"></span></button></li>
+										<li key={characterId} className="list-group-item"><a href={"/character/" + characterId}>{this.state.characterLookup[characterId] ? this.state.characterLookup[characterId].name : <LoadingImage/>}</a><button className="btn btn-xs btn-default pull-right" onClick={this.removeCharacter.bind(this, characterId)}><span className="glyphicon glyphicon-remove"></span></button></li>
 									);
 								} else {
 									return (
-										<li key={characterId} className="list-group-item">{this.state.characterLookup[characterId] ? this.state.characterLookup[characterId].name : "loading..."}</li>
+										<li key={characterId} className="list-group-item">{this.state.characterLookup[characterId] ? this.state.characterLookup[characterId].name : <LoadingImage/>}</li>
 									);
 								}
 								
@@ -117,7 +123,7 @@ CampaignView = React.createClass({
 						</div>
 					</div>
 				</div>}
-			</div>
+			</Fader>
 		);
 	},
 

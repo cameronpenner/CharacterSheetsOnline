@@ -2,36 +2,60 @@ var newCharValues = function() {
     return {
         owner: Meteor.userId(),
         owner_name: Meteor.user().username,
-        createdAt: new Date()
+        createdAt: new Date(),
+        img_path: "/images/Default.png"
     };
 };
 
 Meteor.methods({
     upsertCharacter: function(character) {
         if (!character || !Meteor.user()) return null;
-        return Characters.upsert({
-            _id: character._id
-        }, {
-            $set: character
-        }, {
-            $setOnInsert: _.extend(character, newCharValues())
-        });
+
+        if (character._id) {
+            return Characters.update({_id: character._id}, {$set: character});
+        }
+        else {
+            return Characters.upsert({
+                _id: character._id
+            }, {
+                $set: character
+            }, {
+                $setOnInsert: _.extend(character, newCharValues())
+            });
+        }
+
     },
     removeCharacter: function(character) {
         if (!character || !Meteor.user()) return null;
+
+        // Remove Character from all campaigns they are recorded in
+        var campaigns = Campaigns.find({character_ids: {$in: [character._id]}}).fetch();
+        _.each(campaigns, function(campaign) {
+            console.log(campaign);
+            Campaigns.update({
+                _id: campaign._id
+            }, {
+                $pull: {
+                    character_ids: {$in: [character._id]}
+                }
+            });
+        });
+        console.log("remove character");
+        console.log(Campaigns.find({character_ids: {$in: [character._id]}}).fetch());
         return Characters.remove({_id: character._id});
     },
     addCharacterItem: function(_id, item) {
         if (!_id || !item || !Meteor.user()) return null;
         //do something here about creating the item
         newItem = Meteor.call("upsertItem", item);
-        return Characters.update({
+        Characters.update({
             _id: _id
         }, {
             $push: {
                 items: newItem.insertedId
             } 
         });
+        return newItem;
     },
     removeCharacterItem: function(_id, itemId) {
         if (!_id || !itemId || !Meteor.user()) return null;
@@ -75,17 +99,53 @@ Meteor.methods({
     removeAll: function(_id) {
         if(!_id) return null;
         c = Characters.findOne(_id);
-
-        Meteor.call("removeAllItems", c);
-        Meteor.call("removeAllAttributes", c);
-
-        return Characters.update({
-            _id: _id
-        }, {
-            $pull: {
-                attributes: {$in: c.attributes},
-                items: {$in: c.items}
+        if(c.items){
+            Meteor.call("removeAllItems", c);
+            Characters.update({
+                _id: _id
+            }, {
+                $pull: {
+                    items: {$in: c.items}
+                }
+            });
+        }
+        if(c.attributes){
+            Meteor.call("removeAllAttributes", c);
+            Characters.update({
+                _id: _id
+            }, {
+                $pull: {
+                    attributes: {$in: c.attributes}
+                }
+            });
+        }
+    },
+    swapItems: function(c1_id, c2_id, item_id) {
+        if(!c1_id || ! c2_id || !item_id) return null;
+        Characters.update({
+            _id: c2_id
+        },{
+            $push: {
+                items: item_id
             }
-        });  
+        });
+
+        Characters.update({
+            _id: c1_id
+        },{
+            $pull: {
+                items: item_id
+            }
+        });
+    },
+    setPath: function(c_id, path) {
+        if(!c_id) return null;
+        Characters.update({
+            _id: c_id
+        },{
+            $set: {
+                img_path: path
+            }
+        });
     },
 });

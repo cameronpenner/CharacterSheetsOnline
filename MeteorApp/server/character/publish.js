@@ -5,3 +5,7 @@ Meteor.publish('character-list', function () {
 Meteor.publish('character', function (_id) {
     return Characters.find({_id: _id});
 });
+
+Meteor.publish('all-character-list', function(){
+	return Characters.find();
+});

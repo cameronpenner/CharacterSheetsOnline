@@ -3,7 +3,8 @@ SignIn = React.createClass({
 
     getInitialState() {
         return {
-            creatingAccount: false
+            creatingAccount: false,
+            error: null
         };
     },
 
@@ -11,6 +12,12 @@ SignIn = React.createClass({
         return {
             user: Meteor.user()
         };
+    },
+
+    setError(error) {
+        this.setState({
+            error: error
+        });
     },
 
     toggleCreateAccount(event) {
@@ -31,23 +38,28 @@ SignIn = React.createClass({
     handleCreate(event) {
         event.preventDefault();
         var user = this.getInput();
+        var setError = this.setError;
 
-        Accounts.createUser(user, function() {
-            Meteor.loginWithPassword(user.username, user.password);
+        Accounts.createUser(user, function(err) {
+            if(err) setError(err);
+            else Meteor.loginWithPassword(user.username, user.password, function (err) {if (err) setError(err);});
         });
     },
 
     handleSignIn(event) {
         event.preventDefault();
         var user = this.getInput();
-        Meteor.loginWithPassword(user.username, user.password);
+        var setError = this.setError;
+
+        Meteor.loginWithPassword(user.username, user.password, function(err) {if(err) setError(err);});
     },
 
     render() {
         return (
-            <div className="signin">
+            <Fader>
                 <h3>{this.state.creatingAccount ? "Create Account" : "Sign In"}</h3>
-                <form role="form" className="span-4" onSubmit={this.state.creatingAccount ? this.handleCreate : this.handleSignIn}>
+                <form role="form" onSubmit={this.state.creatingAccount ? this.handleCreate : this.handleSignIn}>
+                    {this.state.error != null ? <div className="alert alert-danger" role="alert">Error: {this.state.error.reason}</div> : ''}
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
                         <input type="text" className="form-control" id="username" ref="username" />
@@ -61,7 +73,7 @@ SignIn = React.createClass({
                         &emsp;or <a href="#" onClick={this.toggleCreateAccount}>{this.state.creatingAccount ? "sign in" : "create an account"}</a>
                     </div>
                 </form>
-            </div>
+            </Fader>
         )
     }
 });

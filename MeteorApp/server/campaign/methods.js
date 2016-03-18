@@ -40,6 +40,7 @@ Meteor.methods({
     },
 
     canEdit: function(campaign) {
+        if(!campaign) return null;
         if (Meteor.user().username === campaign.game_master_name) {
             return true;
         } else {

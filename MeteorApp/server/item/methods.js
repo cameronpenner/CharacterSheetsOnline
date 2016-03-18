@@ -16,31 +16,32 @@ Meteor.methods({
     },
     removeItem: function(itemId) {
         if (!itemId || !Meteor.user()) return null;
+        c = Items.findOne(itemId);
+        if(c.attributes){
+            Meteor.call("removeAllAttributes", c);
+        }
         return Items.remove({_id: itemId});
     },
-    removeAllItems: function(owner) {
-        if (!owner || !Meteor.user()) return null;
-        return Items.remove({_id: {$in: owner.items}});
-    },
-    addItemAttribute: function(_id, attributeId) {
-        if (!_id || !attributeId || !Meteor.user()) return null;
-        newAttribute = Meteor.call("upsertAttribute", attributeId);
-        return Items.update({
+    addItemAttribute: function(_id, attribute) {
+        if (!_id || !attribute || !Meteor.user()) return null;
+        newAttribute = Meteor.call("upsertAttribute", attribute);
+        Items.update({
             _id: _id
         },{
             $push: {
                 attributes: newAttribute.insertedId
             }
         });
+        return newAttribute;
     },
-    removeItemAttribute: function(_id, attributeId) {
-        if (!_id || !attributeId || !Meteor.user()) return null;
-        Meteor.call("removeAttribute", attributeId);
+    removeItemAttribute: function(_id, attribute) {
+        if (!_id || !attribute || !Meteor.user()) return null;
+        Meteor.call("removeAttribute", attribute);
         return Items.update({
             _id: _id
         }, {
             $pull: {
-                attributes: attributeId
+                attributes: attribute
             }
         });    
     },
