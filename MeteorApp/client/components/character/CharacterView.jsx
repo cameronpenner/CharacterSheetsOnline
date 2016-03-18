@@ -74,9 +74,7 @@ CharacterView = React.createClass({
             name = $(event.target.parentNode.previousSibling).attr("label"),
             c = this.data.character;
 
-        console.log(value, value.length);
         if (value.length == 0) {
-            console.log("setError");
             this.setError({reason:"A value is required"});
             this.state.renderOneEdit = false;
         }
@@ -91,7 +89,6 @@ CharacterView = React.createClass({
                     attribute = Attributes.findOne(id);
                     attribute.name = value;
                     Meteor.call("upsertAttribute", attribute);
-                    Meteor.call("upsertCharacter", c);
                     break;
                 case "New Item":
                     Meteor.call("addCharacterItem", c._id, {name: value});
@@ -100,7 +97,6 @@ CharacterView = React.createClass({
                     item = Items.findOne(id);
                     item.name = value;
                     Meteor.call("upsertItem", item);
-                    Meteor.call("upsertCharacter", c);
                     break;
                 case "Name":
                     c.name = value;

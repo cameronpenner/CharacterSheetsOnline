@@ -5,33 +5,45 @@ describe("Character Methods", function() {
 
         beforeEach(function() {
             spyOn(Characters, "upsert");
+            spyOn(Characters, "update");
         });
 
         it("return null and don't call collection if no parameter given", function() {
             expect(Meteor.call("upsertCharacter")).toBe(null);
             expect(Characters.upsert.calls.any()).toEqual(false);
+            expect(Characters.update.calls.count()).toEqual(0);
         });
 
         it("return null and don't call collection if parameter is null", function() {
             expect(Meteor.call("upsertCharacter", null)).toBe(null);
             expect(Characters.upsert.calls.any()).toEqual(false);
+            expect(Characters.update.calls.count()).toEqual(0);
         });
 
         it("return undefined and call collection if parameter is {}", function() {
             expect(Meteor.call("upsertCharacter", {})).toBe(undefined);
             expect(Characters.upsert.calls.count()).toEqual(1);
+            expect(Characters.update.calls.count()).toEqual(0);
         });
 
         it("return undefined and call collection if parameter is valid", function () {
             expect(Meteor.call("upsertCharacter", {name: "test-character"})).toBe(undefined);
             expect(Characters.upsert.calls.count()).toEqual(1);
+            expect(Characters.update.calls.count()).toEqual(0);
         });
+
+        it("return undefined and call update if parameter has _id", function() {
+            expect(Meteor.call("upsertCharacter", {_id: "test-id"})).toBe(undefined);
+            expect(Characters.update.calls.count()).toEqual(1);
+            expect(Characters.upsert.calls.count()).toEqual(0);
+        })
     });
 
     describe("removeCharacter", function() {
 
         beforeEach(function() {
             spyOn(Characters, "remove");
+            spyOn(Campaigns, "find").and.returnValue({fetch: function() {return [];}});
         });
 
         it("return null and don't call collection if no parameter given", function() {
