@@ -22,9 +22,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
+
 import se2.rpgcompanion.dummy.DummyContent;
 
 public class HomeActivity extends AppCompatActivity
@@ -37,15 +43,19 @@ public class HomeActivity extends AppCompatActivity
 {
 
     private Meteor mMeteor;
+    private CharacterFragment characterFragment;
+    public static ArrayList<Pcharacter> pCharacters;
+    private String characterListSub;
     private List<Campaign> campaigns;
-
     private CampaignListFragment campaignListFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupHomeLayout();
 
+        pCharacters = new ArrayList<>();
         campaigns = new ArrayList<Campaign>();
 
         // Setup Meteor
@@ -86,6 +96,7 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
         return true;
     }
 
@@ -97,8 +108,9 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void launchCharactersFragment() {
+        characterListSub = mMeteor.subscribe("character-list");
         setTitle(getString(R.string.title_characters));
-        Fragment characterFragment = new CharacterFragment();
+        characterFragment = new CharacterFragment();
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction().replace(R.id.content_frame, characterFragment).commit();
     }
@@ -201,6 +213,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
+        Log.d("nametag", "Collection name is: " + collectionName + ", values are: " + newValuesJson);
         switch (collectionName) {
             case "campaigns" :
                 try {
@@ -213,6 +226,34 @@ public class HomeActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
                 break;
+
+            case "characters" :
+                try {
+                    JSONObject jsonObject = new JSONObject(newValuesJson);
+                    if (jsonObject.has("name")){
+                        Log.d("nametag", "Valid character name found.");
+                    } else {
+                        Log.d("nametag", "Did not find a character name.");
+                    }
+
+                    String charName = jsonObject.getString("name");
+                    //String owner
+                    //String owner_name
+                    //String creationDate
+                    Pcharacter newChar = new Pcharacter(charName);
+                    pCharacters.add(newChar);
+                    if(characterFragment != null){
+                        characterFragment.updateList(pCharacters);
+                        Log.d("nametag", "charFrag.updateList() has been called.");
+                    } else {
+                        Log.d("nametag", "charFrag was null.");
+                    }
+                } catch (JSONException jse) {
+                    Log.d("nametag", "failed to call updateList()");
+                    jse.printStackTrace();
+                }
+                break;
+
             default :
                 Log.d("collectionName", "the collectionName was unrecognized in onDataAdded: " + collectionName);
         }
@@ -246,13 +287,15 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDataRemoved(String s, String s1) {
+    public void onDataRemoved(String collectionName, String documentID) {
 
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-
+    public void onListFragmentInteraction(Pcharacter playerCharacter) {
+        //Display the character view screen here using this character^.
+        Log.d("rpgcompanion", "You clicked on character: " + playerCharacter.getName());
+        // launch the character view fragment.
     }
 
     public void onCampaignListFragmentInteraction(Campaign campaign) {
@@ -267,6 +310,12 @@ public class HomeActivity extends AppCompatActivity
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
         launchCharactersFragment();
+    }
+
+
+    public ArrayList<Pcharacter> getCharacters() {
+        Log.d("nametag", "getCharacters() has been called.");
+        return pCharacters;
     }
 
     public List<Campaign> getCampaigns() {
