@@ -15,7 +15,7 @@ CampaignList = React.createClass({
     render() {
         var self = this;
         return (
-            <div>
+            <Fader>
                 <h3 className="text-center">Campaigns</h3>
                 <div className="panel panel-default">
                     <div className="panel-body text-center">
@@ -29,7 +29,7 @@ CampaignList = React.createClass({
                         characters={self.data.characters}
                         onDelete={self.deleteCampaign} />;
                 })}
-            </div>
+            </Fader>
         );
     },
 

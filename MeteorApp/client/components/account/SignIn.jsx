@@ -56,7 +56,7 @@ SignIn = React.createClass({
 
     render() {
         return (
-            <div>
+            <Fader>
                 <h3>{this.state.creatingAccount ? "Create Account" : "Sign In"}</h3>
                 <form role="form" onSubmit={this.state.creatingAccount ? this.handleCreate : this.handleSignIn}>
                     {this.state.error != null ? <div className="alert alert-danger" role="alert">Error: {this.state.error.reason}</div> : ''}
@@ -73,7 +73,7 @@ SignIn = React.createClass({
                         &emsp;or <a href="#" onClick={this.toggleCreateAccount}>{this.state.creatingAccount ? "sign in" : "create an account"}</a>
                     </div>
                 </form>
-            </div>
+            </Fader>
         )
     }
 });
