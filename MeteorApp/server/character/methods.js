@@ -9,13 +9,20 @@ var newCharValues = function() {
 Meteor.methods({
     upsertCharacter: function(character) {
         if (!character || !Meteor.user()) return null;
-        return Characters.upsert({
-            _id: character._id
-        }, {
-            $set: character
-        }, {
-            $setOnInsert: _.extend(character, newCharValues())
-        });
+
+        if (character._id) {
+            return Characters.update({_id: character._id}, {$set: character});
+        }
+        else {
+            return Characters.upsert({
+                _id: character._id
+            }, {
+                $set: character
+            }, {
+                $setOnInsert: _.extend(character, newCharValues())
+            });
+        }
+
     },
     removeCharacter: function(character) {
         if (!character || !Meteor.user()) return null;
