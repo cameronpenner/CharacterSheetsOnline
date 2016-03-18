@@ -161,6 +161,19 @@ ItemView = React.createClass({
         return bool;
     },
 
+    giveApplicable() {
+        // check if there are other characters in the campaign the this character is in
+        if (this.data.campaigns.length > 0) {
+            for (i=0; i<this.data.campaigns.length; i++) {
+                if (this.data.campaigns[i] && this.data.campaigns[i].character_ids.length>1)
+                    return true;
+            }
+        }
+
+        return false;
+
+    },
+
     renderForm(name, value, key) {
         if (!this.state.renderOneEdit) {
             this.state.renderOneEdit = true;
@@ -190,7 +203,7 @@ ItemView = React.createClass({
     },
 
     render() {
-        if (this.data.ready && this.data.charReady) {
+        if (this.data.ready && this.data.charReady && this.data.campReady) {
             if (this.data.item && this.characterOwnsItem()) {
                 return (
                     <div>
@@ -236,7 +249,7 @@ ItemView = React.createClass({
                         }
 
                         <h3> </h3>
-                        {this.data.canEdit ?
+                        {this.data.canEdit && this.giveApplicable() ?
                             <div className="dropdown">
                                 <button className="btn btn-default dropdown-toggle" 
                                         type="button" 
