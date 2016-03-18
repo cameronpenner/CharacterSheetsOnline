@@ -199,7 +199,7 @@ CharacterView = React.createClass({
         if (this.data.ready) {
             if (this.data.character){
                 return (
-                    <div className="container">
+                    <Fader>
                         <h2>Name:&nbsp; 
                         {this.checkEditingState("Name: ") || this.checkEditingState(this.data.character.name) ?
                             this.renderForm("Name", this.data.character.name) :
@@ -279,18 +279,18 @@ CharacterView = React.createClass({
                                     className="btn btn-danger"
                                     href={"/"}
                                     onClick={this.deleteCharacter}>Delete Character</button> : <div></div>}
-                    </div>
+                    </Fader>
                 );
             }
             else {
                 return (
-                    <div> 
+                    <Fader>
                         <h3>No valid character found</h3>
                         <a style={{color:'black',textDecoration:'none'}}
                             href={"/character/list/"}>
                                 <button type="button"
                                         className= "btn btn-default">Return to Character List</button></a>
-                    </div>
+                    </Fader>
                     );
             }
         }

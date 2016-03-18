@@ -153,7 +153,7 @@ CharacterList = React.createClass({
 
     render() {
         return (
-            <div>
+            <Fader>
                 <h3>Characters List</h3>
 
                 <div className="list-group">
@@ -216,7 +216,7 @@ CharacterList = React.createClass({
 
                 }
 
-            </div>
+            </Fader>
         );
     }
 });

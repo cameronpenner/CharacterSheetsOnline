@@ -206,7 +206,7 @@ ItemView = React.createClass({
         if (this.data.ready && this.data.charReady && this.data.campReady) {
             if (this.data.item && this.characterOwnsItem()) {
                 return (
-                    <div>
+                    <Fader>
                     <h2>Name:&nbsp; 
                             {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
                                     this.renderForm("Name", this.data.item.name) :
@@ -283,18 +283,18 @@ ItemView = React.createClass({
                             <button type="button"
                                     className="btn btn-danger"
                                     onClick={this.deleteItem}>Delete Item</button> : <div></div>}
-                    </div>
+                    </Fader>
                 );
             }
             else {
                 return (
-                    <div> 
+                    <Fader>
                         <h3>No valid item found</h3>
                         <a style={{color:'black',textDecoration:'none'}}
                             href={"/character/list/"}>
                                 <button type="button"
                                         className= "btn btn-default">Return to Character List</button></a>
-                    </div>
+                    </Fader>
                     );
             }
         }
