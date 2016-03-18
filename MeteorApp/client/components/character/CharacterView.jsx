@@ -17,6 +17,7 @@ CharacterView = React.createClass({
         const itemSub = Meteor.subscribe('item-list');
         const attrSub = Meteor.subscribe('attribute-list');
         const campSub = Meteor.subscribe('campaign-list-character', _id);
+        const imgsSub = Meteor.subscribe('images');
 
         var data = {
             ready: charSub.ready(),
@@ -207,6 +208,8 @@ CharacterView = React.createClass({
                                 className="btn btn-default"
                                 onClick={this.setEditingState}>{this.data.character.name}</button>
                         }</h2>  
+
+                        <img src={this.data.character.img_path}/>
 
                         <h4>Owner:&nbsp; 
                         {this.data.ready ? <a href={"/character/list/"}>

@@ -41,6 +41,7 @@ CharacterList = React.createClass({
                 toggleForm();
                 switch (type) {
                     case "Wizard":
+                        Meteor.call("setPath", data.insertedId, "/images/Wizard_Icon.png");
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Health: 22"});
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Mana: 89"});
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Equip Load: 100"});
@@ -58,6 +59,7 @@ CharacterList = React.createClass({
                         });
                         break;
                     case "Warrior":
+                        Meteor.call("setPath", data.insertedId, "/images/Warrior_Icon.png");
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Health: 89"});
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Mana: 20"});
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Equip Load: 300"});
@@ -77,6 +79,7 @@ CharacterList = React.createClass({
 
                         break;
                     case "Thief":
+                        Meteor.call("setPath", data.insertedId, "/images/Thief_Icon.png");
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Health: 60"});
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Mana: 10"});
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Equip Load: 100"});
@@ -97,6 +100,7 @@ CharacterList = React.createClass({
 
                         break;
                     case "Archer":
+                        Meteor.call("setPath", data.insertedId, "/images/Archer_Icon.png");
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Health: 42"});
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Mana: 50"});
                         Meteor.call("addCharacterAttribute", data.insertedId, {name: "Equip Load: 150"});

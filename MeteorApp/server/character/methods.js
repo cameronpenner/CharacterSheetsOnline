@@ -2,7 +2,8 @@ var newCharValues = function() {
     return {
         owner: Meteor.userId(),
         owner_name: Meteor.user().username,
-        createdAt: new Date()
+        createdAt: new Date(),
+        img_path: "/images/Default.png"
     };
 };
 
@@ -127,6 +128,16 @@ Meteor.methods({
         },{
             $pull: {
                 items: item_id
+            }
+        });
+    },
+    setPath: function(c_id, path) {
+        if(!c_id) return null;
+        Characters.update({
+            _id: c_id
+        },{
+            $set: {
+                img_path: path
             }
         });
     },

@@ -26,3 +26,4 @@ twbs:bootstrap
 cfs:standard-packages
 cfs:gridfs
 cfs:s3
+reactive-var
