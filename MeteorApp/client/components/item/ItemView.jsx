@@ -151,11 +151,14 @@ ItemView = React.createClass({
         if (this.data.ready) {
             if (this.data.item) {
                 return (
-                    <div className="container">
-                        {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
-                            this.renderForm("Name", this.data.item.name) :
-                            <h2 onClick={this.setEditingState}>Item: {this.data.item.name}</h2>
-                        }
+                    <div>
+                    <h4>Name:&nbsp; 
+                            {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
+                                    this.renderForm("Name", this.data.item.name) :
+                                    <button type="button"
+                                            className="btn btn-default"
+                                            onClick={this.setEditingState}>{this.data.item.name}</button>
+                            }</h4>                        
 
                         <h4>Owner:&nbsp; 
                         {this.data.charReady ? <a href={"/character/"+this.data.character._id}>
