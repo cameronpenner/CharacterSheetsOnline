@@ -222,10 +222,11 @@ CharacterList = React.createClass({
                             Meteor.call("addItemAttribute", data.insertedId, {name: "Physical Defence: 8"});
                             Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 100"});
                         });
-                        break;
-                }
+                        break;                    
+                }             
             }
         });
+        this.state.type = "Presets";
     },
 
     toggleNewCharacterForm(event) {
