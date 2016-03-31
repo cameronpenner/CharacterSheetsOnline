@@ -354,7 +354,8 @@ CharacterList = React.createClass({
                             onClick={this.toggleNewCharacterForm}>New Character</button>
 
                 }
-
+                <p style={{paddingBottom:'310px'}}>
+                </p>
             </Fader>
         );
     }
