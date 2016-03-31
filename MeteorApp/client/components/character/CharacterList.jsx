@@ -111,6 +111,7 @@ CharacterList = React.createClass({
                         });
                         Meteor.call("addCharacterItem", data.insertedId, {name: "Bow"}, function(err, data){
                             Meteor.call("addItemAttribute", data.insertedId, {name: "Weapon Attack (Ranged): 5"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Arrows: 38"});
                             Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 80"});
                         });
                         Meteor.call("addCharacterItem", data.insertedId, {name: "Leather Armour"}, function(err, data){
@@ -118,6 +119,109 @@ CharacterList = React.createClass({
                             Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 100"});
                         });
 
+                        break;
+                    case "Brawler":
+                        Meteor.call("setPath", data.insertedId, "/images/Brawler_Icon.png");
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Health: 70"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Mana: 50"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Equip Load: 100"});
+
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Brass Bracelet"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Strength: 20"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 150"});
+                        });
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Iron Knuckles"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Weapon Attack: 18"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 40"});
+                        });
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Cotton Shirt"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Physical Defence: 8"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 100"});
+                        });
+                        break;
+                    case "Dryad":
+                        Meteor.call("setPath", data.insertedId, "/images/Dryad_Icon.png");
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Health: 42"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Mana: 50"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Equip Load: 150"});
+
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Leaf Crown"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Avoidability: 16"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 30"});
+                        });
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Leaf Armour"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Physical Defence: 8"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 40"});
+                        });
+                        break;
+                    case "Bard":
+                        Meteor.call("setPath", data.insertedId, "/images/Bard_Icon.png");
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Health: 60"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Mana: 50"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Equip Load: 100"});
+
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Gold Ring"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Charisma: 6"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 80"});
+                        });
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Harp"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Magic Attack: 18"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 40"});
+                        });
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Fancy Attire"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Physical Defence: 7"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 80"});
+                        });
+                        break;
+                    case "Gunslinger":
+                        Meteor.call("setPath", data.insertedId, "/images/Gunslinger_Icon.png");
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Health: 42"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Mana: 50"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Equip Load: 150"});
+
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Chain Necklace"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Accuracy: 16"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 70"});
+                        });
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Pistol"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Weapon Attack (Ranged): 12"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Ammo: 20"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 80"});
+                        });
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Cotton Shirt"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Physical Defence: 8"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 100"});
+                        });
+                        break;
+                    case "Blasksmith":
+                        Meteor.call("setPath", data.insertedId, "/images/Blacksmith_Icon.png");
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Health: 70"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Mana: 0"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Equip Load: 300"});
+
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Blacksmith Hammer"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Weapon Attack: 12"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 40"});
+                        });
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Leather Apron"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Physical Defence: 16"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 100"});
+                        });
+                        break;
+                    case "Farmer":
+                        Meteor.call("setPath", data.insertedId, "/images/Farmer_Icon.png");
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Health: 60"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Mana: 10"});
+                        Meteor.call("addCharacterAttribute", data.insertedId, {name: "Equip Load: 180"});
+
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Brass Hoe"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Weapon Attack: 6"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 40"});
+                        });
+                        Meteor.call("addCharacterItem", data.insertedId, {name: "Cotton Shirt"}, function(err, data){
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Physical Defence: 8"});
+                            Meteor.call("addItemAttribute", data.insertedId, {name: "Durability: 100"});
+                        });
                         break;
                 }
             }
@@ -198,6 +302,36 @@ CharacterList = React.createClass({
                                                                 label = {"Archer"}
                                                                 href = "#"
                                                                 onClick={this.setType}>Archer</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                                tabindex="-1"
+                                                                label = {"Brawler"}
+                                                                href = "#"
+                                                                onClick={this.setType}>Brawler</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                                tabindex="-1"
+                                                                label = {"Dryad"}
+                                                                href = "#"
+                                                                onClick={this.setType}>Dryad</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                                tabindex="-1"
+                                                                label = {"Bard"}
+                                                                href = "#"
+                                                                onClick={this.setType}>Bard</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                                tabindex="-1"
+                                                                label = {"Gunslinger"}
+                                                                href = "#"
+                                                                onClick={this.setType}>Gunslinger</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                                tabindex="-1"
+                                                                label = {"Blasksmith"}
+                                                                href = "#"
+                                                                onClick={this.setType}>Blasksmith</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                                tabindex="-1"
+                                                                label = {"Farmer"}
+                                                                href = "#"
+                                                                onClick={this.setType}>Farmer</a></li>
                                     <li role="presentation" className="divider"></li>
                                     <li role="presentation"><a role="menuitem"
                                                                 tabindex="-1"
