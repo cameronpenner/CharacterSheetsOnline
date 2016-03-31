@@ -4,7 +4,8 @@ CharacterList = React.createClass({
     getInitialState() {
         return {
             showNewCharForm: false,
-            newCharFormError: null
+            newCharFormError: null,
+            type: "Preset"
         };
     },
 
@@ -16,8 +17,7 @@ CharacterList = React.createClass({
             charReady: charSub.ready(),
             itemReady: itemSub.ready(),
             attrReady: attrSub.ready(),
-            characters: Characters.find().fetch(),
-            type: "Presets"
+            characters: Characters.find().fetch()
         };
     },
 
@@ -280,7 +280,7 @@ CharacterList = React.createClass({
                                 <button className="btn btn-default dropdown-toggle"
                                         type="button"
                                         id="menu1"
-                                        data-toggle="dropdown">{this.data.type}
+                                        data-toggle="dropdown">{this.state.type}
                                 <span className="caret"></span></button>
                                 <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
                                     <li role="presentation"><a role="menuitem"
