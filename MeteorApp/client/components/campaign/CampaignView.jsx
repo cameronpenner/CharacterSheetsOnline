@@ -17,7 +17,7 @@ CampaignView = React.createClass({
 
 	render() {
 		return(
-			<Fader>
+			<div>
 			{this.state.editing ? 
 				<div className="panel panel-default">
 					<div className="panel-heading clearfix">
@@ -123,7 +123,7 @@ CampaignView = React.createClass({
 						</div>
 					</div>
 				</div>}
-			</Fader>
+			</div>
 		);
 	},
 
