@@ -1,7 +1,8 @@
 body {
     height: 100%;
-    background-color: aliceblue;
+    background-color: #e6e6e6;
 }
 .navbar {
-    background-color: lightblue;
+    background-color: #CCCCCC;
+    border-color: #CCCCCC;
 }
