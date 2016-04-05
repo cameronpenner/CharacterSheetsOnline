@@ -13,12 +13,14 @@ AppBody = React.createClass({
 
     render() {
         return (
-            <div className="container">
+            <div className="container" id="main">
                 <header>
                     <nav className="navbar navbar-default">
                         <div className="container-fluid">
                             <div className="navbar-header">
-                                <a className="navbar-brand" href="/">RPG Companion</a>
+                                <a className="navbar-brand" href="/">
+                                    <img id="crctrzlogo" src="/images/crctrz.png"/>
+                                </a>
                             </div>
                             {this.data.user != null ?
                                 <div>

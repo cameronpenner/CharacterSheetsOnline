@@ -1,0 +1,87 @@
+h1, h2, h3, h4, h5, .btn, a, nav, input, label {
+    font-family: "Comic Sans MS";
+}
+
+.navbar {
+    color: white;
+    background-color: deeppink;
+}
+
+.navbar a {
+    color: white;
+    font-size: large;
+}
+
+.panel {
+    background-color: coral;
+}
+
+.panel-heading.clearfix {
+    background-color: aquamarine;
+}
+
+.list-group-item {
+    background-color: darkgoldenrod;
+    border-color: darkorange;
+}
+
+select.form-control {
+    background-color: aqua;
+}
+
+input.form-control {
+    background-color: mediumorchid;
+}
+
+
+
+h1 {
+    color: blue;
+}
+
+h2 {
+    color: mediumblue;
+}
+
+h3 {
+    color: forestgreen;
+}
+
+h4 {
+    color: maroon;
+}
+
+header {
+    background-color: bisque;
+}
+
+.panel-title {
+    color: purple;
+}
+
+.btn {
+    color: royalblue;
+    background-color: darkseagreen;
+    border-color: purple;
+    user-focus: red;
+}
+
+.btn-danger {
+    color: white;
+    background-color: crimson;
+}
+
+:active :focus :hover {
+    color: blue;
+    background-color: blanchedalmond;
+    border-color: blueviolet;
+}
+
+#crctrzlogo {
+    width: 110px;
+    height: 30px;
+}
+
+#main {
+    background-color: lightblue;
+}
