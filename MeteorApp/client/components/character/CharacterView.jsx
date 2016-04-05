@@ -197,13 +197,13 @@ CharacterView = React.createClass({
             if (this.data.character){
                 return (
                     <Fader>
-                        <h2>Name:&nbsp; 
+                        {this.data.canEdit ? <h2>Name:&nbsp; 
                         {this.checkEditingState("Name: ") || this.checkEditingState(this.data.character.name) ?
                             this.renderForm("Name", this.data.character.name) :
                             <button type="button"
                                 className="btn btn-default"
                                 onClick={this.setEditingState}>{this.data.character.name}</button>
-                        }</h2>  
+                        }</h2>: <h2>Name: {this.data.character.name}</h2>}
 
                         <img src={this.data.character.img_path}/>
 
