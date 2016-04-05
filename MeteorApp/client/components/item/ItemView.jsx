@@ -207,13 +207,13 @@ ItemView = React.createClass({
             if (this.data.item && this.characterOwnsItem()) {
                 return (
                     <Fader>
-                    <h2>Name:&nbsp; 
+                    {this.data.canEdit ? <h2>Name:&nbsp; 
                             {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
                                     this.renderForm("Name", this.data.item.name) :
                                     <button type="button"
                                             className="btn btn-default"
                                             onClick={this.setEditingState}>{this.data.item.name}</button>
-                            }</h2>                        
+                            }</h2>:<h2>Name: {this.data.item.name}</h2>}                  
 
                         <h4>Owner:&nbsp; 
                         {this.data.charReady ? <a href={"/character/"+this.data.character._id}>
