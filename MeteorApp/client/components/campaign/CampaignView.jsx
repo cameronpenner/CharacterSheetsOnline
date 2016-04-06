@@ -105,7 +105,7 @@ CampaignView = React.createClass({
 							<select className="form-control" ref="addcharacter">
 								{this.props.characters.map((character) => {
 									if (this.props.campaign.character_ids.indexOf(character._id) == -1) {
-										return <option key={character._id}>{character.name}</option>
+										return <option key={character._id} value={character._id}>{character.name}</option>
 									} else {
 										return null;
 									}
@@ -149,12 +149,9 @@ CampaignView = React.createClass({
 	},
 
 	addCharacter() {
-
 		var index = this.refs.addcharacter.selectedIndex;
-		var name = console.log(this.refs.addcharacter[index].text);		
 
-
-		this.props.campaign.character_ids.push(this.props.characters[index]._id);
+		this.props.campaign.character_ids.push(this.refs.addcharacter[index].value);
 		jQuery.unique(this.props.campaign.character_ids);
 		Meteor.call("upsertCampaign", this.props.campaign);
 		this.fillCharacterLookup();
