@@ -94,15 +94,9 @@ CampaignView = React.createClass({
 									});
 								}
 
-								if (canEdit) {
-									return (
-										<li key={characterId} className="list-group-item"><a href={"/character/" + characterId}>{this.state.characterLookup[characterId] ? this.state.characterLookup[characterId].name : <LoadingImage/>}</a><button className="btn btn-xs btn-default pull-right" onClick={this.removeCharacter.bind(this, characterId)}><span className="glyphicon glyphicon-remove"></span></button></li>
-									);
-								} else {
-									return (
-										<li key={characterId} className="list-group-item">{this.state.characterLookup[characterId] ? this.state.characterLookup[characterId].name : <LoadingImage/>}</li>
-									);
-								}
+								return (
+									<li key={characterId} className="list-group-item"><a href={"/character/" + characterId}>{this.state.characterLookup[characterId] ? this.state.characterLookup[characterId].name : <LoadingImage/>}</a>{canEdit ? <button className="btn btn-xs btn-default pull-right" onClick={this.removeCharacter.bind(this, characterId)}><span className="glyphicon glyphicon-remove"></span></button> : ""}</li>
+								);
 								
 							})}
 						</ul>
@@ -155,7 +149,12 @@ CampaignView = React.createClass({
 	},
 
 	addCharacter() {
-		this.props.campaign.character_ids.push(this.props.characters[this.refs.addcharacter.selectedIndex]._id);
+
+		var index = this.refs.addcharacter.selectedIndex;
+		var name = console.log(this.refs.addcharacter[index].text);		
+
+
+		this.props.campaign.character_ids.push(this.props.characters[index]._id);
 		jQuery.unique(this.props.campaign.character_ids);
 		Meteor.call("upsertCampaign", this.props.campaign);
 		this.fillCharacterLookup();
