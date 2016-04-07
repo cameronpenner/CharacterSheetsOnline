@@ -300,14 +300,40 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onDataRemoved(String collectionName, String documentID) {
-
+        //will probably be simpler then you think.
+        //just identify the resource in a switch statement and remove it from the arrayList in question.
+        //Then call update on the fragment in question
+        Log.d("JSON", "Collection name is: " + collectionName + ", doc id: " + documentID);
+        switch (collectionName) {
+            case "campaigns" :
+                for (Campaign c : campaigns) {
+                    if (c.getId().equals(documentID)) {
+                        Log.d("remove", "removing campaign with document id of: " + documentID);
+                        campaigns.remove(c);
+                    }
+                }
+                if (campaignListFragment != null) {
+                    campaignListFragment.updateCampaigns(campaigns);
+                }
+                break;
+            case "characters" :
+                for (Pcharacter p : pCharacters){
+                    if (p.getId().equals(documentID)) {
+                        Log.d("remove", "removing character with document id of: " + documentID);
+                        pCharacters.remove(p);
+                    }
+                }
+                if (characterListFragment != null){
+                    characterListFragment.updateList(pCharacters);
+                }
+        }
     }
 
     @Override
     public void onListFragmentInteraction(Pcharacter playerCharacter) {
         //Display the character view screen here using this character^.
         Log.d("rpgcompanion", "You clicked on character: " + playerCharacter.getName());
-        // launch the character view fragment.
+        // launch the character view fragment with playerCharacter as input.
     }
 
     public void onCampaignListFragmentInteraction(Campaign campaign) {
@@ -326,7 +352,6 @@ public class HomeActivity extends AppCompatActivity
 
 
     public ArrayList<Pcharacter> getCharacters() {
-        //Log.d("nametag", "getCharacters() has been called.");
         return pCharacters;
     }
 
