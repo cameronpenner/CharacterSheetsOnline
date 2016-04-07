@@ -63,7 +63,7 @@ AppBody = React.createClass({
                         <div className="container-fluid">
                             <div className="navbar-header">
                                 <a className="navbar-brand" href="/">
-                                    <img src="/images/crctrz.png"/>
+                                    <img src="/images/logo.png"/>
                                 </a>
                             </div>
                             {this.data.user != null ?
@@ -90,7 +90,7 @@ AppBody = React.createClass({
                                     <div className="col-xs-6 col-xs-offset-3">{this.props.children}</div>
                                 </div> : <Fader>
                                     <h1 className="text-center">Welcome to</h1>
-                                    <img className="center-block" src="/images/crctrzbig2.png" />
+                                    <img className="center-block" src="/images/logobig2.png" />
                                 </Fader>}
                             </div>}
                         </div>
