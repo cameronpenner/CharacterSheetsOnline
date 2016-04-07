@@ -15,6 +15,12 @@ CampaignView = React.createClass({
 		this.fillCharacterLookup();
 	},
 
+	componentWillUpdate(nextProps, nextState) {
+		if (nextProps.campaign.character_ids != this.props.campaign.character_ids) {
+			this.fillCharacterLookup(nextProps.campaign.character_ids);
+		}
+	},
+
 	render() {
 		return(
 			<Fader>
@@ -175,9 +181,17 @@ CampaignView = React.createClass({
 		Meteor.call("upsertCampaign", this.props.campaign);
 	},
 
-	fillCharacterLookup() {
+	fillCharacterLookup(data) {
 		var self = this;
-		this.props.campaign.character_ids.map((characterId) => {
+
+		var ids;
+		if (data) {
+			ids = data;
+		} else {
+			ids = this.props.campaign.character_ids;
+		}
+
+		ids.map((characterId) => {
 			Meteor.call("getCharacter", characterId, function(err, data) {
 				characterLookup = self.state.characterLookup;
 				characterLookup[characterId] = data;
