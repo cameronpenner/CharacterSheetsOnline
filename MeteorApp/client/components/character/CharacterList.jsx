@@ -263,98 +263,100 @@ CharacterList = React.createClass({
     render() {
         return (
             <Fader>
-                <h3>Characters List</h3>
-
-                <div className="list-group">
-                    {this.data.charReady ? this.renderCharacters() : <LoadingImage/>}
-                </div>
+                <h1 className="text-center">Characters</h1>
+                &emsp;
                 {this.state.showNewCharForm ?
                     <div>
                         {this.state.newCharFormError ? <div className="alert alert-danger" role="alert">Error: {this.state.newCharFormError.reason}</div> : ''}
                         <div className="input-group">
                             <input type="text"
                                    className="form-control"
+                                   placeholder="Type a Character Name"
                                    ref="name" />
 
                             <div className="input-group-btn">
-                                <button className="btn btn-default dropdown-toggle"
-                                        type="button"
-                                        id="menu1"
-                                        data-toggle="dropdown">{this.state.type}
-                                <span className="caret"></span></button>
-                                <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                    <li role="presentation"><a role="menuitem"
-                                                                tabindex="-1"
-                                                                label = {"Wizard"}
-                                                                href = "#"
-                                                                onClick={this.setType}>Wizard</a></li>
-                                    <li role="presentation"><a role="menuitem"
-                                                                tabindex="-1"
-                                                                label = {"Thief"}
-                                                                href = "#"
-                                                                onClick={this.setType}>Thief</a></li>
-                                    <li role="presentation"><a role="menuitem"
-                                                                tabindex="-1"
-                                                                label = {"Warrior"}
-                                                                href = "#"
-                                                                onClick={this.setType}>Warrior</a></li>
-                                    <li role="presentation"><a role="menuitem"
-                                                                tabindex="-1"
-                                                                label = {"Archer"}
-                                                                href = "#"
-                                                                onClick={this.setType}>Archer</a></li>
-                                    <li role="presentation"><a role="menuitem"
-                                                                tabindex="-1"
-                                                                label = {"Brawler"}
-                                                                href = "#"
-                                                                onClick={this.setType}>Brawler</a></li>
-                                    <li role="presentation"><a role="menuitem"
-                                                                tabindex="-1"
-                                                                label = {"Dryad"}
-                                                                href = "#"
-                                                                onClick={this.setType}>Dryad</a></li>
-                                    <li role="presentation"><a role="menuitem"
-                                                                tabindex="-1"
-                                                                label = {"Bard"}
-                                                                href = "#"
-                                                                onClick={this.setType}>Bard</a></li>
-                                    <li role="presentation"><a role="menuitem"
-                                                                tabindex="-1"
-                                                                label = {"Gunslinger"}
-                                                                href = "#"
-                                                                onClick={this.setType}>Gunslinger</a></li>
-                                    <li role="presentation"><a role="menuitem"
-                                                                tabindex="-1"
-                                                                label = {"Blasksmith"}
-                                                                href = "#"
-                                                                onClick={this.setType}>Blasksmith</a></li>
-                                    <li role="presentation"><a role="menuitem"
-                                                                tabindex="-1"
-                                                                label = {"Farmer"}
-                                                                href = "#"
-                                                                onClick={this.setType}>Farmer</a></li>
-                                    <li role="presentation" className="divider"></li>
-                                    <li role="presentation"><a role="menuitem"
-                                                                tabindex="-1"
-                                                                label = {"Presets"}
-                                                                href = "#"
-                                                                onClick={this.setType}>None</a></li>
-                                </ul>
                                 <button type="button"
-                                        className="btn btn-default"
+                                        className="btn btn-success"
                                         onClick={this.saveNewCharacter}>Save</button>
                                 <button type="button"
                                         className="btn btn-default"
                                         onClick={this.toggleNewCharacterForm}>Cancel</button>
+                                <button className="btn btn-primary dropdown-toggle"
+                                        type="button"
+                                        id="menu1"
+                                        data-toggle="dropdown">{this.state.type}
+                                    <span className="caret"></span></button>
+                                <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                    <li role="presentation"><a role="menuitem"
+                                                               tabindex="-1"
+                                                               label = {"Wizard"}
+                                                               href = "#"
+                                                               onClick={this.setType}>Wizard</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                               tabindex="-1"
+                                                               label = {"Thief"}
+                                                               href = "#"
+                                                               onClick={this.setType}>Thief</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                               tabindex="-1"
+                                                               label = {"Warrior"}
+                                                               href = "#"
+                                                               onClick={this.setType}>Warrior</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                               tabindex="-1"
+                                                               label = {"Archer"}
+                                                               href = "#"
+                                                               onClick={this.setType}>Archer</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                               tabindex="-1"
+                                                               label = {"Brawler"}
+                                                               href = "#"
+                                                               onClick={this.setType}>Brawler</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                               tabindex="-1"
+                                                               label = {"Dryad"}
+                                                               href = "#"
+                                                               onClick={this.setType}>Dryad</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                               tabindex="-1"
+                                                               label = {"Bard"}
+                                                               href = "#"
+                                                               onClick={this.setType}>Bard</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                               tabindex="-1"
+                                                               label = {"Gunslinger"}
+                                                               href = "#"
+                                                               onClick={this.setType}>Gunslinger</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                               tabindex="-1"
+                                                               label = {"Blasksmith"}
+                                                               href = "#"
+                                                               onClick={this.setType}>Blasksmith</a></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                               tabindex="-1"
+                                                               label = {"Farmer"}
+                                                               href = "#"
+                                                               onClick={this.setType}>Farmer</a></li>
+                                    <li role="presentation" className="divider"></li>
+                                    <li role="presentation"><a role="menuitem"
+                                                               tabindex="-1"
+                                                               label = {"Presets"}
+                                                               href = "#"
+                                                               onClick={this.setType}>None</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div> :
                     <button type="button"
-                            className="btn btn-default"
+                            className="btn btn-primary btn-block"
                             onClick={this.toggleNewCharacterForm}>New Character</button>
 
                 }
-                <p style={{paddingBottom:'310px'}}>
+                &emsp;
+                <div className="list-group">
+                    {this.data.charReady ? this.renderCharacters() : <LoadingImage/>}
+                </div>
+                <p style={{paddingBottom:'150px'}}>
                 </p>
             </Fader>
         );

@@ -57,12 +57,14 @@ AppBody = React.createClass({
     render() {
         var string = "/Dice/D" + this.state.die + "/" + this.state.roll + ".jpg";
         return (
-            <div className="container">
+            <div>
                 <header>
                     <nav className="navbar navbar-default">
                         <div className="container-fluid">
                             <div className="navbar-header">
-                                <a className="navbar-brand" href="/">RPG Companion</a>
+                                <a className="navbar-brand" href="/">
+                                    <img src="/images/crctrz.png"/>
+                                </a>
                             </div>
                             {this.data.user != null ?
                                 <div>
@@ -80,9 +82,18 @@ AppBody = React.createClass({
                         </div>
                     </nav>
                 </header>
-                <div className="row">
-                    <div className="col-lg-12">
-                        {this.data.user === null ? <SignIn/> : this.props.children}
+                <div className="container-fluid" id="main">
+                    <div className="row">
+                        <div className="col-xs-12">
+                            {this.data.user === null ? <SignIn/> : <div>
+                                {this.props.children ? <div className="row">
+                                    <div className="col-xs-6 col-xs-offset-3">{this.props.children}</div>
+                                </div> : <Fader>
+                                    <h1 className="text-center">Welcome to</h1>
+                                    <img src="/images/crctrzbig2.png" />
+                                </Fader>}
+                            </div>}
+                        </div>
                     </div>
                 </div>
 
