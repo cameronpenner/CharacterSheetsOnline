@@ -29,6 +29,8 @@ CampaignList = React.createClass({
                         characters={self.data.characters}
                         onDelete={self.deleteCampaign} />;
                 })}
+                <p style={{paddingBottom:'150px'}}>
+                </p>
             </Fader>
         );
     },

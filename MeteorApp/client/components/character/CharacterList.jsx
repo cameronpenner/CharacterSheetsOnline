@@ -356,6 +356,8 @@ CharacterList = React.createClass({
                 <div className="list-group">
                     {this.data.charReady ? this.renderCharacters() : <LoadingImage/>}
                 </div>
+                <p style={{paddingBottom:'150px'}}>
+                </p>
             </Fader>
         );
     }
