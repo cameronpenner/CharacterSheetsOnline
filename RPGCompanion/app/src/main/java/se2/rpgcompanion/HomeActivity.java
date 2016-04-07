@@ -288,6 +288,9 @@ public class HomeActivity extends AppCompatActivity
                                 p.setName(newName);
                             }
                         }
+                        if (characterListFragment != null){
+                            characterListFragment.updateList(pCharacters);
+                        }
                     }
                 } catch (JSONException jse) {
                     jse.printStackTrace();
