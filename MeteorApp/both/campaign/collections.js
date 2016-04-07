@@ -13,6 +13,10 @@ const campaignSchema = new SimpleSchema({
     },
     character_ids: {
         type: [String]
+    },
+    log: {
+        type: [String],
+        optional: true
     }
 });
 

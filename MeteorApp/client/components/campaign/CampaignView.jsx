@@ -115,6 +115,27 @@ CampaignView = React.createClass({
 								<button className="btn btn-default" type="button" onClick={this.addCharacter}><span className="glyphicon glyphicon-plus"></span></button>
 							</span>
 						</div>
+						&emsp;
+						<h4>Log</h4>
+						{this.props.campaign.log && this.props.campaign.log.length > 0 ?
+							<div className="well">
+								{this.props.campaign.log.map((log) => {return (
+									<p>
+										{log}
+										{Meteor.user().username == this.props.campaign.game_master_name ?
+											<button className="btn btn-danger btn-xs pull-right" onClick={this.deleteLog}>Delete</button>
+											: ''
+										}
+									</p>);})}
+							</div>
+								: ''
+						}
+						{Meteor.user().username == this.props.campaign.game_master_name ? <div>
+							<textarea id="logtextarea" className="form-control center-block" rows="3" placeholder="Write a New Log Entry..."/>
+							<button className="btn btn-success" onClick={this.saveNewLog}>Save Log</button>
+						</div> : ''}
+
+
 					</div>
 				</div>}
 			</Fader>
@@ -184,5 +205,24 @@ CampaignView = React.createClass({
 				self.setState({characterLookup: characterLookup});
 			});
 		});
+	},
+
+	saveNewLog(event) {
+		if (event)
+			event.preventDefault();
+
+		console.log(this.props.campaign._id, $("#logtextarea")[0].value);
+		var log = $("#logtextarea")[0].value;
+		Meteor.call("addLog", this.props.campaign._id, log);
+		$("#logtextarea")[0].value = "";
+	},
+
+	deleteLog(event) {
+		if (event)
+			event.preventDefault();
+		var log = $(event.currentTarget).parent()[0].textContent;
+		log = log.substr(0, log.length - 6);
+		console.log(this.props.campaign._id, log)
+		Meteor.call("removeLog", this.props.campaign._id, log);
 	}
 });
