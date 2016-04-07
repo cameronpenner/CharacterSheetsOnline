@@ -149,6 +149,9 @@ public class HomeActivity extends AppCompatActivity
                 launchCharacterListFragment();
             } else if (id == R.id.nav_campaigns) {
                 launchCampaignListFragment();
+            } else if (id == R.id.nav_dice) {
+                //launch dice fragment
+                //implement this later?
             } else if (id == R.id.nav_logout) {
                 mMeteor.logout();
                 launchLoginFragment();
