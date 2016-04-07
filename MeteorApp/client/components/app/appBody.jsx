@@ -104,54 +104,56 @@ AppBody = React.createClass({
                             <div className="modal-header">
                                 <h3 className="modal-title">D{this.state.die}
 
-                                    <button className="btn btn-default dropdown-toggle pull-right"
-                                            type="button"
-                                            id="menu1"
-                                            data-toggle="dropdown">Choose A Die
-                                    <span className="caret"></span></button>
-                                    <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                        <li role="presentation"><a role="menuitem"
-                                                                    tabindex="-1"
-                                                                    label = "4"
-                                                                    href = "#"
-                                                                    onClick={this.setD4}>D4</a></li>
-                                        <li role="presentation"><a role="menuitem"
-                                                                    tabindex="-1"
-                                                                    label = "6"
-                                                                    href = "#"
-                                                                    onClick={this.setD6}>D6</a></li>
-                                        <li role="presentation"><a role="menuitem"
-                                                                    tabindex="-1"
-                                                                    label = "8"
-                                                                    href = "#"
-                                                                    onClick={this.setD8}>D8</a></li>
-                                        <li role="presentation"><a role="menuitem"
-                                                                    tabindex="-1"
-                                                                    label = "10"
-                                                                    href = "#"
-                                                                    onClick={this.setD10}>D10</a></li>
-                                        <li role="presentation"><a role="menuitem"
-                                                                    tabindex="-1"
-                                                                    label = "12"
-                                                                    href = "#"
-                                                                    onClick={this.setD12}>D12</a></li>
-                                        <li role="presentation"><a role="menuitem"
-                                                                    tabindex="-1"
-                                                                    label = "20"
-                                                                    href = "#"
-                                                                    onClick={this.setD20}>D20</a></li>
-                                    </ul>
+                                    <div className="btn-group pull-right"> 
+                                        <button className="btn btn-primary dropdown-toggle"
+                                                type="button"
+                                                id="menu1"
+                                                data-toggle="dropdown">Choose A Die
+                                            <span className="caret"></span></button>
+                                        <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                            <li role="presentation"><a role="menuitem"
+                                                                        tabindex="-1"
+                                                                        label = "4"
+                                                                        href = "#"
+                                                                        onClick={this.setD4}>D4</a></li>
+                                            <li role="presentation"><a role="menuitem"
+                                                                        tabindex="-1"
+                                                                        label = "6"
+                                                                        href = "#"
+                                                                        onClick={this.setD6}>D6</a></li>
+                                            <li role="presentation"><a role="menuitem"
+                                                                        tabindex="-1"
+                                                                        label = "8"
+                                                                        href = "#"
+                                                                        onClick={this.setD8}>D8</a></li>
+                                            <li role="presentation"><a role="menuitem"
+                                                                        tabindex="-1"
+                                                                        label = "10"
+                                                                        href = "#"
+                                                                        onClick={this.setD10}>D10</a></li>
+                                            <li role="presentation"><a role="menuitem"
+                                                                        tabindex="-1"
+                                                                        label = "12"
+                                                                        href = "#"
+                                                                        onClick={this.setD12}>D12</a></li>
+                                            <li role="presentation"><a role="menuitem"
+                                                                        tabindex="-1"
+                                                                        label = "20"
+                                                                        href = "#"
+                                                                        onClick={this.setD20}>D20</a></li>
+                                        </ul>
+                                    </div>
 
                                 </h3>
                             </div>
                             <div className="modal-body">
                                 <img src={string}/>
                                 <button type="button"
-                                    className="btn btn-default"
+                                    className="btn btn-success"
                                     onClick={this.rollDie}>Roll</button>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
                         </div>
 
