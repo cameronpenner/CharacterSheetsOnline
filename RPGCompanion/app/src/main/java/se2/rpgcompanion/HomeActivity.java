@@ -260,12 +260,17 @@ public class HomeActivity extends AppCompatActivity
         switch (collectionName) {
             case "campaigns" :
                 try {
-                    JSONObject updatedObject = new JSONObject(updateJson);
-                    String newName = updatedObject.getString("name");
+                    JSONObject updatedObject;
+                    String newName = null;
+
+                    if (updateJson != null) {
+                        updatedObject = new JSONObject(updateJson);
+                        newName = updatedObject.getString("name");
+                    }
                     if (newName != null) {
                         for (Campaign c : campaigns) {
                             if (c.getId().equals(documentID)) {
-                                Log.d("change", "changing name of " + documentID);
+                                Log.d("change", "changing campaign name with document id of: " + documentID);
                                 c.setName(newName);
                             }
                         }
@@ -275,12 +280,45 @@ public class HomeActivity extends AppCompatActivity
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (NullPointerException npe) {
+                    npe.printStackTrace();
                 }
+
+                try {
+                    JSONObject removedObject;
+                    String removedName = null;
+
+                    if (removeJson != null) {
+                        removedObject = new JSONObject(removeJson);
+                        removedName = removedObject.getString("name");
+                    }
+                    if (removedName != null) {
+                        for (Campaign c : campaigns) {
+                            if (c.getId().equals(documentID)) {
+                                Log.d("change", "removing campaign with document id of: " + documentID);
+                                campaigns.remove(c);
+                            }
+                        }
+                        if (campaignListFragment != null) {
+                            campaignListFragment.updateCampaigns(campaigns);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException npe) {
+                    npe.printStackTrace();
+                }
+
                 break;
             case "characters" :
                 try {
-                    JSONObject updatedObject = new JSONObject(updateJson);
-                    String newName = updatedObject.getString("name");
+                    JSONObject updatedObject;
+                    String newName = null;
+
+                    if (updateJson != null) {
+                        updatedObject = new JSONObject(updateJson);
+                        newName = updatedObject.getString("name");
+                    }
                     if (newName != null) {
                         for (Pcharacter p : pCharacters){
                             if (p.getId().equals(documentID)) {
@@ -294,6 +332,33 @@ public class HomeActivity extends AppCompatActivity
                     }
                 } catch (JSONException jse) {
                     jse.printStackTrace();
+                } catch (NullPointerException npe) {
+                    npe.printStackTrace();
+                }
+
+                try {
+                    JSONObject removedObject;
+                    String removedName = null;
+
+                    if (removeJson != null) {
+                        removedObject = new JSONObject(removeJson);
+                        removedName = removedObject.getString("name");
+                    }
+                    if (removedName != null) {
+                        for (Pcharacter p : pCharacters){
+                            if (p.getId().equals(documentID)) {
+                                Log.d("change", "removing character with document id of: " + documentID);
+                                pCharacters.remove(p);
+                            }
+                        }
+                        if (characterListFragment != null){
+                            characterListFragment.updateList(pCharacters);
+                        }
+                    }
+                } catch (JSONException jse) {
+                    jse.printStackTrace();
+                } catch (NullPointerException npe) {
+                    npe.printStackTrace();
                 }
         }
     }
