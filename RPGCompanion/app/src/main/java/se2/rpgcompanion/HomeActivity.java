@@ -12,9 +12,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,6 +127,12 @@ public class HomeActivity extends AppCompatActivity
         fm.beginTransaction().replace(R.id.content_frame, campaignFragment).commit();
     }
 
+    private void launchDiceFragment (){
+        setTitle("Dice");
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction().replace(R.id.content_frame, new DiceFragment()).commit();
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -150,8 +157,7 @@ public class HomeActivity extends AppCompatActivity
             } else if (id == R.id.nav_campaigns) {
                 launchCampaignListFragment();
             } else if (id == R.id.nav_dice) {
-                //launch dice fragment
-                //implement this later?
+                launchDiceFragment();
             } else if (id == R.id.nav_logout) {
                 mMeteor.logout();
                 launchLoginFragment();
@@ -384,6 +390,22 @@ public class HomeActivity extends AppCompatActivity
 
     public void onCampaignFragmentInteraction(Uri uri) {
     }
+/*
+    public void onDiceFragmentInteraction(){
+        final Button button = (Button)findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+
+                //get which radiobutton is pressed
+
+                //get a random number
+
+                //set text field
+                Log.d("click", "button was clicked.");
+            }
+        });
+    }*/
 
     @Override
     public void onSuccessfulLogin(String jsonResult) {
