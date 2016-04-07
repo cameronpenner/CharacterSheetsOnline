@@ -13,7 +13,7 @@ public class CharacterTest {
     private Pcharacter testCharacter;
     private Pcharacter testCharTwo;
     private static final String NAME_ONE = "name";
-    private static final String NAME_TWO = "Player 2"
+    private static final String NAME_TWO = "Player 2";
 
     @Test
     public void testSetName(){
