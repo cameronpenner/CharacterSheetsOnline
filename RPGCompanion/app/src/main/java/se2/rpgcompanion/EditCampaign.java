@@ -4,12 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -21,24 +25,24 @@ import java.util.List;
 import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.ResultListener;
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CampaignFragment.OnCampaignFragmentInteractionListener} interface
+ * {@link EditCampaign.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CampaignFragment#newInstance} factory method to
+ * Use the {@link EditCampaign#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CampaignFragment extends Fragment {
+public class EditCampaign extends Fragment {
+    private OnFragmentInteractionListener mListener;
 
     private Campaign campaign;
     private List<String> characterNames;
 
     private ArrayAdapter<String> characterAdapter;
 
-    private OnCampaignFragmentInteractionListener mListener;
-
-    public CampaignFragment() {
+    public EditCampaign() {
         // Required empty public constructor
     }
 
@@ -46,10 +50,13 @@ public class CampaignFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment CampaignFragment.
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment EditCampaign.
      */
-    public static CampaignFragment newInstance(String param1, String param2) {
-        CampaignFragment fragment = new CampaignFragment();
+    // TODO: Rename and change types and number of parameters
+    public static EditCampaign newInstance(String param1, String param2) {
+        EditCampaign fragment = new EditCampaign();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -92,34 +99,31 @@ public class CampaignFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_campaign_view, container, false);
-        ((TextView) view.findViewById(R.id.nameTextView)).setText(campaign.getName());
-        ((TextView) view.findViewById(R.id.gameMasterTextView)).setText(campaign.getGameMasterName());
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_edit_campaign, container, false);
 
-        ListView characterNamesListView = (ListView) view.findViewById(R.id.characterListView);
-        characterNamesListView.setAdapter(characterAdapter);
+        if (campaign != null) {
+            ((EditText) view.findViewById(R.id.campaign_name_edittext)).setText(campaign.getName());
 
-
-        ListView playerNamesListView = (ListView) view.findViewById(R.id.playerListView);
-        ArrayAdapter<String> playerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, campaign.getPlayers());
-        playerNamesListView.setAdapter(playerAdapter);
+            ListView characterNamesListView = (ListView) view.findViewById(R.id.characters_list);
+            characterNamesListView.setAdapter(characterAdapter);
+        }
 
         return view;
     }
 
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onCampaignFragmentInteraction(uri);
+            mListener.onFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnCampaignFragmentInteractionListener) {
-            mListener = (OnCampaignFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -136,19 +140,20 @@ public class CampaignFragment extends Fragment {
         this.campaign = campaign;
     }
 
-    public Campaign getCampaign() { return this.campaign; }
+    public Campaign getCampaign() {return this.campaign;}
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnCampaignFragmentInteractionListener {
+    public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onCampaignFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Uri uri);
     }
 }

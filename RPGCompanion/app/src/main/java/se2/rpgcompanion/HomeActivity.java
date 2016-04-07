@@ -14,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +34,7 @@ public class HomeActivity extends AppCompatActivity
         CharacterListFragment.OnListFragmentInteractionListener,
         CampaignListFragment.OnCampaignListFragmentInteractionListener,
         CampaignFragment.OnCampaignFragmentInteractionListener,
+        EditCampaign.OnFragmentInteractionListener,
         MeteorCallback
 {
 
@@ -41,7 +44,7 @@ public class HomeActivity extends AppCompatActivity
     private String characterListSub;
     private List<Campaign> campaigns;
     private CampaignListFragment campaignListFragment;
-
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +125,18 @@ public class HomeActivity extends AppCompatActivity
 
         CampaignFragment campaignFragment = new CampaignFragment();
         campaignFragment.setCampaign(campaign);
+        this.currentFragment = campaignFragment;
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction().replace(R.id.content_frame, campaignFragment).commit();
+    }
+
+    private void launchEditCampaignFragment(Campaign campaign) {
+        setTitle(getString(R.string.title_campaign));
+
+        EditCampaign editCampaignFragment = new EditCampaign();
+        editCampaignFragment.setCampaign(campaign);
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction().replace(R.id.content_frame, editCampaignFragment).commit();
     }
 
     @Override
@@ -157,6 +170,9 @@ public class HomeActivity extends AppCompatActivity
             mMeteor.logout();
             launchLoginFragment();
         }
+
+        
+        hideKeyboard(null);
 
         return super.onOptionsItemSelected(item);
     }
@@ -405,14 +421,17 @@ public class HomeActivity extends AppCompatActivity
         launchCampaignFragment(campaign);
     }
 
-    public void onCampaignFragmentInteraction(Uri uri) {
-    }
+    public void onCampaignFragmentInteraction(Uri uri) {}
 
     @Override
     public void onSuccessfulLogin(String jsonResult) {
+        hideKeyboard(null);
+        launchCharacterListFragment();
+    }
+
+    public void hideKeyboard(View v) {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
-        launchCharacterListFragment();
     }
 
 
@@ -422,5 +441,45 @@ public class HomeActivity extends AppCompatActivity
 
     public List<Campaign> getCampaigns() {
         return campaigns;
+    }
+
+    public void pressEditCampaign(View view) {
+        launchEditCampaignFragment(((CampaignFragment)this.currentFragment).getCampaign());
+    }
+
+    public void saveCampaign(View view) {
+        Campaign campaign = ((EditCampaign) currentFragment).getCampaign();
+
+        if (campaign == null) {
+            campaign = new Campaign();
+        }
+
+        String game_master = ((EditText) view.findViewById(R.id.game_master_edittext)).getText().toString();
+        String player = ((EditText) view.findViewById(R.id.add_player_edittext)).getText().toString();
+        String character = ((EditText) view.findViewById(R.id.add_character_edittext)).getText().toString();
+
+        if (game_master.length() > 0) campaign.setGameMaster(game_master);
+        if (player.length() > 0) campaign.addPlayer(player);
+
+        if (character.length() > 0) {
+            for (Pcharacter c : this.pCharacters) {
+                if (c.getName() == character) {
+                    campaign.addCharacterId(c.getId());
+                    break;
+                }
+            }
+        }
+        try {
+            MeteorSingleton.getInstance().call("upsertCampaign", new Object[]{campaign.exportJSON()});
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
