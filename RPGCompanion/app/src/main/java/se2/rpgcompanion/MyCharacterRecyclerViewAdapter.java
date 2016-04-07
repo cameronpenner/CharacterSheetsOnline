@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import se2.rpgcompanion.CharacterFragment.OnListFragmentInteractionListener;
+import se2.rpgcompanion.CharacterListFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 

@@ -22,28 +22,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
 
-import se2.rpgcompanion.dummy.DummyContent;
-
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         LoginFragment.OnSuccessfulLoginListener,
-        CharacterFragment.OnListFragmentInteractionListener,
+        CharacterListFragment.OnListFragmentInteractionListener,
         CampaignListFragment.OnCampaignListFragmentInteractionListener,
         CampaignFragment.OnCampaignFragmentInteractionListener,
         MeteorCallback
 {
 
     private Meteor mMeteor;
-    private CharacterFragment characterFragment;
+    private CharacterListFragment characterListFragment;
     public static ArrayList<Pcharacter> pCharacters;
     private String characterListSub;
     private List<Campaign> campaigns;
@@ -78,7 +71,7 @@ public class HomeActivity extends AppCompatActivity
             launchLoginFragment();
         }
         else {
-            launchCharactersFragment();
+            launchCharacterListFragment();
         }
 
     }
@@ -107,12 +100,12 @@ public class HomeActivity extends AppCompatActivity
         fm.beginTransaction().replace(R.id.content_frame, loginFragment).commit();
     }
 
-    private void launchCharactersFragment() {
+    private void launchCharacterListFragment() {
         characterListSub = mMeteor.subscribe("character-list");
         setTitle(getString(R.string.title_characters));
-        characterFragment = new CharacterFragment();
+        characterListFragment = new CharacterListFragment();
         FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.content_frame, characterFragment).commit();
+        fm.beginTransaction().replace(R.id.content_frame, characterListFragment).commit();
     }
 
     private void launchCampaignListFragment() {
@@ -178,7 +171,7 @@ public class HomeActivity extends AppCompatActivity
             int id = item.getItemId();
 
             if (id == R.id.nav_characters) {
-                launchCharactersFragment();
+                launchCharacterListFragment();
             } else if (id == R.id.nav_campaigns) {
                 launchCampaignListFragment();
             } else if (id == R.id.nav_logout) {
@@ -213,7 +206,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d("nametag", "Collection name is: " + collectionName + ", values are: " + newValuesJson);
+        Log.d("JSON", "Collection name is: " + collectionName + ", values are: " + newValuesJson + "doc id " + documentID);
         switch (collectionName) {
             case "campaigns" :
                 try {
@@ -221,7 +214,6 @@ public class HomeActivity extends AppCompatActivity
                     if (campaignListFragment != null) {
                         campaignListFragment.updateCampaigns(campaigns);
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -230,26 +222,29 @@ public class HomeActivity extends AppCompatActivity
             case "characters" :
                 try {
                     JSONObject jsonObject = new JSONObject(newValuesJson);
+                    /*
                     if (jsonObject.has("name")){
                         Log.d("nametag", "Valid character name found.");
                     } else {
                         Log.d("nametag", "Did not find a character name.");
                     }
+                    */
 
                     String charName = jsonObject.getString("name");
-                    //String owner
-                    //String owner_name
-                    //String creationDate
-                    Pcharacter newChar = new Pcharacter(charName);
+                    String owner = jsonObject.getString("owner");
+                    String ownerName = jsonObject.getString("owner_name");
+                    String creationDate = jsonObject.getString("createdAt");
+                    //String campaign //MAY NOT EXIST
+                    //items array list
+                    //attributes array list
+                    Pcharacter newChar = new Pcharacter(charName, owner, ownerName, creationDate, null, null, null, documentID);
                     pCharacters.add(newChar);
-                    if(characterFragment != null){
-                        characterFragment.updateList(pCharacters);
-                        Log.d("nametag", "charFrag.updateList() has been called.");
+                    if(characterListFragment != null){
+                        characterListFragment.updateList(pCharacters);
                     } else {
                         Log.d("nametag", "charFrag was null.");
                     }
                 } catch (JSONException jse) {
-                    Log.d("nametag", "failed to call updateList()");
                     jse.printStackTrace();
                 }
                 break;
@@ -257,7 +252,6 @@ public class HomeActivity extends AppCompatActivity
             default :
                 Log.d("collectionName", "the collectionName was unrecognized in onDataAdded: " + collectionName);
         }
-        Log.d("JSON", "Collection name is: " + collectionName + ", values are: " + newValuesJson + "doc id " + documentID);
     }
 
     @Override
@@ -282,7 +276,22 @@ public class HomeActivity extends AppCompatActivity
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            break;
+                break;
+            case "characters" :
+                try {
+                    JSONObject updatedObject = new JSONObject(updateJson);
+                    String newName = updatedObject.getString("name");
+                    if (newName != null) {
+                        for (Pcharacter p : pCharacters){
+                            if (p.getId().equals(documentID)) {
+                                Log.d("change", "changing name of character: " + documentID);
+                                p.setName(newName);
+                            }
+                        }
+                    }
+                } catch (JSONException jse) {
+                    jse.printStackTrace();
+                }
         }
     }
 
@@ -309,12 +318,12 @@ public class HomeActivity extends AppCompatActivity
     public void onSuccessfulLogin(String jsonResult) {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
-        launchCharactersFragment();
+        launchCharacterListFragment();
     }
 
 
     public ArrayList<Pcharacter> getCharacters() {
-        Log.d("nametag", "getCharacters() has been called.");
+        //Log.d("nametag", "getCharacters() has been called.");
         return pCharacters;
     }
 
