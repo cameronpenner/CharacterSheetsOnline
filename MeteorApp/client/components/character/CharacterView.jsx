@@ -68,6 +68,16 @@ CharacterView = React.createClass({
         }
     },
 
+    setEditingStateName(event) {
+        event.preventDefault();
+
+        this.setState({
+            editing: this.data.character.name,
+            renderOneEdit: false,
+            error: null
+        });
+    },
+
     save(event) {
         event.preventDefault();
         var value = event.target.parentNode.previousSibling.value,
@@ -197,6 +207,10 @@ CharacterView = React.createClass({
             if (this.data.character){
                 return (
                     <Fader>
+                        <a href={"/character/list/"}>
+                            <button type="button"
+                                className="btn btn-primary btn-block">Return to Character List</button></a>
+                        &emsp;
                         <div className="panel panel-default">
                             <div className="panel-heading">
                                 <div className="row">
@@ -204,24 +218,20 @@ CharacterView = React.createClass({
                                         <h3><img className="img-responsive center-block" src={this.data.character.img_path}/></h3>
                                     </div>
 
-                                    <div className="col-xs-6">
-                                        {this.data.canEdit ? <h3>Name:&nbsp;
+                                    <div className="col-xs-5">
+                                        {this.data.canEdit ? <div>
                                             {this.checkEditingState("Name: ") || this.checkEditingState(this.data.character.name) ?
                                                 this.renderForm("Name", this.data.character.name) :
-                                                <button type="button"
+                                                <h2>Name: {this.data.character.name}&nbsp;
+                                                    <button type="button"
                                                         className="btn btn-default"
-                                                        onClick={this.setEditingState}>{this.data.character.name}</button>
-                                            }</h3>: <h3>Name: {this.data.character.name}</h3>}
+                                                        onClick={this.setEditingStateName}>Edit</button>
+                                                </h2>
+                                            }</div>: <h2>Name: {this.data.character.name}</h2>}
                                     </div>
 
-                                    <div className="col-xs-4">
-                                        <h3>Owner:&nbsp;
-                                            {this.data.ready ? <a href={"/character/list/"}>
-                                                <button type="button"
-                                                        className="btn btn-default">{this.data.character.owner_name}</button></a>
-                                                : <button type="button"
-                                                          className="btn btn-default">Loading</button>
-                                            }</h3>
+                                    <div className="col-xs-5 text-right">
+                                        <h2>Owner: {this.data.character.owner_name}</h2>
                                     </div>
                                 </div>
                             </div>

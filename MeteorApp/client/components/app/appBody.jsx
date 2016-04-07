@@ -37,7 +37,7 @@ AppBody = React.createClass({
                         </div>
                     </nav>
                 </header>
-                <div className="container" id="main">
+                <div className="container-fluid" id="main">
                     <div className="row">
                         <div className="col-xs-12">
                             {this.data.user === null ? <SignIn/> : <div>
