@@ -57,5 +57,29 @@ Meteor.methods({
         } else {
             return false;
         }
+    },
+
+    addLog: function(campaign_id, logStr) {
+        if (!campaign_id || !logStr || !Meteor.user()) return null;
+
+        Campaigns.update({
+            _id: campaign_id
+        }, {
+            $push: {
+                log: logStr
+            }
+        })
+    },
+
+    removeLog: function(campaign_id, logStr) {
+        if (!campaign_id || !logStr || !Meteor.user()) return null;
+
+        Campaigns.update({
+            _id: campaign_id
+        }, {
+            $pull: {
+                log: logStr
+            }
+        })
     }
 });
