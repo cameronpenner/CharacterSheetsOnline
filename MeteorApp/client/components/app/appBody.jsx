@@ -90,7 +90,7 @@ AppBody = React.createClass({
                                     <div className="col-xs-6 col-xs-offset-3">{this.props.children}</div>
                                 </div> : <Fader>
                                     <h1 className="text-center">Welcome to</h1>
-                                    <img src="/images/crctrzbig2.png" />
+                                    <img className="center-block" src="/images/crctrzbig2.png" />
                                 </Fader>}
                             </div>}
                         </div>

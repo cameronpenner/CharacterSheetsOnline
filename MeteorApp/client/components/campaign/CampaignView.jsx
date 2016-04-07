@@ -132,6 +132,7 @@ CampaignView = React.createClass({
 						}
 						{Meteor.user().username == this.props.campaign.game_master_name ? <div>
 							<textarea id="logtextarea" className="form-control center-block" rows="3" placeholder="Write a New Log Entry..."/>
+							<div>&nbsp;</div>
 							<button className="btn btn-success" onClick={this.saveNewLog}>Save Log</button>
 						</div> : ''}
 
