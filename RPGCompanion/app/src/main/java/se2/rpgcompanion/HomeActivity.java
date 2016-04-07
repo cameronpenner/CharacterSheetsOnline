@@ -137,31 +137,6 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_logout) {
-            mMeteor.logout();
-            launchLoginFragment();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         if (!mMeteor.isLoggedIn()) {
             launchLoginFragment();
@@ -174,6 +149,9 @@ public class HomeActivity extends AppCompatActivity
                 launchCharacterListFragment();
             } else if (id == R.id.nav_campaigns) {
                 launchCampaignListFragment();
+            } else if (id == R.id.nav_dice) {
+                //launch dice fragment
+                //implement this later?
             } else if (id == R.id.nav_logout) {
                 mMeteor.logout();
                 launchLoginFragment();
@@ -260,12 +238,17 @@ public class HomeActivity extends AppCompatActivity
         switch (collectionName) {
             case "campaigns" :
                 try {
-                    JSONObject updatedObject = new JSONObject(updateJson);
-                    String newName = updatedObject.getString("name");
+                    JSONObject updatedObject;
+                    String newName = null;
+
+                    if (updateJson != null) {
+                        updatedObject = new JSONObject(updateJson);
+                        newName = updatedObject.getString("name");
+                    }
                     if (newName != null) {
                         for (Campaign c : campaigns) {
                             if (c.getId().equals(documentID)) {
-                                Log.d("change", "changing name of " + documentID);
+                                Log.d("change", "changing campaign name with document id of: " + documentID);
                                 c.setName(newName);
                             }
                         }
@@ -275,12 +258,45 @@ public class HomeActivity extends AppCompatActivity
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (NullPointerException npe) {
+                    npe.printStackTrace();
                 }
+
+                try {
+                    JSONObject removedObject;
+                    String removedName = null;
+
+                    if (removeJson != null) {
+                        removedObject = new JSONObject(removeJson);
+                        removedName = removedObject.getString("name");
+                    }
+                    if (removedName != null) {
+                        for (Campaign c : campaigns) {
+                            if (c.getId().equals(documentID)) {
+                                Log.d("change", "removing campaign with document id of: " + documentID);
+                                campaigns.remove(c);
+                            }
+                        }
+                        if (campaignListFragment != null) {
+                            campaignListFragment.updateCampaigns(campaigns);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException npe) {
+                    npe.printStackTrace();
+                }
+
                 break;
             case "characters" :
                 try {
-                    JSONObject updatedObject = new JSONObject(updateJson);
-                    String newName = updatedObject.getString("name");
+                    JSONObject updatedObject;
+                    String newName = null;
+
+                    if (updateJson != null) {
+                        updatedObject = new JSONObject(updateJson);
+                        newName = updatedObject.getString("name");
+                    }
                     if (newName != null) {
                         for (Pcharacter p : pCharacters){
                             if (p.getId().equals(documentID)) {
@@ -294,15 +310,39 @@ public class HomeActivity extends AppCompatActivity
                     }
                 } catch (JSONException jse) {
                     jse.printStackTrace();
+                } catch (NullPointerException npe) {
+                    npe.printStackTrace();
+                }
+
+                try {
+                    JSONObject removedObject;
+                    String removedName = null;
+
+                    if (removeJson != null) {
+                        removedObject = new JSONObject(removeJson);
+                        removedName = removedObject.getString("name");
+                    }
+                    if (removedName != null) {
+                        for (Pcharacter p : pCharacters){
+                            if (p.getId().equals(documentID)) {
+                                Log.d("change", "removing character with document id of: " + documentID);
+                                pCharacters.remove(p);
+                            }
+                        }
+                        if (characterListFragment != null){
+                            characterListFragment.updateList(pCharacters);
+                        }
+                    }
+                } catch (JSONException jse) {
+                    jse.printStackTrace();
+                } catch (NullPointerException npe) {
+                    npe.printStackTrace();
                 }
         }
     }
 
     @Override
     public void onDataRemoved(String collectionName, String documentID) {
-        //will probably be simpler then you think.
-        //just identify the resource in a switch statement and remove it from the arrayList in question.
-        //Then call update on the fragment in question
         Log.d("JSON", "Collection name is: " + collectionName + ", doc id: " + documentID);
         switch (collectionName) {
             case "campaigns" :
@@ -328,6 +368,8 @@ public class HomeActivity extends AppCompatActivity
                 }
         }
     }
+
+
 
     @Override
     public void onListFragmentInteraction(Pcharacter playerCharacter) {
