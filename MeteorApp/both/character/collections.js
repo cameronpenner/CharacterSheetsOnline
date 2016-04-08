@@ -28,6 +28,10 @@ const characterSchema = new SimpleSchema({
     img_path: {
         type: String,
         defaultValue: "/images/Default.png"
+    },
+        img_url: {
+        type: String,
+        defaultValue: null
     }
 });
 
