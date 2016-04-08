@@ -36,7 +36,7 @@ CharacterView = React.createClass({
             }
             else {
                 for(i = 0; i < data.campaigns.length; i++){
-                    if(data.user._id == data.campaigns[i].game_master){
+                    if(data.user.username == data.campaigns[i].game_master_name){
                         data.canEdit = true;
                     }
                 }
