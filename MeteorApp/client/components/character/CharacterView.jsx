@@ -202,6 +202,19 @@ CharacterView = React.createClass({
         return attribute.name;
     },
 
+    updateIconURL(event) {     
+        url = this.refs.iconURL.value;
+
+        var regExp = new RegExp("[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$");
+        if(regExp.test(url)){
+            this.data.character.img_url = url;
+            
+        } else {
+            this.data.character.img_url = null;
+        }
+        Meteor.call("upsertCharacter", this.data.character);
+    },
+
     render() {
         if (this.data.ready) {
             if (this.data.character){
@@ -215,7 +228,11 @@ CharacterView = React.createClass({
                             <div className="panel-heading">
                                 <div className="row">
                                     <div className="col-xs-2">
-                                        <h3><img className="img-responsive center-block" src={this.data.character.img_path}/></h3>
+                                        <h3>
+                                            <a href="#" data-toggle="modal" data-target="#iconDialogModal">
+                                                <img className="img-responsive center-block" src={this.data.character.img_url!=null? this.data.character.img_url: this.data.character.img_path}/>
+                                            </a>
+                                        </h3>
                                     </div>
 
                                     <div className="col-xs-5">
@@ -312,7 +329,38 @@ CharacterView = React.createClass({
                                                 onClick={this.deleteCharacter}>Delete Character</button> : <div></div>}
                             </div>
                         </div>
-                    </Fader>
+
+                    <div id="iconDialogModal" className="modal fade" role="dialog">
+                    <div className="modal-dialog">
+
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h3 className="modal-title">Link a custom icon</h3>
+                            </div>
+
+                            <div className="modal-body">
+                                <div className="input-group">
+                                    <input type="text"
+                                     className="form-control"
+                                     placeholder="url of your custom icon"
+                                     ref="iconURL" />
+                                <div className="input-group-btn">
+                                    <button type="button"
+                                        className="btn btn-success"
+                                        data-dismiss="modal"
+                                        onClick={this.updateIconURL}>Save</button>
+                                </div>
+                                </div>
+                            </div>
+
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                </Fader>
                 );
             }
             else {
