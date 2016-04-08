@@ -343,7 +343,6 @@ CharacterView = React.createClass({
                                     <input type="text"
                                      className="form-control"
                                      placeholder="url of your custom icon"
-                                     value={this.data.character.img_url}
                                      ref="iconURL" />
                                 <div className="input-group-btn">
                                     <button type="button"
