@@ -15,9 +15,15 @@ CampaignView = React.createClass({
 		this.fillCharacterLookup();
 	},
 
+	componentWillUpdate(nextProps, nextState) {
+		if (nextProps.campaign.character_ids != this.props.campaign.character_ids) {
+			this.fillCharacterLookup(nextProps.campaign.character_ids);
+		}
+	},
+
 	render() {
 		return(
-			<Fader>
+			<div>
 			{this.state.editing ? 
 				<div className="panel panel-default">
 					<div className="panel-heading clearfix">
@@ -94,15 +100,9 @@ CampaignView = React.createClass({
 									});
 								}
 
-								if (canEdit) {
-									return (
-										<li key={characterId} className="list-group-item"><a href={"/character/" + characterId}>{this.state.characterLookup[characterId] ? this.state.characterLookup[characterId].name : <LoadingImage/>}</a><button className="btn btn-xs btn-default pull-right" onClick={this.removeCharacter.bind(this, characterId)}><span className="glyphicon glyphicon-remove"></span></button></li>
-									);
-								} else {
-									return (
-										<li key={characterId} className="list-group-item">{this.state.characterLookup[characterId] ? this.state.characterLookup[characterId].name : <LoadingImage/>}</li>
-									);
-								}
+								return (
+									<li key={characterId} className="list-group-item"><a href={"/character/" + characterId}>{this.state.characterLookup[characterId] ? this.state.characterLookup[characterId].name : <LoadingImage/>}</a>{canEdit ? <button className="btn btn-xs btn-default pull-right" onClick={this.removeCharacter.bind(this, characterId)}><span className="glyphicon glyphicon-remove"></span></button> : ""}</li>
+								);
 								
 							})}
 						</ul>
@@ -111,7 +111,7 @@ CampaignView = React.createClass({
 							<select className="form-control" ref="addcharacter">
 								{this.props.characters.map((character) => {
 									if (this.props.campaign.character_ids.indexOf(character._id) == -1) {
-										return <option key={character._id}>{character.name}</option>
+										return <option key={character._id} value={character._id}>{character.name}</option>
 									} else {
 										return null;
 									}
@@ -121,9 +121,31 @@ CampaignView = React.createClass({
 								<button className="btn btn-default" type="button" onClick={this.addCharacter}><span className="glyphicon glyphicon-plus"></span></button>
 							</span>
 						</div>
+						&emsp;
+						<h4>Log</h4>
+						{this.props.campaign.log && this.props.campaign.log.length > 0 ?
+							<div className="well">
+								{this.props.campaign.log.map((log) => {return (
+									<p>
+										{log}
+										{Meteor.user().username == this.props.campaign.game_master_name ?
+											<button className="btn btn-danger btn-xs pull-right" onClick={this.deleteLog}>Delete</button>
+											: ''
+										}
+									</p>);})}
+							</div>
+								: ''
+						}
+						{Meteor.user().username == this.props.campaign.game_master_name ? <div>
+							<textarea id="logtextarea" className="form-control center-block" rows="3" placeholder="Write a New Log Entry..."/>
+							<div>&nbsp;</div>
+							<button className="btn btn-success" onClick={this.saveNewLog}>Save Log</button>
+						</div> : ''}
+
+
 					</div>
 				</div>}
-			</Fader>
+			</div>
 		);
 	},
 
@@ -155,7 +177,9 @@ CampaignView = React.createClass({
 	},
 
 	addCharacter() {
-		this.props.campaign.character_ids.push(this.props.characters[this.refs.addcharacter.selectedIndex]._id);
+		var index = this.refs.addcharacter.selectedIndex;
+
+		this.props.campaign.character_ids.push(this.refs.addcharacter[index].value);
 		jQuery.unique(this.props.campaign.character_ids);
 		Meteor.call("upsertCampaign", this.props.campaign);
 		this.fillCharacterLookup();
@@ -179,14 +203,41 @@ CampaignView = React.createClass({
 		Meteor.call("upsertCampaign", this.props.campaign);
 	},
 
-	fillCharacterLookup() {
+	fillCharacterLookup(data) {
 		var self = this;
-		this.props.campaign.character_ids.map((characterId) => {
+
+		var ids;
+		if (data) {
+			ids = data;
+		} else {
+			ids = this.props.campaign.character_ids;
+		}
+
+		ids.map((characterId) => {
 			Meteor.call("getCharacter", characterId, function(err, data) {
 				characterLookup = self.state.characterLookup;
 				characterLookup[characterId] = data;
 				self.setState({characterLookup: characterLookup});
 			});
 		});
+	},
+
+	saveNewLog(event) {
+		if (event)
+			event.preventDefault();
+
+		console.log(this.props.campaign._id, $("#logtextarea")[0].value);
+		var log = $("#logtextarea")[0].value;
+		Meteor.call("addLog", this.props.campaign._id, log);
+		$("#logtextarea")[0].value = "";
+	},
+
+	deleteLog(event) {
+		if (event)
+			event.preventDefault();
+		var log = $(event.currentTarget).parent()[0].textContent;
+		log = log.substr(0, log.length - 6);
+		console.log(this.props.campaign._id, log)
+		Meteor.call("removeLog", this.props.campaign._id, log);
 	}
 });

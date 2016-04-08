@@ -76,6 +76,18 @@ ItemView = React.createClass({
         }
     },
 
+    setEditingStateName(event) {
+        event.preventDefault();
+
+        if(this.data.canEdit){
+            this.setState({
+                editing: this.data.item.name,
+                renderOneEdit: false,
+                error: null
+            });
+        }
+    },
+
     save(event) {
         event.preventDefault();
         var value = event.target.parentNode.previousSibling.value,
@@ -207,82 +219,105 @@ ItemView = React.createClass({
             if (this.data.item && this.characterOwnsItem()) {
                 return (
                     <Fader>
-                    <h2>Name:&nbsp; 
-                            {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
-                                    this.renderForm("Name", this.data.item.name) :
-                                    <button type="button"
-                                            className="btn btn-default"
-                                            onClick={this.setEditingState}>{this.data.item.name}</button>
-                            }</h2>                        
-
-                        <h4>Owner:&nbsp; 
-                        {this.data.charReady ? <a href={"/character/"+this.data.character._id}>
-                                                    <button type="button"
-                                                            className="btn btn-default">{this.data.character.name}</button></a>
-                                             : <button type="button"
-                                                    className="btn btn-default"><LoadingImage/></button>
-                        }</h4>
-
-                        <h3>Attributes</h3>
-                        <div className="list-group">
-                            {this.data.attrReady ?
-                                _.map(this.data.attributes, function(attribute) {
-                                    if (this.checkEditingState(attribute.name)) {
-                                        return this.renderForm("Attribute", attribute.name, attribute._id);
-                                    }
-                                    else {
-                                        return (
-                                            <li className="list-group-item"
-                                                key={attribute._id}
-                                                onClick={this.setEditingState}>{attribute.name}</li>
-                                        );
-                                    }
-                                }, this) : <LoadingImage/>
-                            }
-                        </div>
-                        {this.checkEditingState("New Attribute") ?
-                            this.renderForm("New Attribute", "") : <div>
-                                {this.data.canEdit ? 
-                                    <button type="button"
-                                        className="btn btn-default"
-                                        onClick={this.setEditingState}>New Attribute</button> : <div></div>} </div>
-                        }
-
-                        <h3> </h3>
-                        {this.data.canEdit && this.giveApplicable() ?
-                            <div className="dropdown">
-                                <button className="btn btn-default dropdown-toggle" 
-                                        type="button" 
-                                        id="menu1" 
-                                        data-toggle="dropdown">Give
-                                <span className="caret"></span></button>
-                                <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                    {this.data.campReady && (this.data.campaigns.length != 0) ? 
-                                        _.map(this.data.campaigns, function(campaign) {
-                                            return (
-                                                _.map(campaign.character_ids, function(char_id) {
-                                                    character = Characters.findOne(char_id);
-                                                    if(character && (char_id != character_id)){
-                                                        return <li role="presentation"><a role="menuitem" 
-                                                                                   tabIndex="-1"
-                                                                                   label = {char_id}
-                                                                                   href={"/character/"+this.data.character._id}
-                                                                                   onClick={this.giveItem}>{character.name}</a></li>
-                                                    }
-                                                }, this)
-                                            );
-                                        }, this) : <li role="presentation"><a role="menuitem" 
-                                                                                   tabIndex="-1"
-                                                                                   label = "Loading..."><LoadingImage/></a></li>
-                                    }
-                                </ul>  
-                            </div> : <div></div>}
-
-                        <h3> </h3>
-                        {this.data.canEdit ?
+                        <a href={"/character/"+this.data.character._id}>
                             <button type="button"
-                                    className="btn btn-danger"
-                                    onClick={this.deleteItem}>Delete Item</button> : <div></div>}
+                                className="btn btn-primary btn-block">Return to Character</button></a>
+                        &emsp;
+
+                        <div className="panel panel-default">
+                            <div className="panel-heading">
+                                <div className="row">
+
+                                    <div className="col-xs-6">
+                                        {this.data.canEdit ? <div>
+                                            {this.checkEditingState("Name: ") || this.checkEditingState(this.data.item.name) ?
+                                                this.renderForm("Name", this.data.item.name) :
+                                                <h2>Name: {this.data.item.name}&nbsp;
+                                                    <button type="button"
+                                                        className="btn btn-default"
+                                                        onClick={this.setEditingStateName}>Edit</button>
+                                                </h2>
+                                            }</div>: <h2>Name: {this.data.item.name}</h2>}
+                                    </div>
+
+                                    <div className="col-xs-6 text-right">
+                                        <h2>Owner: {this.data.character.name}</h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="panel-body">
+                                <div className="row">
+                                    <div className="col-xs-12">
+                                        <h3>Attributes</h3>
+                                        <div className="list-group">
+                                            {this.data.attrReady ?
+                                                _.map(this.data.attributes, function(attribute) {
+                                                    if (this.checkEditingState(attribute.name)) {
+                                                        return this.renderForm("Attribute", attribute.name, attribute._id);
+                                                    }
+                                                    else {
+                                                        return (
+                                                            <li className="list-group-item"
+                                                                key={attribute._id}
+                                                                onClick={this.setEditingState}>{attribute.name}</li>
+                                                        );
+                                                    }
+                                                }, this) : <LoadingImage/>
+                                            }
+                                        </div>
+                                        {this.checkEditingState("New Attribute") ?
+                                            this.renderForm("New Attribute", "") : <div>
+                                            {this.data.canEdit ?
+                                                <button type="button"
+                                                        className="btn btn-primary"
+                                                        onClick={this.setEditingState}>New Attribute</button> : <div></div>} </div>
+
+                                        }
+                                    </div>
+                                    &emsp;
+                                    <div className="col-xs-12">
+                                    {this.data.canEdit && this.giveApplicable() ?
+                                        <div className="dropdown">
+                                            <button className="btn btn-primary dropdown-toggle" 
+                                                    type="button" 
+                                                    id="menu1" 
+                                                    data-toggle="dropdown">Give
+                                            <span className="caret"></span></button>
+                                            <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                                {this.data.campReady && (this.data.campaigns.length != 0) ? 
+                                                    _.map(this.data.campaigns, function(campaign) {
+                                                        return (
+                                                            _.map(campaign.character_ids, function(char_id) {
+                                                                character = Characters.findOne(char_id);
+                                                                if(character && (char_id != character_id)){
+                                                                    return <li role="presentation"><a role="menuitem" 
+                                                                                               tabIndex="-1"
+                                                                                               label = {char_id}
+                                                                                               href={"/character/"+this.data.character._id}
+                                                                                               onClick={this.giveItem}>{character.name}</a></li>
+                                                                }
+                                                            }, this)
+                                                        );
+                                                    }, this) : <li role="presentation"><a role="menuitem" 
+                                                                                               tabIndex="-1"
+                                                                                               label = "Loading..."><LoadingImage/></a></li>
+                                                }
+                                            </ul>  
+                                        </div>: <div/>}
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div className="panel-footer">
+                                {this.data.canEdit ?
+                                    <button type="button"
+                                            className="btn btn-danger"
+                                            onClick={this.deleteItem}>Delete Item</button> : <div></div>}
+                            </div>
+                        </div>
                     </Fader>
                 );
             }

@@ -21,7 +21,7 @@ import im.delight.android.ddp.MeteorSingleton;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class CharacterFragment extends Fragment {
+public class CharacterListFragment extends Fragment {
 
     private OnListFragmentInteractionListener mListener;
     private MyCharacterRecyclerViewAdapter adapter;
@@ -32,7 +32,7 @@ public class CharacterFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public CharacterFragment() {
+    public CharacterListFragment() {
     }
 
     @Override
@@ -61,7 +61,7 @@ public class CharacterFragment extends Fragment {
     public void updateList(ArrayList<Pcharacter> newList){
         characterList = newList;
         adapter.notifyDataSetChanged();
-        Log.d("nametag", "updateList has run.");
+        Log.d("nametag", "updateList has run in characterListFragment.");
     }
 
     @Override

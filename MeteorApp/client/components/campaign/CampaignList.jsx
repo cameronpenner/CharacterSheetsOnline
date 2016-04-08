@@ -16,12 +16,12 @@ CampaignList = React.createClass({
         var self = this;
         return (
             <Fader>
-                <h3 className="text-center">Campaigns</h3>
-                <div className="panel panel-default">
-                    <div className="panel-body text-center">
-                        <button className="btn btn-default" onClick={this.createCampaign}><span className="glyphicon glyphicon-plus"/></button>
-                    </div>
+                <h1 className="text-center">Campaigns</h1>
+                &emsp;
+                <div>
+                    <button className="btn btn-block btn-primary" onClick={this.createCampaign}>New Campaign</button>
                 </div>
+                &emsp;
                 {this.data.campaigns.map((campaign) => {
                     return <CampaignView
                         key={campaign._id}
@@ -29,6 +29,8 @@ CampaignList = React.createClass({
                         characters={self.data.characters}
                         onDelete={self.deleteCampaign} />;
                 })}
+                <p style={{paddingBottom:'150px'}}>
+                </p>
             </Fader>
         );
     },
