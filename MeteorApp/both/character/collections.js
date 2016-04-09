@@ -31,7 +31,8 @@ const characterSchema = new SimpleSchema({
     },
         img_url: {
         type: String,
-        defaultValue: null
+        defaultValue: null,
+        optional: true
     }
 });
 
